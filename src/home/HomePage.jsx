@@ -1,18 +1,39 @@
-import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom'
-export default class HomePage extends Component {
+import React,{Component} from 'react';
+import {Redirect} from 'react-router-dom';
+import authHelper from '../helper/login_helper';
+import { Menu, Icon } from 'semantic-ui-react';
+import { inject, observer } from 'mobx-react';
 
+@inject("homeStore")
+@observer
+class HomePage extends Component {
 	constructor(props){
 		super(props);
-		console.log(localStorage.getItem("token"));
+		const {homeStore} = this.props;
+		homeStore.getCars();
 	}
+	handleLogout = history => ()=> {
+			localStorage.removeItem("token");
+			console.log(history);
+			history.push("/login");
+	}
+
 	render(){
-		const token = localStorage.getItem("token");
+		const {history, homeStore} = this.props
+		if(!authHelper.isLoggedIn()){
+			return <Redirect to="/login"/>
+		}
 		return(
-			token != null ?
-			(<div>
-				<p>hello home</p>
-			</div>) : (<Redirect to="/login"/>)
+			<div>
+				{homeStore.cars.map(
+					(car, id) =><li key={id}>{car.model}</li>
+				)}
+				<Menu.Item name="logout" onClick={this.handleLogout(history)}>
+					<Icon name="power">Logout</Icon>
+				</Menu.Item>
+			</div>
 		)
 	}
 }
+
+export default HomePage;

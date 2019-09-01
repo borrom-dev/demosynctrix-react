@@ -12,7 +12,7 @@ class AuthStore {
 			const res = await service.login(user);
 			this.token = res.data;
 			this.isLoading = false;
-			sessionStorage.setItem("token", res.data.token.token);
+			localStorage.setItem("token", this.token.token);
 		 } catch (error) {
 			this.error = error;
 			this.isLoading = false
