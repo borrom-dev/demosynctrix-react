@@ -1,4 +1,4 @@
-import {action, computed, observable} from 'mobx';
+import {action, observable} from 'mobx';
 import service from '../service/service'
 
 class AuthStore {
@@ -11,12 +11,11 @@ class AuthStore {
 		 try {
 			const res = await service.login(user);
 			this.token = res.data;
-			console.log(res.data);
 			this.isLoading = false;
+			sessionStorage.setItem("token", res.data.token.token);
 		 } catch (error) {
 			this.error = error;
 			this.isLoading = false
-			console.log(this.error);
 	 }
 	}
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
+import {Form, Button, Container} from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 @inject('authStore')
@@ -28,23 +29,26 @@ class LoginPage extends Component {
 		const { name, value } = e.target;
 		this.setState({ [name]: value });
 	}
-
 	render(){
 	const {authStore} = this.props;
+	const token = authStore.token;
 	const { username, password} = this.state;
-	console.log(authStore.token);
 		return (
-				<Router>
-					<Route path="/login" render={()=>(
-						authStore.token == null ? (
-							<form onSubmit={this.onSubmit}>
-								<input type="text" name="username" value={username} onChange={this.handleChange}/>
-								<input type="password" name="password" value={password} onChange={this.handleChange}/>
-								<input type="submit" value="submit"/>
-							</form>
+						token == null ? (
+							<Container text>
+								<Form onSubmit={this.onSubmit}>
+								 <Form.Field>
+								 		<label>Username:</label>
+										 <input placeholder="Username" name="username" value={username} onChange={this.handleChange}/>
+								 </Form.Field>
+								 <Form.Field>
+									 <label>Password:</label>
+									 <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange}/>
+								 </Form.Field>
+								 <Button type="submit">Login</Button>
+								</Form>
+							</Container>
 						) : (<Redirect to="/"/>)
-					)}/>
-				</Router>
 		)
 	}
 }
