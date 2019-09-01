@@ -1,22 +1,21 @@
-import {action, computed, observable} from 'mobx';
+import {action, observable} from 'mobx';
 import service from '../service/service'
 
 class AuthStore {
 	 @observable error = null;
-	 @observable user = {};
+	 @observable token = null;
 	 @observable isLoading = false;
 
 	 @action async login(user){
 		 this.isLoading = true;
 		 try {
 			const res = await service.login(user);
-			this.user = res.data;
-			console.log(res.data);
+			this.token = res.data;
 			this.isLoading = false;
+			sessionStorage.setItem("token", res.data.token.token);
 		 } catch (error) {
 			this.error = error;
 			this.isLoading = false
-			console.log(this.error);
 	 }
 	}
 }
