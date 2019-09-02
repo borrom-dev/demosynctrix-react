@@ -1,13 +1,18 @@
 import React from 'react';
 import  HomePage from "./home/HomePage";
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
+import { Switch, Route, Router } from "react-router-dom";
 import LoginPage from './login/LoginPage';
+import PrivateRoute from './component/PrivateRoute';
+import {createBrowserHistory} from 'history'
+const history = createBrowserHistory()
+
 const App =() => (
-    <Router>
+    <Router history={history}>
         <Switch>
           <Route path="/login" component={LoginPage}/>
-          <Route path="/" exact component={HomePage}/>
+          <PrivateRoute path="/" exact component={HomePage}/>
         </Switch>
     </Router>
 )
+
 export default App;

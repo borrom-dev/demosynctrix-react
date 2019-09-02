@@ -1,18 +1,26 @@
-import {action, observable} from 'mobx';
-import service from '../service/service'
+import { observable, action } from "mobx";
+import service from '../service/service';
 
-const homeStore = {
-	@observable cars = []
+class HomeStore {
+	@observable isLoading = false;
+	@observable.shallow items = [];
 	@observable error = null;
 
-	@action async getCars() {
-		try {
-			const res = await service.getCars();
-			this.cars = res.data;
-		} catch (error) {
-			this.error = error;
-		}
+	@action
+	getCars(){
+		this.isLoading = true;
+		service.getCars()
+		.then(action((res)=> {
+			this.items = res.data;
+		}))
+		.catch(action((error)=> {
+				this.error = error;
+		}))
+		.finally(action(()=> {
+			this.isLoading = false;
+		}));
 	}
 }
 
-export default new HomeStore();
+const homeStore = new HomeStore();
+export default homeStore;

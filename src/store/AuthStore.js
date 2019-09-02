@@ -1,23 +1,27 @@
-import {action, observable} from 'mobx';
-import service from '../service/service'
-
+import { observable, action } from "mobx";
+import service from '../service/authService';
 class AuthStore {
-	 @observable error = null;
-	 @observable token = null;
-	 @observable isLoading = false;
+	@observable isloading = false;
+	@observable errors = undefined;
 
-	 @action async login(user){
-		 this.isLoading = true;
-		 try {
-			const res = await service.login(user);
-			this.token = res.data;
-			this.isLoading = false;
-			localStorage.setItem("token", this.token.token);
-		 } catch (error) {
-			this.error = error;
-			this.isLoading = false
-	 }
+	@action
+	login(user) {
+		this.isloading = true;
+		this.errors = undefined;
+		return service.login(user)
+		.then((res) => {
+			const token = res.data.token;
+			localStorage.setItem('token', token)
+		})
+		.catch(action((error) => {
+				this.errors = error;
+				throw error;
+		}))
+		.finally(action(() => {
+				this.isloading = false;
+		}))
 	}
 }
 
-export default new AuthStore();
+const authStore = new AuthStore();
+export default authStore;

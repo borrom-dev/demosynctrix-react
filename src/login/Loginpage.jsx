@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import {Form, Button, Container} from 'semantic-ui-react';
 import { Redirect } from "react-router-dom";
 import authHelper from '../helper/login_helper';
-import authService from '../service/authService';
+import { inject, observer } from "mobx-react";
+
+@inject('authStore')
+@observer
 class LoginPage extends Component {
 	constructor(props){
 		super(props);
@@ -16,15 +19,9 @@ class LoginPage extends Component {
 	onSubmit(e){
 		e.preventDefault();
 		const {username, password} = this.state;
-		const {history} = this.props;
 		const user = {username, password};
-		authService.login(user)
-		.then(res => {
-			history.push('/');
-		})
-		.catch(error => {
-
-		})
+		this.props.authStore.login(user)
+		.then(() => this.props.history.push('/'));
 	}
 
 	handleChange(e) {
