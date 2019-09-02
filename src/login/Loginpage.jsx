@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { inject, observer } from "mobx-react";
 import {Form, Button, Container} from 'semantic-ui-react';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import authHelper from '../helper/login_helper';
+import { inject, observer } from "mobx-react";
 
 @inject('authStore')
 @observer
 class LoginPage extends Component {
-
 	constructor(props){
 		super(props);
 		this.state = {
@@ -19,10 +19,9 @@ class LoginPage extends Component {
 	onSubmit(e){
 		e.preventDefault();
 		const {username, password} = this.state;
-		this.props.authStore.login({
-			username:  username,
-			password: password
-		});
+		const user = {username, password};
+		this.props.authStore.login(user)
+		.then(() => this.props.history.push('/'));
 	}
 
 	handleChange(e) {
@@ -30,25 +29,25 @@ class LoginPage extends Component {
 		this.setState({ [name]: value });
 	}
 	render(){
-	const {authStore} = this.props;
-	const token = authStore.token;
-	const { username, password} = this.state;
+		const { username, password} = this.state;
+
+		if(authHelper.isLoggedIn()){
+			return <Redirect to="/"/>
+		}
 		return (
-						token == null ? (
-							<Container text>
-								<Form onSubmit={this.onSubmit}>
-								 <Form.Field>
-								 		<label>Username:</label>
-										 <input placeholder="Username" name="username" value={username} onChange={this.handleChange}/>
-								 </Form.Field>
-								 <Form.Field>
-									 <label>Password:</label>
-									 <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange}/>
-								 </Form.Field>
-								 <Button type="submit">Login</Button>
-								</Form>
-							</Container>
-						) : (<Redirect to="/"/>)
+						<Container text>
+							<Form onSubmit={this.onSubmit}>
+							 <Form.Field>
+							 		<label>Username:</label>
+									 <input placeholder="Username" name="username" value={username} onChange={this.handleChange}/>
+							 </Form.Field>
+							 <Form.Field>
+								 <label>Password:</label>
+								 <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange}/>
+							 </Form.Field>
+							 <Button type="submit">Login</Button>
+							</Form>
+						</Container>
 		)
 	}
 }
