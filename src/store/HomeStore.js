@@ -1,7 +1,7 @@
 import {action, observable} from 'mobx';
 import service from '../service/service'
 
-class HomeStore {
+const homeStore = {
 	@observable cars = []
 	@observable error = null;
 

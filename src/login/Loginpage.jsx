@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { inject, observer } from "mobx-react";
 import {Form, Button, Container} from 'semantic-ui-react';
 import { Redirect } from "react-router-dom";
 import authHelper from '../helper/login_helper';
-
-@inject("authStore")
-@observer
+import authService from '../service/authService';
 class LoginPage extends Component {
 	constructor(props){
 		super(props);
@@ -19,10 +16,15 @@ class LoginPage extends Component {
 	onSubmit(e){
 		e.preventDefault();
 		const {username, password} = this.state;
-		this.props.authStore.login({
-			username:  username,
-			password: password
-		});
+		const {history} = this.props;
+		const user = {username, password};
+		authService.login(user)
+		.then(res => {
+			history.push('/');
+		})
+		.catch(error => {
+
+		})
 	}
 
 	handleChange(e) {
@@ -31,9 +33,8 @@ class LoginPage extends Component {
 	}
 	render(){
 		const { username, password} = this.state;
-		const token = this.props.authStore.token;
 
-		if(authHelper.isLoggedIn() || token != null){
+		if(authHelper.isLoggedIn()){
 			return <Redirect to="/"/>
 		}
 		return (
