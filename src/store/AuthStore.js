@@ -21,6 +21,12 @@ class AuthStore {
 				this.isloading = false;
 		}))
 	}
+
+	@action
+	logout(){
+		localStorage.removeItem('token')
+		return Promise.resolve();
+	}
 }
 
 const authStore = new AuthStore();

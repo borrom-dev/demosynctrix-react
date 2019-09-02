@@ -1,10 +1,20 @@
 import axios from 'axios';
-const token = localStorage.getItem('token');
 const client = axios.create({
-	baseURL: 'http://localhost:8080',
-	headers: {
-		'Authorization': token
-	}
+	baseURL: 'http://localhost:8080'
 })
 
-export default client;
+const Api = {
+	get: (url)=>  client.get(url, {
+			headers: {
+				'Authorization': localStorage.getItem('token')
+			}
+		}),
+	post: (url, data) =>
+			client.post(url, data, {
+				headers: {
+					'Authorization': localStorage.getItem('token')
+				}
+		})
+}
+
+export default Api;

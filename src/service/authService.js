@@ -1,9 +1,9 @@
-import client from './api';
+import Api from './api';
 
 const authService = {
 
 	login (user){
-			return client.post("/login", user)
+			return Api.post("/login", user)
 	}
 }
 

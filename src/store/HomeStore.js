@@ -3,7 +3,7 @@ import service from '../service/service';
 
 class HomeStore {
 	@observable isLoading = false;
-	@observable.shallow items = [];
+	@observable.shallow cars = [];
 	@observable error = null;
 
 	@action
@@ -11,7 +11,7 @@ class HomeStore {
 		this.isLoading = true;
 		service.getCars()
 		.then(action((res)=> {
-			this.items = res.data;
+			this.cars = res.data;
 		}))
 		.catch(action((error)=> {
 				this.error = error;

@@ -1,9 +1,9 @@
-import client from './api';
+import Api from './api';
 
 const Service = {
 
 	getCars(){
-		return client.get("/cars");
+		return Api.get("/cars");
 	}
 }
 
