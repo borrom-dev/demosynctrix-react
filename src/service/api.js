@@ -1,20 +1,21 @@
 import axios from 'axios';
+import {authHeader} from '../helper';
+
 const client = axios.create({
-	baseURL: 'http://localhost:8080'
+	baseURL: 'http://localhost:8080',
 })
 
-const Api = {
-	get: (url)=>  client.get(url, {
-			headers: {
-				'Authorization': localStorage.getItem('token')
-			}
-		}),
-	post: (url, data) =>
-			client.post(url, data, {
-				headers: {
-					'Authorization': localStorage.getItem('token')
-				}
-		})
+const api = {
+	get,
+	post
 }
 
-export default Api;
+function get(url) {
+	return client.get(url, authHeader())
+}
+
+function post(url, data) {
+	return client.post(url, data, authHeader())
+}
+
+export default api;

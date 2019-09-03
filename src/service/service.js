@@ -1,10 +1,7 @@
-import Api from './api';
+import api from './api';
 
 const Service = {
-
-	getCars(){
-		return Api.get("/cars");
-	}
+	getCars: () =>  api.get("/cars"),
 }
 
 export default Service;
