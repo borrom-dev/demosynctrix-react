@@ -1,5 +1,7 @@
 import { observable, action } from "mobx";
 import service from '../service/authService';
+import {clearToken} from '../helper';
+
 class AuthStore {
 	@observable isloading = false;
 	@observable errors = undefined;
@@ -9,10 +11,6 @@ class AuthStore {
 		this.isloading = true;
 		this.errors = undefined;
 		return service.login(user)
-		.then((res) => {
-			const token = res.data.token;
-			localStorage.setItem('token', token)
-		})
 		.catch(action((error) => {
 				this.errors = error;
 				throw error;
@@ -20,6 +18,14 @@ class AuthStore {
 		.finally(action(() => {
 				this.isloading = false;
 		}))
+	}
+
+	@action
+	logout(){
+		return new Promise((resolve)=>{
+			clearToken();
+			resolve()
+		})
 	}
 }
 

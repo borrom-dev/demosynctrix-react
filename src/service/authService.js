@@ -1,10 +1,6 @@
-import client from './api';
+import api from './api';
 
 const authService = {
-
-	login (user){
-			return client.post("/login", user)
-	}
+	login: (user) => api.post("/login", user).then((res) => localStorage.setItem('token', res.data.token))
 }
-
 export default authService;

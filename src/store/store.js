@@ -1,7 +1,7 @@
 import authStore from './AuthStore';
-import homeStore from './HomeStore';
+import commonStore from './CommonStore';
 
 export default {
 		authStore,
-		homeStore
+		commonStore
 }
