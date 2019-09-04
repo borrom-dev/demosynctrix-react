@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Form, Button, Container} from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { Redirect } from "react-router-dom";
 import { isLogin } from '../helper';
 import { inject, observer } from "mobx-react";
@@ -34,19 +34,20 @@ class LoginPage extends Component {
 			return <Redirect to="/"/>
 		}
 		return (
-						<Container text>
-							<Form onSubmit={this.onSubmit}>
-							 <Form.Field>
-							 		<label>Username:</label>
-									 <input placeholder="Username" name="username" value={username} onChange={this.handleChange}/>
-							 </Form.Field>
-							 <Form.Field>
-								 <label>Password:</label>
-								 <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange}/>
-							 </Form.Field>
-							 <Button type="submit">Login</Button>
+			<Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+			  <Grid.Column style={{ maxWidth: 450 }}>
+	      <Header as='h2' color='teal' textAlign='center'>
+	        <Image src='/logo.png' /> Log-in to your account
+	      </Header>
+							<Form size='large' onSubmit={this.onSubmit}>
+							<Segment stacked>
+									<Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' name="username" value={username} onChange={this.handleChange}/>
+									<Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' name="password" value={password} onChange={this.handleChange}/>
+								 <Button type="submit" color='teal' fluid size='large'>Login</Button>
+							 </Segment>
 							</Form>
-						</Container>
+				</Grid.Column>
+			</Grid>
 		)
 	}
 }
