@@ -15,9 +15,19 @@ class AuthStore {
 				this.errors = error;
 				throw error;
 		}))
-		.finally(action(() => {
-				this.isloading = false;
+		.finally(action(() => this.isloading = false))
+	}
+
+	@action
+	register(user){
+		this.isloading = true;
+		this.errors = undefined;
+		return service.register(user)
+		.catch(action((error)=> {
+			this.errors = error;
+			throw error;
 		}))
+		.finally(action(()=> this.isloading =false))
 	}
 
 	@action
