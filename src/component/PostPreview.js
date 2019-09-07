@@ -17,10 +17,7 @@ export default class ArticlePreview extends React.Component {
 					Daniel is a comedian living in Nashville.
 				</Card.Description>
 			</Card.Content>
-			<Card.Content extra>
-					<Icon name='user' />
-					10 Friends
-			</Card.Content>
+			<Card.Content extra> <Icon name='user' /> 10 Friends </Card.Content>
 		</Card>
     );
   }

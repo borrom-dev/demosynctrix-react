@@ -2,7 +2,6 @@ import React from 'react'
 import {
 	Icon,
 	Segment,
-	Form,
 	Modal,
 	Header,
 	Menu,
@@ -11,71 +10,68 @@ import {
 	Card,
 	Button
  } from 'semantic-ui-react'
+import * as Showdown from "showdown";
+import "react-mde/lib/styles/css/react-mde-all.css";
+import ReactMde from "react-mde";
 import { inject, observer } from 'mobx-react';
 
-@inject('userStore')
+const converter = new Showdown.Converter({
+			tables: true,
+			simplifiedAutoLink: true,
+			strikethrough: true,
+			tasklists: true
+		});
+
+@inject('postStore')
 @observer
-class UsersPage extends React.Component {
+class PostPage extends React.Component {
 
 	state = {
-		username: '',
-		password: '',
-		open: false
+		open: false,
+		value: '',
+		tab: 'write'
+	}
+	componentDidMount(){
+		// this.props.userStore.loadUsers();
 	}
 
-	componentDidMount(){
-		this.props.userStore.loadUsers();
-	}
 	show = () => this.setState({ open: true })
 
-	handleChange = (e) => {
-		const { name, value } = e.target;
-		this.setState({ [name]: value });
-	}
+	handleTabChange = (tab = "write" | "preview") =>  this.setState({ tab });
+
+	handleValueChange = (value) => this.setState({ value });
 
 	render(){
-		const {users} = this.props.userStore;
-		const {open, username, password} = this.state;
+		const {posts} = this.props.postStore;
+		const {open, value, tab} = this.state;
 		return(
 				<Container>
 				<Card fluid>
 							<Segment color='blue'>
 								<Header floated='left'>Users</Header>
 								<Button primary floated='right' onClick={this.show}>New</Button>
-								<Modal size ='small' open={open}>
+								<Modal size ='large' open={open}>
 									<Modal.Header>Create User</Modal.Header>
           					<Modal.Content>
-										<Form size='large' onSubmit={this.register}>
-							        <Segment stacked>
-							          <Form.Input
-													fluid icon='user'
-													iconPosition='left'
-													placeholder='E-mail address'
-													name="username"
-													value={username}
-													onChange={this.handleChange} />
-							          <Form.Input
-							            fluid
-							            icon='lock'
-							            iconPosition='left'
-							            placeholder='Password'
-							            type='password'
-													name="password"
-													value={password}
-													onChange={this.handleChange} />
-							          <Button color='teal' fluid size='large'>
-							            Register
-							          </Button>
-							        </Segment>
-							      </Form>
+											<Modal.Description>
+												<ReactMde
+										        value={value}
+														onChange={this.handleValueChange}
+										        selectedTab={tab}
+														onTabChange={this.handleTabChange}
+										        generateMarkdownPreview={markdown =>
+										          Promise.resolve(converter.makeHtml(markdown))
+										        }
+										      />
+											</Modal.Description>
           					</Modal.Content>
 										<Modal.Actions>
 					            <Button negative onClick={()=> {
 													this.setState({open: false})
-											}}>No</Button>
+											}}>Cancel</Button>
 					            <Button positive onClick={()=> {
 													this.setState({open: false})
-											}}>Yes</Button>
+											}}>Save</Button>
 					          </Modal.Actions>
 								</Modal>
 							</Segment>
@@ -88,7 +84,7 @@ class UsersPage extends React.Component {
 								</Table.Row>
 							</Table.Header>
 							<Table.Body>
-								{users.map((user, id)=> (
+								{posts.map((user, id)=> (
 									<Table.Row>
 										<Table.Cell>{user.id}</Table.Cell>
 										<Table.Cell>{user.username}</Table.Cell>
@@ -96,7 +92,6 @@ class UsersPage extends React.Component {
 									</Table.Row>
 								))}
 							</Table.Body>
-
 							<Table.Footer>
 								<Table.Row>
 									<Table.HeaderCell colSpan='3'>
@@ -122,4 +117,4 @@ class UsersPage extends React.Component {
 	}
 }
 
-export default UsersPage;
+export default PostPage;

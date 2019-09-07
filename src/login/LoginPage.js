@@ -21,7 +21,7 @@ class LoginPage extends Component {
 		const {username, password} = this.state;
 		const user = {username, password};
 		this.props.authStore.login(user)
-		.then(() => this.props.history.replace('/'));
+		.then(() => this.props.history.replace('/dashboard'));
 	}
 
 	handleChange(e) {
@@ -32,7 +32,7 @@ class LoginPage extends Component {
 	render(){
 		const { username, password} = this.state;
 		if(isLogin()){
-			return <Redirect to="/"/>
+			return <Redirect to="/dashboard"/>
 		}
 		return (
 			<Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>

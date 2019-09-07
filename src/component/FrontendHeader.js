@@ -49,7 +49,6 @@ export default class  FrontendHeader extends React.Component {
 	          once={false}
 	        >
 	          <Menu
-	            border
 	            fixed={menuFixed ? 'top' : undefined}
 	            style={menuFixed ? fixedMenuStyle : menuStyle}
 	          >
