@@ -1,1 +1,1 @@
-export * from './AdminHeader';
+export * from './PageNotFound';

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { isLogin } from '../helper';
 import { inject, observer } from "mobx-react";
 
@@ -28,6 +28,7 @@ class LoginPage extends Component {
 		const { name, value } = e.target;
 		this.setState({ [name]: value });
 	}
+
 	render(){
 		const { username, password} = this.state;
 		if(isLogin()){
@@ -53,7 +54,7 @@ class LoginPage extends Component {
 								 <Button type="submit" color='teal' fluid size='large'>Login</Button>
 							 </Segment>
 							</Form>
-						<Message> New to user?<a href='/register'> Sign Up</a></Message>
+						<Message> New to user?<Link to='/register'> Sign Up</Link></Message>
 				</Grid.Column>
 			</Grid>
 		)
