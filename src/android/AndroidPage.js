@@ -1,7 +1,22 @@
 import React from 'react';
+import {inject, observer} from 'mobx-react';
+import PostList from '../component/PostList';
 
-export default class AndroidPage extends React.Component {
-	render(){
-		return(<p>Android</p>)
-	}
+@inject('androidStore')
+@observer
+class AndroidPage extends React.Component {
+
+	render() {
+    const {posts, isLoading } = this.props.androidStore;
+    return (
+      <div>
+        <PostList
+         posts={posts}
+         loading = {isLoading}
+         />
+      </div>
+    )
+  }
 }
+
+export default AndroidPage;

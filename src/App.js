@@ -8,19 +8,20 @@ import RegisterPage from './register/RegisterPage';
 import JavaComponent from './java/JavaComponent';
 import KotlinComponent from './kotlin/KotlinComponent';
 import AndroidPage from './android/AndroidPage';
-import { DashboardHeader } from './component';
+import {PageNotFound } from './component';
 import FrontedRoute from './routes.js/FrontendRoute';
 
 
 const App =() => (
     <Switch>
+      <Route exact path='/login' component={LoginPage}/>
+      <Route exact path='/register' component={RegisterPage}/>
       <PrivateRoute path='/dashboard' component={DashboardPage}/>
       <FrontedRoute exact path='/android' component={AndroidPage}/>
       <FrontedRoute exact path='/java' component={JavaComponent}/>
       <FrontedRoute exact path='/kotlin' component={KotlinComponent}/>
-      <Route exact path='/login' component={LoginPage}/>
-      <Route exact path='/register' component={RegisterPage}/>
-      <Route exact path='/' component={HomePage}/>
+      <FrontedRoute exact path='/' component={HomePage}/>
+      <FrontedRoute component = {PageNotFound}/>
     </Switch>
 )
 export default App;

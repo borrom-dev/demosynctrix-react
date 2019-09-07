@@ -23,8 +23,13 @@ export default class  FrontendHeader extends React.Component {
     overlayFixed: false,
 	}
 
-	navigatTo = (url) => {
-		this.props.history.replace(url);
+	stickTopMenu = () => this.setState({ menuFixed: true })
+
+  unStickTopMenu = () => this.setState({ menuFixed: false })
+
+
+	pushTo = (url) => {
+		this.props.history.push(url);
 	}
 
 	render(){
@@ -32,7 +37,7 @@ export default class  FrontendHeader extends React.Component {
 	return(
 			<div>
 			   <Container text style={{ marginTop: '2em' }}>
-	          <Header as='h1'>Sticky Example</Header>
+	          <Header as='h1'>@Demotrix</Header>
 	          <p>
 	            This example shows how to use lazy loaded images, a sticky menu, and a simple text
 	            container
@@ -44,17 +49,16 @@ export default class  FrontendHeader extends React.Component {
 	          once={false}
 	        >
 	          <Menu
-	            borderless
 	            fixed={menuFixed ? 'top' : undefined}
 	            style={menuFixed ? fixedMenuStyle : menuStyle}
 	          >
 	            <Container text>
-	              <Menu.Item onClick={()=> this.navigatTo('/')}>
-	                <Image size='mini' src='/logo.png' />
+	              <Menu.Item onClick={()=> this.pushTo('/')}>
+	                home
 	              </Menu.Item>
-	              <Menu.Item onClick={() => this.navigatTo('/android')}>Android</Menu.Item>
-	              <Menu.Item onClick={() => this.navigatTo('/java')}>Java</Menu.Item>
-	              <Menu.Item onClick={() => this.navigatTo('/kotlin')}>Kotlin</Menu.Item>
+	              <Menu.Item onClick={() => this.pushTo('/android')}>Android</Menu.Item>
+	              <Menu.Item onClick={() => this.pushTo('/java')}>Java</Menu.Item>
+	              <Menu.Item onClick={() => this.pushTo('/kotlin')}>Kotlin</Menu.Item>
 	            </Container>
 	          </Menu>
 	        </Visibility>

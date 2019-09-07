@@ -2,7 +2,7 @@
 import React from 'react'
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import {isLogin} from '../helper';
 
 @inject('authStore')
@@ -72,7 +72,7 @@ class RegisterPage extends React.Component {
 			          </Button>
 			        </Segment>
 			      </Form>
-						<Message> Alreay have account? <a href='/login'>Login</a></Message>
+						<Message> Alreay have account? <Link to='/login'>Login</Link></Message>
 			    </Grid.Column>
 			  </Grid>
 			 )}
