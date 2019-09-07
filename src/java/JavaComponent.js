@@ -1,10 +1,22 @@
 import React from 'react';
+import {inject, observer} from 'mobx-react';
+import PostList from '../component/PostList';
 
-export default class JavaComponent extends React.Component {
+@inject('javaStore')
+@observer
+class JavaComponent extends React.Component {
 
-	render(){
-		return (
-		<p>Java</p>
-		)
-	}
+	render() {
+    const {posts, isLoading } = this.props.javaStore;
+    return (
+      <div>
+        <PostList
+         posts={posts}
+         loading = {isLoading}
+         />
+      </div>
+    )
+  }
 }
+
+export default JavaComponent;
