@@ -2,10 +2,13 @@
 import React from 'react'
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
+import {Redirect} from 'react-router-dom';
+import {isLogin} from '../helper';
 
 @inject('authStore')
 @observer
-class RegisterForm extends React.Component {
+class RegisterPage extends React.Component {
+
 	constructor(props){
 		super(props);
 		this.state = {
@@ -28,6 +31,9 @@ class RegisterForm extends React.Component {
 
 	render(){
 		const { username, password, confirmPassword} = this.state;
+		if(isLogin()){
+			return <Redirect to="/"/>
+		}
 		 return(
 			  <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
 			    <Grid.Column style={{ maxWidth: 450 }}>
@@ -72,4 +78,4 @@ class RegisterForm extends React.Component {
 			 )}
 }
 
-export default RegisterForm
+export default RegisterPage;
