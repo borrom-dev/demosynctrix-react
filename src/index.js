@@ -12,8 +12,8 @@ window._____APP_STATE_____ = stores;
 
 ReactDOM.render(
 <Provider {...stores}>
-		<Router history={history}>
-			<App/>
-		</Router>
+	<Router history={history}>
+	<App/>
+	</Router>
  </Provider>,
  document.getElementById('root'));

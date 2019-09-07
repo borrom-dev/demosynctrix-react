@@ -1,15 +1,17 @@
 import React from 'react';
-import  HomePage from "./home/HomePage";
 import { Switch, Route} from "react-router-dom";
-import LoginPage from './login/LoginPage';
 import PrivateRoute from './component/PrivateRoute';
-import RegisterForm from './register/RegisterPage';
+import DashboardPage from './dashboard/DashboardPage';
+import HomePage from './home/HomePage';
+
+
 const App =() => (
     <Switch>
-      <Route path="/register" component={RegisterForm}/>
-      <Route path="/login" component={LoginPage}/>
-      <PrivateRoute path="/" exact component={HomePage}/>
+      <PrivateRoute exact path='/dashboard' component={DashboardPage}/>
+      <Route exact path='/android' component={HomePage}/>
+      <Route exact path='/java' component={HomePage}/>
+      <Route exact path='/kotlin' component={HomePage}/>
+      <Route exact path='/' component={HomePage}/>
     </Switch>
 )
-
 export default App;
