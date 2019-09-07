@@ -14,14 +14,14 @@ import FrontedRoute from './routes.js/FrontendRoute';
 
 const App =() => (
     <Switch>
+      <Route exact path='/login' component={LoginPage}/>
+      <Route exact path='/register' component={RegisterPage}/>
       <PrivateRoute path='/dashboard' component={DashboardPage}/>
       <FrontedRoute exact path='/android' component={AndroidPage}/>
       <FrontedRoute exact path='/java' component={JavaComponent}/>
       <FrontedRoute exact path='/kotlin' component={KotlinComponent}/>
-      <Route exact path='/login' component={LoginPage}/>
-      <Route exact path='/register' component={RegisterPage}/>
-      <Route exact path='/' component={HomePage}/>
-      <Route component = {PageNotFound}/>
+      <FrontedRoute exact path='/' component={HomePage}/>
+      <FrontedRoute component = {PageNotFound}/>
     </Switch>
 )
 export default App;

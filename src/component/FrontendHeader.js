@@ -23,8 +23,13 @@ export default class  FrontendHeader extends React.Component {
     overlayFixed: false,
 	}
 
-	navigatTo = (url) => {
-		this.props.history.replace(url);
+	stickTopMenu = () => this.setState({ menuFixed: true })
+
+  unStickTopMenu = () => this.setState({ menuFixed: false })
+
+
+	pushTo = (url) => {
+		this.props.history.push(url);
 	}
 
 	render(){
@@ -49,12 +54,12 @@ export default class  FrontendHeader extends React.Component {
 	            style={menuFixed ? fixedMenuStyle : menuStyle}
 	          >
 	            <Container text>
-	              <Menu.Item onClick={()=> this.navigatTo('/')}>
+	              <Menu.Item onClick={()=> this.pushTo('/')}>
 	                <Image size='mini' src='/logo.png' />
 	              </Menu.Item>
-	              <Menu.Item onClick={() => this.navigatTo('/android')}>Android</Menu.Item>
-	              <Menu.Item onClick={() => this.navigatTo('/java')}>Java</Menu.Item>
-	              <Menu.Item onClick={() => this.navigatTo('/kotlin')}>Kotlin</Menu.Item>
+	              <Menu.Item onClick={() => this.pushTo('/android')}>Android</Menu.Item>
+	              <Menu.Item onClick={() => this.pushTo('/java')}>Java</Menu.Item>
+	              <Menu.Item onClick={() => this.pushTo('/kotlin')}>Kotlin</Menu.Item>
 	            </Container>
 	          </Menu>
 	        </Visibility>
