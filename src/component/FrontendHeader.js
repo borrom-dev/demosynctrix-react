@@ -37,7 +37,7 @@ export default class  FrontendHeader extends React.Component {
 	return(
 			<div>
 			   <Container text style={{ marginTop: '2em' }}>
-	          <Header as='h1'>Sticky Example</Header>
+	          <Header as='h1'>@Demotrix</Header>
 	          <p>
 	            This example shows how to use lazy loaded images, a sticky menu, and a simple text
 	            container
@@ -49,13 +49,13 @@ export default class  FrontendHeader extends React.Component {
 	          once={false}
 	        >
 	          <Menu
-	            borderless
+	            border
 	            fixed={menuFixed ? 'top' : undefined}
 	            style={menuFixed ? fixedMenuStyle : menuStyle}
 	          >
 	            <Container text>
 	              <Menu.Item onClick={()=> this.pushTo('/')}>
-	                <Image size='mini' src='/logo.png' />
+	                home
 	              </Menu.Item>
 	              <Menu.Item onClick={() => this.pushTo('/android')}>Android</Menu.Item>
 	              <Menu.Item onClick={() => this.pushTo('/java')}>Java</Menu.Item>
