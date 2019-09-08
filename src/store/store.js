@@ -6,6 +6,8 @@ import androidStore from './AndroidStore';
 import kotlinStore from './KotlinStore';
 import userStore from './UserStore';
 import backendStore from './BackendStore';
+import pageStore from './PageStore';
+import templateStore from './TemplateStore';
 
 export default {
 		authStore,
@@ -15,5 +17,7 @@ export default {
 		androidStore,
 		kotlinStore,
 		userStore,
-		backendStore
+		backendStore,
+		pageStore,
+		templateStore
 }
