@@ -5,7 +5,7 @@ import BlogPostTemplate from '../template/BlogPostTemplate';
 
 @inject('pageStore')
 @observer
-class PageComponent extends React.Component {
+class FrontendComponent extends React.Component {
   render() {
     const {match} = this.props;
     if(match.path === '/'){
@@ -16,4 +16,4 @@ class PageComponent extends React.Component {
   }
 }
 
-export default PageComponent;
+export default FrontendComponent;
