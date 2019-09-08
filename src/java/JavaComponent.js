@@ -9,12 +9,10 @@ class JavaComponent extends React.Component {
 	render() {
     const {posts, isLoading } = this.props.javaStore;
     return (
-      <div>
-        <PostList
-         posts={posts}
-         loading = {isLoading}
-         />
-      </div>
+      <PostList
+       posts={posts}
+       loading = {isLoading}
+       />
     )
   }
 }

@@ -15,7 +15,7 @@ import { inject, observer } from 'mobx-react';
 
 @inject('userStore')
 @observer
-class UsersPage extends React.Component {
+class UsersComponent extends React.Component {
 
 	state = {
 		username: '',
@@ -122,4 +122,4 @@ class UsersPage extends React.Component {
 	}
 }
 
-export default UsersPage;
+export default UsersComponent;

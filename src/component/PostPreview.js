@@ -5,8 +5,6 @@ export default class ArticlePreview extends React.Component {
 
   render() {
 
-		const {post} = this.props;
-
     return (
 			<Card>
 			<Image src='https://react.semantic-ui.com/images/avatar/large/daniel.jpg' wrapped ui={false} />

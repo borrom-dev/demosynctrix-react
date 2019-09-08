@@ -10,9 +10,9 @@ const PostList = props => {
   }
   if (props.posts.length === 0) {
     return (
-      <div className="article-preview">
+      <p>
         No articles are here... yet.
-      </div>
+      </p>
     );
   }
 
