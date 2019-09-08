@@ -1,2 +1,2 @@
-# demosynctrix-react
+# Getting Start With ReactJs
 React App
