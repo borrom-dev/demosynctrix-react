@@ -5,6 +5,9 @@ import { inject, observer } from 'mobx-react';
 @observer
 class BlogTemplate extends React.Component {
 
+	componentDidMount(){
+		console.log(this.props);
+	}
 	render(){
 		return(<p>hello blog template</p>);
 	}
