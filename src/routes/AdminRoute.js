@@ -1,13 +1,17 @@
 import {Route, Redirect} from 'react-router-dom';
 import React from 'react';
-import {isLogin} from '../helper'
+import {isLogin} from '../helper';
+import AdminHeader from '../component/AdminHeader';
 
-export default function PrivateRoute({ component: Component, ...rest }) {
+export function AdminRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
       render={props => isLogin() ? (
-          <Component {...props} />
+					<div>
+						<AdminHeader {...props}/>
+          	<Component {...props} />
+					</div>
         ) : (
           <Redirect
             to={{

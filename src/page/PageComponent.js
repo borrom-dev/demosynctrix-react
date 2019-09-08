@@ -8,12 +8,21 @@ import {
 	Table,
 	Container,
 	Card,
-	Button
+	Button,
+	Form,
+	Select
  } from 'semantic-ui-react'
 import * as Showdown from "showdown";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import ReactMde from "react-mde";
 import { inject, observer } from 'mobx-react';
+
+const genderOptions = [
+  { key: 'm', text: 'Male', value: 'male' },
+  { key: 'f', text: 'Female', value: 'female' },
+  { key: 'o', text: 'Other', value: 'other' },
+]
+
 
 const converter = new Showdown.Converter({
 			tables: true,
@@ -24,7 +33,7 @@ const converter = new Showdown.Converter({
 
 @inject('postStore')
 @observer
-class PostPage extends React.Component {
+class PageComponent extends React.Component {
 
 	state = {
 		open: false,
@@ -51,18 +60,55 @@ class PostPage extends React.Component {
 								<Header floated='left'>Users</Header>
 								<Button primary floated='right' onClick={this.show}>New</Button>
 								<Modal size ='large' open={open}>
-									<Modal.Header>Create User</Modal.Header>
+									<Modal.Header>Create Page</Modal.Header>
           					<Modal.Content>
 											<Modal.Description>
-												<ReactMde
-										        value={value}
-														onChange={this.handleValueChange}
-										        selectedTab={tab}
-														onTabChange={this.handleTabChange}
-										        generateMarkdownPreview={markdown =>
-										          Promise.resolve(converter.makeHtml(markdown))
-										        }
-										      />
+												<Form>
+													<Form.Field>
+										      	<label>Title</label>
+										      	<input
+															 name="title"
+															 onChange={this.handleChange}
+															 value={''}/>
+										    	</Form.Field>
+													<Form.Field>
+										      	<label>Url</label>
+										      	<input
+															 name="url"
+															 onChange={this.handleChange}
+															 value={''}/>
+										    	</Form.Field>
+													<Form.Field>
+										      	<label>Name</label>
+										      	<input
+															 name="name"
+															 onChange={this.handleChange}
+															 value={''}/>
+										    	</Form.Field>
+													<Form.Group widths='equals'>
+														<Form.Field
+												        control={Select}
+												        options={''}
+																label='Order'
+												        search
+												      />
+											      <Form.Field
+											        control={Select}
+											        options={''}
+															label='by'
+											        search
+											      />
+											    </Form.Group>
+													<ReactMde
+											        value={value}
+															onChange={this.handleValueChange}
+											        selectedTab={tab}
+															onTabChange={this.handleTabChange}
+											        generateMarkdownPreview={markdown =>
+											          Promise.resolve(converter.makeHtml(markdown))
+											        }
+											      />
+												</Form>
 											</Modal.Description>
           					</Modal.Content>
 										<Modal.Actions>
@@ -116,5 +162,4 @@ class PostPage extends React.Component {
 		)
 	}
 }
-
-export default PostPage;
+export default PageComponent;

@@ -3,7 +3,7 @@ import React from 'react';
 import {Container} from 'semantic-ui-react';
 import FrontendHeader from '../component/FrontendHeader';
 
-export default function FrontedRoute({ component: Component, ...rest }) {
+export function FrontendRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}

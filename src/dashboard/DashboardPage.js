@@ -1,11 +1,29 @@
 import React from 'react';
-import AdminHeader from '../component/AdminHeader'
+import { Container, Grid, Image } from 'semantic-ui-react';
+import { inject, observer } from 'mobx-react';
 
-export default class DashboardPage extends React.Component {
+@inject('backendStore')
+@observer
+class DashboardPage extends React.Component {
+
+	componentDidMount(){
+		this.props.backendStore.getRecentPosts();
+	}
 	render(){
-		const props = this.props;
+		const {posts} = this.props.backendStore;
 		return(
-			<AdminHeader {...props}/>
+			<Container>
+			<Grid columns='three' divided>
+				{posts.map((post, id) => (
+					<Grid.Column>
+        		<Image src='https://react.semantic-ui.com/images/wireframe/media-paragraph.png' />
+      		</Grid.Column>
+				))
+				}
+				</Grid>
+			</Container>
 		)
 	}
 }
+
+export default DashboardPage;

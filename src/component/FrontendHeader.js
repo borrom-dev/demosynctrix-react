@@ -1,5 +1,5 @@
 import React from 'react';
-import {Menu, Container, Image, Header, Visibility} from 'semantic-ui-react';
+import {Menu, Container, Header, Visibility} from 'semantic-ui-react';
 
 const menuStyle = {
   border: 'none',
@@ -36,7 +36,7 @@ export default class  FrontendHeader extends React.Component {
 		const { menuFixed } = this.state
 	return(
 			<div>
-			   <Container text style={{ marginTop: '2em' }}>
+			   <Container style={{ marginTop: '2em' }}>
 	          <Header as='h1'>@Demotrix</Header>
 	          <p>
 	            This example shows how to use lazy loaded images, a sticky menu, and a simple text
@@ -52,7 +52,7 @@ export default class  FrontendHeader extends React.Component {
 	            fixed={menuFixed ? 'top' : undefined}
 	            style={menuFixed ? fixedMenuStyle : menuStyle}
 	          >
-	            <Container text>
+	            <Container>
 	              <Menu.Item onClick={()=> this.pushTo('/')}>
 	                home
 	              </Menu.Item>
