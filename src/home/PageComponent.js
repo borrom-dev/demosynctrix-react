@@ -6,17 +6,12 @@ import BlogPostTemplate from '../template/BlogPostTemplate';
 @inject('pageStore')
 @observer
 class PageComponent extends React.Component {
-
   render() {
     const {match} = this.props;
-    console.log(match);
-    const page = {
-      template: 'home'
-    }
     if(match.path === '/'){
-      return (<HomeTemplate page={page}/>)
+      return (<HomeTemplate />)
     }else{
-      return (<BlogPostTemplate/>)
+      return (<BlogPostTemplate page={match.url}/>)
     }
   }
 }
