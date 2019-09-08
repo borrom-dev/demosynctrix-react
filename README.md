@@ -8,11 +8,19 @@
   5. Articles Management
 
 ### 2. Basic React
+  1. Component
+  2. Props
+  3. State
 
 ### 3. Basic React Router
+  1. Switch
+  2. Router
+  3. History
 
 ### 4. Basic Mobx State Management 
-
+  1. Observale 
+  2. Action
+  3. Observer 
 
 
 ### MIT License
