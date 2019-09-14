@@ -2,15 +2,16 @@ import { observable, action } from "mobx";
 import Service from "../service/service";
 
 class PageStore {
-	@observable page =  null;
+	@observable topics =  [];
 	@observable isLoading = false;
 
 
 	@action
-	loadPosts(){
-		Service.getPage()
+	getPages(){
+		this.isLoading = true;
+		Service.getPages()
 		.then(action((res)=> {
-			this.page = res.data;
+			this.topics = res.data;
 		}))
 		.finally(action(()=> this.isLoading = false))
 	}

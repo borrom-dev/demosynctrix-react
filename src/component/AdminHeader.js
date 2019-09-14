@@ -21,10 +21,10 @@ export default class  DashboardHeader extends React.Component {
 							<Image size='mini' src='/logo.png' />
 						</Link>
 					</Menu.Item>
-					<Menu.Item onClick={() => this.navigateTo('/users')}>Users</Menu.Item>
-					<Menu.Item onClick={() => this.navigateTo('/pages')}>Pages</Menu.Item>
-					<Menu.Item onClick={() => this.navigateTo('/articles')}>Artcles</Menu.Item>
-					<Menu.Item onClick={() => this.navigateTo('/files')}>Files</Menu.Item>
+					<Menu.Item onClick={() => this.navigateTo('/dashboard/users')}>Users</Menu.Item>
+					<Menu.Item onClick={() => this.navigateTo('/dashboard/topics')}>Topics</Menu.Item>
+					<Menu.Item onClick={() => this.navigateTo('/dashboard/articles')}>Artcles</Menu.Item>
+					<Menu.Item onClick={() => this.navigateTo('/dashboard/files')}>Files</Menu.Item>
 						<Menu.Menu position='right'>
 							<Dropdown text='Setting' pointing className='link item'>
 								<Dropdown.Menu>

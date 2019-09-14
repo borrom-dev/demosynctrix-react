@@ -50,7 +50,7 @@ class ArticlesComponent extends React.Component {
 				<Container>
 				<Card fluid>
 							<Segment color='blue'>
-								<Header floated='left'>Users</Header>
+								<Header floated='left'>Topic</Header>
 								<Button primary floated='right' onClick={this.show}>New</Button>
 								<Modal size ='large' open={open}>
 									<Modal.Header>Create Page</Modal.Header>

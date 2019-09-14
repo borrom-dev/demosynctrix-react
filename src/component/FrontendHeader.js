@@ -1,14 +1,17 @@
 import React from 'react';
 import {Menu, Container, Header, Visibility} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+import './style.css'
 
 const menuStyle = {
   border: 'none',
   borderRadius: 0,
   boxShadow: 'none',
   marginBottom: '1em',
-  marginTop: '4em',
   transition: 'box-shadow 0.5s ease, padding 0.5s ease',
 }
+
 
 const fixedMenuStyle = {
   backgroundColor: '#fff',
@@ -16,7 +19,9 @@ const fixedMenuStyle = {
   boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
 }
 
-export default class  FrontendHeader extends React.Component {
+@inject('pageStore')
+@observer
+class  FrontendHeader extends React.Component {
 
 	state = {
     menuFixed: false,
@@ -25,7 +30,7 @@ export default class  FrontendHeader extends React.Component {
 
 	stickTopMenu = () => this.setState({ menuFixed: true })
 
-  unStickTopMenu = () => this.setState({ menuFixed: false })
+  	unStickTopMenu = () => this.setState({ menuFixed: false })
 
 
 	pushTo = (url) => {
@@ -36,12 +41,12 @@ export default class  FrontendHeader extends React.Component {
 		const { menuFixed } = this.state
 	return(
 			<div>
-			   <Container style={{ marginTop: '2em' }}>
-	          <Header as='h1'>@Demotrix</Header>
-	          <p>
-	            This example shows how to use lazy loaded images, a sticky menu, and a simple text
-	            container
-	          </p>
+			   <Container style={{margin: '2em'}}>
+				<h1>Demotrix</h1>   
+				<blockquote>
+				Creativity is just connecting things. When you ask creative people how they did something, they feel a little guilty because they didn't really do it, they just saw something. It seemed obvious to them after a while. That's because they were able to connect experiences they've had and synthesize new things.
+					<span>Steve Jobs</span>
+				</blockquote>
 	        </Container>
 					<Visibility
 	          onBottomPassed={this.stickTopMenu}
@@ -53,12 +58,9 @@ export default class  FrontendHeader extends React.Component {
 	            style={menuFixed ? fixedMenuStyle : menuStyle}
 	          >
 	            <Container>
-	              <Menu.Item onClick={()=> this.pushTo('/')}>
-	                home
-	              </Menu.Item>
-	              <Menu.Item onClick={() => this.pushTo('/android')}>Android</Menu.Item>
-	              <Menu.Item onClick={() => this.pushTo('/java')}>Java</Menu.Item>
-	              <Menu.Item onClick={() => this.pushTo('/kotlin')}>Kotlin</Menu.Item>
+	              {this.props.pageStore.topics.map((topic, id) => (
+					<Menu.Item><Link to={topic.url}>{topic.name}</Link></Menu.Item>
+				  ))}
 	            </Container>
 	          </Menu>
 	        </Visibility>
@@ -66,3 +68,5 @@ export default class  FrontendHeader extends React.Component {
 		)
 	}
 }
+
+export default FrontendHeader;
