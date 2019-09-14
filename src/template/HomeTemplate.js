@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react';
 class HomeTemplate extends React.Component {
 
 	componentDidMount(){
-		this.props.templateStore.getRecentPosts();
+		// this.props.templateStore.getRecentPosts();
 	}
 	render(){
 		const {posts} = this.props.templateStore;

@@ -4,7 +4,8 @@ const Service = {
 	getCars: () =>  api.get('/cars'),
 	getPosts: () => api.get('/posts'),
 	getUsers: () => api.get('/users'),
-	getRecentPosts: () => api.get('/posts')
+	getPages: () => api.get('/pages'),
+	getRecentPosts: () => api.get('/posts/recents')
 }
 
 export default Service;
