@@ -59,7 +59,7 @@ class  FrontendHeader extends React.Component {
 	          >
 	            <Container>
 	              {this.props.pageStore.topics.map((topic, id) => (
-					<Menu.Item><Link to={topic.url}>{topic.name}</Link></Menu.Item>
+					<Menu.Item key={id}><Link to={topic.url}>{topic.name}</Link></Menu.Item>
 				  ))}
 	            </Container>
 	          </Menu>

@@ -36,7 +36,7 @@ class App extends React.Component {
           <AdminRoute exact path='/dashboard/articles' component={ArticlesComponent}/>
           <AdminRoute exact path='/dashboard/files' component={FileComponent}/>
             {this.props.pageStore.topics.map((topic, id) => (
-              <FrontendRoute exact path={topic.url} component={FrontendComponent}/>
+              <FrontendRoute exact key={id} path={topic.url} component={FrontendComponent}/>
             ))}
           <FrontendRoute component = {PageNotFound}/>
         </Switch>

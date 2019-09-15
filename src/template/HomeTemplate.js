@@ -2,8 +2,6 @@ import React from 'react';
 import {Container} from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 
-@inject('templateStore')
-@observer
 class HomeTemplate extends React.Component {
 
 	componentDidMount(){
