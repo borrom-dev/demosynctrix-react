@@ -3,6 +3,7 @@ import postStore from './PostStore';
 import userStore from './UserStore';
 import backendStore from './BackendStore';
 import pageStore from './PageStore';
+import frontendStore from './FrontendStore';
 
 export default {
 		authStore,
@@ -10,4 +11,5 @@ export default {
 		userStore,
 		backendStore,
 		pageStore,
+		frontendStore
 }

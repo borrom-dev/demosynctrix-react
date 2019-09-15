@@ -7,11 +7,11 @@ import BlogPostTemplate from '../template/BlogPostTemplate';
 @observer
 class FrontendComponent extends React.Component {
   render() {
-    const {match} = this.props;
-    if(match.template === 'home'){
+    const {topic} = this.props;
+    if(topic.template === 'home'){
       return (<HomeTemplate />)
     }else{
-      return (<BlogPostTemplate page={match.url}/>)
+      return (<BlogPostTemplate topic={topic}/>)
     }
   }
 }
