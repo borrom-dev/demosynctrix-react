@@ -11,7 +11,7 @@ const history = createBrowserHistory();
 
 window._____APP_STATE_____ = stores;
 
-configure({enforceActions: true})
+configure({enforceActions: "always"})
 
 ReactDOM.render(
 <Provider {...stores}>

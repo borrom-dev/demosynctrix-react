@@ -8,7 +8,7 @@ import BlogPostTemplate from '../template/BlogPostTemplate';
 class FrontendComponent extends React.Component {
   render() {
     const {match} = this.props;
-    if(match.path === '/'){
+    if(match.template === 'home'){
       return (<HomeTemplate />)
     }else{
       return (<BlogPostTemplate page={match.url}/>)

@@ -7,9 +7,13 @@ const client = axios.create({
 
 const api = {
 	get,
-	post
+	post,
+	get_free
 }
 
+function get_free(url){
+	return client.get(url, {})
+}
 function get(url) {
 	return client.get(url, authHeader())
 }
