@@ -8,10 +8,11 @@ import RegisterPage from './register/RegisterPage';
 import {PageNotFound } from './component';
 import FileComponent from './backend/file/FileComponent';
 import UsersComponent from './backend/user/UsersComponent';
-import ArticlesComponent from './backend/article/ArticlesComponent';
+import ArticleComponent from './backend/article/ArticleComponent';
 import FrontendComponent from './frontend/FrontendComponent';
 import { inject, observer } from 'mobx-react';
 import {Loader} from 'semantic-ui-react';
+import BlogComponent from './frontend/BlogComponent';
 
 
 @inject('pageStore')
@@ -33,10 +34,11 @@ class App extends React.Component {
           <AdminRoute exact path='/dashboard' component={DashboardPage}/>
           <AdminRoute exact path='/dashboard/users' component={UsersComponent}/>
           <AdminRoute exact path='/dashboard/topics' component={TopicComponent}/>
-          <AdminRoute exact path='/dashboard/articles' component={ArticlesComponent}/>
+          <AdminRoute exact path='/dashboard/articles' component={ArticleComponent}/>
           <AdminRoute exact path='/dashboard/files' component={FileComponent}/>
+          <FrontendRoute exact path='/articles/:slug' component = {BlogComponent}/>
             {this.props.pageStore.topics.map((topic, id) => (
-              <FrontendRoute exact key={id} path={topic.url} component={FrontendComponent}/>
+              <FrontendRoute exact key={id} path={topic.url} topic={topic} component={FrontendComponent}/>
             ))}
           <FrontendRoute component = {PageNotFound}/>
         </Switch>

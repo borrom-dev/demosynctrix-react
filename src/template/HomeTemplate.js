@@ -1,17 +1,18 @@
 import React from 'react';
 import {Container} from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
-
+@inject('frontendStore')
+@observer
 class HomeTemplate extends React.Component {
 
 	componentDidMount(){
-		// this.props.templateStore.getRecentPosts();
+		 this.props.frontendStore.getPosts();
 	}
 	render(){
-		const {posts} = this.props.templateStore;
+		const {articles} = this.props.frontendStore;
 		return(
 			<Container>
-			{posts.map((post, id) => (<p key={id}>{post.title}</p>))}
+			{articles.map((post, id) => (<p key={id}>{post.title}</p>))}
 			</Container>
 			);
 	}

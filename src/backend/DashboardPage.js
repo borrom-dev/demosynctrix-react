@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Grid, Image } from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
 @inject('backendStore')
@@ -7,19 +8,18 @@ import { inject, observer } from 'mobx-react';
 class DashboardPage extends React.Component {
 
 	componentDidMount(){
-		this.props.backendStore.getRecentPosts();
+		this.props.backendStore.getRecentArticles();
 	}
 	render(){
-		const {posts} = this.props.backendStore;
+		const {recents} = this.props.backendStore;
 		return(
 			<Container>
 			<Grid columns='three' divided>
-				{posts.map((post, id) => (
+				{recents.map((article, id) => (
 					<Grid.Column>
-        		<Image src='https://react.semantic-ui.com/images/wireframe/media-paragraph.png' />
-      		</Grid.Column>
-				))
-				}
+						<Link to={`/articles/${article.slug}`}>{article.title}</Link>
+      				</Grid.Column>
+				))}
 				</Grid>
 			</Container>
 		)
