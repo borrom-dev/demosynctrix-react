@@ -3,7 +3,7 @@ import service from '../service/service';
 
 class backendStore {
 	@observable topics = [];
-	@observable articles = [];
+	@observable articles = {data: [], size: 0, totalPage: 0};
 	@observable recents = [];
 	@observable isLoading = false;
 
@@ -57,9 +57,9 @@ class backendStore {
 	}
 
 	@action
-	getArticles(){
+	getArticles(currentPage){
 		this.isLoading = true;
-		service.getArticles()
+		service.getAllArticles(currentPage)
 		.then(action((res)=> {
 			this.articles = res.data;
 		}))
@@ -73,8 +73,9 @@ class backendStore {
 	addArticle(pageId, article){
 		this.isLoading = true;
 		service.addArticle(pageId, article)
+		.then(service.getAllArticles)
 		.then(action((res) => {
-			this.articles.push(article);
+			this.articles = res.data;
 		}))
 		.catch(action((error) => {
 			console.log(error);

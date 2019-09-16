@@ -8,7 +8,8 @@ import {
 	Table,
 	Container,
 	Card,
-	Button
+	Button,
+	Pagination
  } from 'semantic-ui-react'
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { inject, observer } from 'mobx-react';
@@ -26,7 +27,8 @@ class ArticlesComponent extends React.Component {
 		slug: '',
 		tab: 'write',
 		topicId: 0,
-		topics: []
+		topics: [],
+		activePage: 1
 	}
 	componentDidMount(){
 		const {topics} = this.props.pageStore;
@@ -37,8 +39,8 @@ class ArticlesComponent extends React.Component {
 				})
 			}
 		})
-
-		this.props.backendStore.getArticles();
+		const {activePage} = this.state;
+		this.props.backendStore.getArticles(activePage - 1);
 	}
 	show = () => this.setState({ open: true })
 
@@ -61,9 +63,15 @@ class ArticlesComponent extends React.Component {
 		this.setState({topicId: value})
 	}
 
+	onPageChange = (e, {activePage}) => {
+		this.setState({activePage})
+		this.props.backendStore.getArticles(activePage -1)
+	}
+
 	render(){
 		const {articles} = this.props.backendStore;
-		const {open, title, slug, body, tab, topics} = this.state;
+		const {data, totalPage, size}  = articles;
+		const {open, title, slug, body, tab, topics, activePage} = this.state;
 
 		return(
 				<Container>
@@ -96,8 +104,8 @@ class ArticlesComponent extends React.Component {
 								</Table.Row>
 							</Table.Header>
 							<Table.Body>
-								{articles.map((article, id)=> (
-									<Table.Row>
+								{data.map((article, id)=> (
+									<Table.Row key={id}>
 										<Table.Cell>{article.title}</Table.Cell>
 										<Table.Cell>{article.slug}</Table.Cell>
 										<Table.Cell>{article.published === true ? "Yes": "No"}</Table.Cell>
@@ -108,18 +116,15 @@ class ArticlesComponent extends React.Component {
 							<Table.Footer>
 								<Table.Row>
 									<Table.HeaderCell colSpan='4'>
-										<Menu floated='right' pagination>
-											<Menu.Item as='a' icon>
-												<Icon name='chevron left' />
-											</Menu.Item>
-											<Menu.Item as='a'>1</Menu.Item>
-											<Menu.Item as='a'>2</Menu.Item>
-											<Menu.Item as='a'>3</Menu.Item>
-											<Menu.Item as='a'>4</Menu.Item>
-											<Menu.Item as='a' icon>
-												<Icon name='chevron right' />
-											</Menu.Item>
-										</Menu>
+										<Pagination
+										 floated='right'
+										 boundaryRange={2}
+										 firstItem={null}
+										 activePage = {activePage}
+										 lastItem={null}
+										 ellipsisItem={null}
+										 totalPages={totalPage}
+										 onPageChange = {this.onPageChange}/>
 									</Table.HeaderCell>
 								</Table.Row>
 							</Table.Footer>

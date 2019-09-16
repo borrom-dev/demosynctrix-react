@@ -3,15 +3,15 @@ import service from "../service/service";
 
 class FrontendStore {
 
-	@observable articles = [];
+	@observable articles = { data: [], size: 0, totalPage: 0};
 	@observable isLoading = false;
 
 	@action
-	getPosts(){
+	getArticles(){
         this.isLoading = true;
 	    service.getAllArticles()
 		.then(action((res)=> {
-			this.articles = res.data;
+			this.response = res.data;
 		}))
 		.finally(action(()=> this.isLoading = false))
     }
@@ -21,7 +21,7 @@ class FrontendStore {
         this.isLoading = true;
         service.getAllPostByTopic(id)
         .then(action((res) => {
-            this.articles = res.data;
+            this.response = res.data;
         }))
         .finally(action((error) => {
             this.isLoading = false;

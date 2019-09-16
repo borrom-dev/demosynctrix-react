@@ -14,9 +14,10 @@ class BlogPostTemplate extends React.Component {
 
 	render(){
 		const {articles} = this.props.frontendStore;
+		const {data} = articles;
 		return(
 			<Container>
-				{ articles.map((article, id) => (
+				{ data.map((article, id) => (
 					<Link to={`/articles/${article.slug}`}>{article.title}</Link>
 				))}		
 			</Container>
