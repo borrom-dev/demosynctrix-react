@@ -1,7 +1,7 @@
 import {Route, Redirect} from 'react-router-dom';
 import React from 'react';
 import {isLogin} from '../helper';
-import AdminHeader from '../component/AdminHeader';
+import {AdminHeader} from '../component/AdminHeader';
 
 export function AdminRoute({ component: Component, ...rest }) {
   return (
