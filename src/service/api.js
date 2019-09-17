@@ -8,7 +8,8 @@ const client = axios.create({
 const api = {
 	get,
 	post,
-	get_free
+	get_free,
+	put
 }
 
 function get_free(url){
@@ -20,6 +21,10 @@ function get(url) {
 
 function post(url, data) {
 	return client.post(url, data, authHeader())
+}
+
+function put(url, data) {
+	return client.put(url, data, authHeader())
 }
 
 export default api;

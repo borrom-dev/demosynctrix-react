@@ -82,6 +82,21 @@ class backendStore {
 		}))
 		.finally(action(() => this.isLoading = false));
 	}
+
+	@action
+	updateArticle(article){
+		this.isLoading = true;
+		service.updateArticle(article)
+		.then(action((res)=> {
+			const {data} = this.articles;
+			console.log(article);
+			var indexOf = data.findIndex((e)=> {
+				return e.id === article.id;
+			})
+			data[indexOf] = res.data;
+		}))
+		.finally(action(() => this.isLoading = false))
+	}
 }
 
 export default new backendStore();

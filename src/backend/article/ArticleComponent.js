@@ -1,10 +1,7 @@
 import React from 'react'
 import {
-	Icon,
 	Segment,
-	Modal,
 	Header,
-	Menu,
 	Table,
 	Container,
 	Card,
@@ -22,13 +19,11 @@ class ArticlesComponent extends React.Component {
 
 	state = {
 		open: false,
-		title: '',
-		body: '',
-		slug: '',
 		tab: 'write',
 		topicId: 0,
 		topics: [],
-		activePage: 1
+		activePage: 1,
+		article: {},
 	}
 	componentDidMount(){
 		const {topics} = this.props.pageStore;
@@ -46,17 +41,27 @@ class ArticlesComponent extends React.Component {
 
 	handleChange = (e) => {
 		const { name, value } = e.target;
-		this.setState({ [name]: value });
+		let statusCopy = Object.assign({}, this.state);
+		statusCopy.article[name] = value;
+		this.setState(statusCopy);
 	}
 
-	handleValueChange = (body) => this.setState({ body });
+	handleValueChange = (body) => {
+		let statusCopy = Object.assign({}, this.state);
+		statusCopy.article.body = body;
+		this.setState(statusCopy);
+	};
 
 	handleTabChange = (tab = "write" | "preview") =>  this.setState({ tab });
 
 	handlePositiveClick= ()=> {
-		this.setState({open: false});
-		const {title, slug, topicId, body} = this.state;
-		this.props.backendStore.addArticle(topicId, {title, slug, body});
+		const {article, topicId} = this.state;
+		if(article.id){
+			this.props.backendStore.updateArticle(article)
+		}else{
+			this.props.backendStore.addArticle(topicId, article);
+		}
+		this.setState({open: false, article: {}})
 	}
 
 	handleSelectedTopic = (e, {value}) => {
@@ -70,8 +75,8 @@ class ArticlesComponent extends React.Component {
 
 	render(){
 		const {articles} = this.props.backendStore;
-		const {data, totalPage, size}  = articles;
-		const {open, title, slug, body, tab, topics, activePage} = this.state;
+		const {data, totalPage}  = articles;
+		const {open, article, tab, topics, activePage} = this.state;
 
 		return(
 				<Container>
@@ -80,18 +85,18 @@ class ArticlesComponent extends React.Component {
 								<Header floated='left'>Topic</Header>
 								<Button primary floated='right' onClick={this.show}>New</Button>
 								<EditArticleComponent
-								 open={open}
-								 title={title}
-								 tab = {tab}
-								 slug = {slug}
-								 pages = {topics}
-								 body={body}
-								 handleSelectedTopic = {this.handleSelectedTopic}
-								 handleTabChange = {this.handleTabChange}
-								 handleValueChange = {this.handleValueChange}
-								 handleChange ={this.handleChange}
-								 handleNegativeClick={()=> {this.setState({open: false})}} 
-								 handlePositiveClick={this.handlePositiveClick}
+									open={open}
+									title={article.title}
+									tab = {tab}
+									slug = {article.slug}
+									pages = {topics}
+									body={article.body}
+									handleSelectedTopic = {this.handleSelectedTopic}
+									handleTabChange = {this.handleTabChange}
+									handleValueChange = {this.handleValueChange}
+									handleChange ={this.handleChange}
+									handleNegativeClick={()=> {this.setState({open: false, article: {}})}} 
+									handlePositiveClick={this.handlePositiveClick}
 								/>
 							</Segment>
 						<Table celled>
@@ -109,7 +114,13 @@ class ArticlesComponent extends React.Component {
 										<Table.Cell>{article.title}</Table.Cell>
 										<Table.Cell>{article.slug}</Table.Cell>
 										<Table.Cell>{article.published === true ? "Yes": "No"}</Table.Cell>
-										<Table.Cell>Edit</Table.Cell>
+										<Table.Cell><Button
+										 floated='right'
+										 onClick={()=> {
+											 this.setState({open: true, article: Object.assign({}, article)})
+										 }}
+										 primary icon='edit'/>
+										 </Table.Cell>
 									</Table.Row>
 								))}
 							</Table.Body>

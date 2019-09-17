@@ -8,7 +8,8 @@ const Service = {
 	getRecentPosts: () => api.get('/posts/recent'),
 	addArticle: (pageId, article) => api.post(`/posts/${pageId}`, article),
 	getAllPostByTopic: (id) => api.get_free(`/posts?topic=${id}&page=0&size=2`),
-	getAllArticles: (currentPage) => api.get_free(`/posts?page=${currentPage}&size=5`)
+	getAllArticles: (currentPage) => api.get_free(`/posts?page=${currentPage}&size=5`),
+	updateArticle: (article) => api.put('/posts', article)
 }
 
 export default Service;
