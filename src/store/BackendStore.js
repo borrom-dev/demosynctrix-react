@@ -73,7 +73,7 @@ class backendStore {
 	addArticle(pageId, article){
 		this.isLoading = true;
 		service.addArticle(pageId, article)
-		.then(service.getAllArticles)
+		.then(() => service.getAllArticles(0))
 		.then(action((res) => {
 			this.articles = res.data;
 		}))
