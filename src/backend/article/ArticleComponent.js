@@ -12,6 +12,9 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 import { inject, observer } from 'mobx-react';
 import EditArticleComponent from './EditArticleComponent';
 
+const defArticle = {
+	topic: {}
+}
 @inject('backendStore')
 @inject('pageStore')
 @observer
@@ -20,10 +23,9 @@ class ArticlesComponent extends React.Component {
 	state = {
 		open: false,
 		tab: 'write',
-		topicId: 0,
 		topics: [],
 		activePage: 1,
-		article: {},
+		article: defArticle,
 	}
 	componentDidMount(){
 		const {topics} = this.props.pageStore;
@@ -61,11 +63,15 @@ class ArticlesComponent extends React.Component {
 		}else{
 			this.props.backendStore.addArticle(topicId, article);
 		}
-		this.setState({open: false, article: {}})
+		this.setState({open: false, article: defArticle})
 	}
 
 	handleSelectedTopic = (e, {value}) => {
-		this.setState({topicId: value})
+		const {article} = this.state;
+		let topic = Object.assign({}, article);
+		topic.id = value;
+		article.topic = topic;
+		this.setState({ article: article});
 	}
 
 	onPageChange = (e, {activePage}) => {
@@ -88,6 +94,7 @@ class ArticlesComponent extends React.Component {
 									open={open}
 									title={article.title}
 									tab = {tab}
+									topicId = {article.topic.id}
 									slug = {article.slug}
 									pages = {topics}
 									body={article.body}
@@ -95,7 +102,7 @@ class ArticlesComponent extends React.Component {
 									handleTabChange = {this.handleTabChange}
 									handleValueChange = {this.handleValueChange}
 									handleChange ={this.handleChange}
-									handleNegativeClick={()=> {this.setState({open: false, article: {}})}} 
+									handleNegativeClick={()=> {this.setState({open: false, article: defArticle})}} 
 									handlePositiveClick={this.handlePositiveClick}
 								/>
 							</Segment>
@@ -117,7 +124,11 @@ class ArticlesComponent extends React.Component {
 										<Table.Cell><Button
 										 floated='right'
 										 onClick={()=> {
-											 this.setState({open: true, article: Object.assign({}, article)})
+											let articleCopy = Object.assign({}, article);
+											this.setState({
+												open: true,
+												article: articleCopy
+											});
 										 }}
 										 primary icon='edit'/>
 										 </Table.Cell>
