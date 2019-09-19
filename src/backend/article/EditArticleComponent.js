@@ -24,6 +24,7 @@ const EditArticlesComponent = ({
     body,
     tab,
     slug,
+    topicId,
     handleValueChange,
     handleChange,
     handleTabChange,
@@ -54,6 +55,7 @@ const EditArticlesComponent = ({
                             control={Select}
                             onChange={handleSelectedTopic}
                             options={pages}
+                            value={topicId}
                             label={{ children: 'Topic', htmlFor: 'form-select-control-gender' }}
                             placeholder='Topic'
                             searchInput={{ id: 'form-select-control-gender' }}
