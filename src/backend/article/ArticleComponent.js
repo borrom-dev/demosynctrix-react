@@ -103,6 +103,14 @@ class ArticlesComponent extends React.Component {
 		this.props.backendStore.getArticles(activePage -1)
 	}
 
+	deleteArticle = (article) => {
+		this.props.backendStore.deleteArticle(article);
+	}
+
+	publish = ()=> {
+
+	}
+
 	render(){
 		const {articles} = this.props.backendStore;
 		const {data, totalPage}  = articles;
@@ -135,7 +143,6 @@ class ArticlesComponent extends React.Component {
 								<Table.Row>
 									<Table.HeaderCell>Title</Table.HeaderCell>
 									<Table.HeaderCell>Slug</Table.HeaderCell>
-									<Table.HeaderCell>Published</Table.HeaderCell>
 									<Table.HeaderCell>Action</Table.HeaderCell>
 								</Table.Row>
 							</Table.Header>
@@ -144,11 +151,23 @@ class ArticlesComponent extends React.Component {
 									<Table.Row key={id}>
 										<Table.Cell>{article.title}</Table.Cell>
 										<Table.Cell>{article.slug}</Table.Cell>
-										<Table.Cell>{article.published === true ? "Yes": "No"}</Table.Cell>
-										<Table.Cell><Button
-										 floated='right'
-										 onClick={()=> articleForm.setEditArticle(article)}
-										 primary icon='edit'/>
+										<Table.Cell>
+											<Button
+												floated='right'
+												negative
+												onClick={() => this.deleteArticle(article)}
+												icon='delete'/>
+
+											<Button
+												floated='right'
+												onClick={()=> articleForm.setEditArticle(article)}
+												primary icon='edit'/>
+
+											<Button
+												floated='right'
+												onClick={()=> this.publish(article)}
+												positive
+												icon={article.published ? 'toggle on' : 'toggle off'}/>	
 										 </Table.Cell>
 									</Table.Row>
 								))}
