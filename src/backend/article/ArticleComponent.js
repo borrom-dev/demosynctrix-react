@@ -59,6 +59,11 @@ const articleForm = observable({
 
 	setTopicId: action(function(id){
 		this.topicId = id;
+	}),
+
+	setPublishArticle: action(function(article){
+		this.article = article;
+		this.article.published = !article.published;
 	})
 
 });
@@ -107,8 +112,9 @@ class ArticlesComponent extends React.Component {
 		this.props.backendStore.deleteArticle(article);
 	}
 
-	publish = ()=> {
-
+	publish = (article)=> {
+		articleForm.setPublishArticle(article);
+		this.props.backendStore.publishArticle(articleForm.article);
 	}
 
 	render(){
