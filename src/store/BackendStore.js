@@ -106,6 +106,16 @@ class backendStore {
 		}))
 		.finally(action(() => this.isLoading = false))
 	}
+
+	@action
+	publishArticle(article){
+		service.updateArticle(article)
+		.then(action(() => {
+			const indexOf = this.articles.data.findIndex(x => x.id === article.id);
+			this.articles.data[indexOf] = article;
+		}))
+		.finally(action(()=> this.isLoading = false))
+	}
 }
 
 export default new backendStore();
