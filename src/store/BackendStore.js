@@ -89,11 +89,20 @@ class backendStore {
 		service.updateArticle(article)
 		.then(action((res)=> {
 			const {data} = this.articles;
-			console.log(article);
 			var indexOf = data.findIndex((e)=> {
 				return e.id === article.id;
 			})
 			data[indexOf] = res.data;
+		}))
+		.finally(action(() => this.isLoading = false));
+	}
+
+	@action
+	deleteArticle(article){
+		service.deleteArticle(article)
+		.then(() => service.getAllArticles(0))
+		.then(action((res) => {
+			this.articles = res.data;
 		}))
 		.finally(action(() => this.isLoading = false))
 	}

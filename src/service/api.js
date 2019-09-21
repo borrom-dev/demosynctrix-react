@@ -9,7 +9,8 @@ const api = {
 	get,
 	post,
 	get_free,
-	put
+	put,
+	destroy,
 }
 
 const shouldLogout = (error) => {
@@ -36,6 +37,12 @@ function post(url, data) {
 function put(url, data) {
 	return client.put(url, data, authHeader())
 	.catch(shouldLogout);
+}
+
+function destroy(url, data){
+	const {headers} = authHeader();
+	return client.delete(url, {headers, data})
+	.catch(shouldLogout)
 }
 
 export default api;
