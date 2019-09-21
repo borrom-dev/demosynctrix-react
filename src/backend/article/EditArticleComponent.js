@@ -17,7 +17,6 @@ import * as Showdown from "showdown";
     tasklists: true
 });
 
-
 const EditArticlesComponent = ({
     open,
     title,
@@ -61,7 +60,7 @@ const EditArticlesComponent = ({
                             searchInput={{ id: 'form-select-control-gender' }}
                         />
                         <ReactMde
-                        value={body}
+                        value={body ? body : ''}
                         onChange={handleValueChange}
                         selectedTab={tab}
                         onTabChange={handleTabChange}
