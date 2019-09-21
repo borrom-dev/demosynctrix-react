@@ -11,67 +11,91 @@ import {
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { inject, observer } from 'mobx-react';
 import EditArticleComponent from './EditArticleComponent';
+import { observable, action } from 'mobx';
 
-const defArticle = {
-	topic: {}
-}
-@inject('backendStore')
-@inject('pageStore')
+const articleForm = observable({
+	open: false,
+	tab: 'write',
+	topics: [],
+	activePage: 1,
+	topicId: 0,
+	article: {
+		title: '',
+		body: '',
+		topic: {}
+	},
+
+	setField: action(function(field, value){
+		this.article[field] = value;
+	}),
+
+	close: action(function(){
+		this.open = false;
+		this.article = {
+			topic: {}
+		};
+	}),
+
+	show: action(function(){
+		this.open = true;
+	}),
+
+	setTopics: action(function(topics){
+		topics.map((topic, id) => {
+			if(topic.url !== '/'){
+				this.topics.push({text: topic.name, value: topic.id})
+			}
+		})
+	}),
+
+	setBody: action(function(body){
+		this.article.body = body;
+	}),
+
+	setEditArticle: action(function(value){
+		this.article = value;
+		this.open = true;
+	}),
+
+	setTopicId: action(function(id){
+		this.topicId = id;
+	})
+
+});
+
+@inject('backendStore', 'pageStore')
 @observer
 class ArticlesComponent extends React.Component {
 
-	state = {
-		open: false,
-		tab: 'write',
-		topics: [],
-		activePage: 1,
-		article: defArticle,
-	}
 	componentDidMount(){
 		const {topics} = this.props.pageStore;
-		topics.map((topic, id) => {
-			if(topic.url !== '/'){
-				this.setState((state) => {
-					state.topics.push({text: topic.name, value: topic.id})
-				})
-			}
-		})
-		const {activePage} = this.state;
-		this.props.backendStore.getArticles(activePage - 1);
+		articleForm.setTopics(topics);
+		this.props.backendStore.getArticles(articleForm.activePage - 1);
 	}
-	show = () => this.setState({ open: true })
 
 	handleChange = (e) => {
 		const { name, value } = e.target;
-		let statusCopy = Object.assign({}, this.state);
-		statusCopy.article[name] = value;
-		this.setState(statusCopy);
+		articleForm.setField(name, value);
 	}
 
 	handleValueChange = (body) => {
-		let statusCopy = Object.assign({}, this.state);
-		statusCopy.article.body = body;
-		this.setState(statusCopy);
+		articleForm.setBody(body);
 	};
 
-	handleTabChange = (tab = "write" | "preview") =>  this.setState({ tab });
+	handleTabChange = (tab = "write" | "preview") => articleForm.setField('tab', tab);
 
 	handlePositiveClick= ()=> {
-		const {article, topicId} = this.state;
+		const {article, topicId} = articleForm;
 		if(article.id){
 			this.props.backendStore.updateArticle(article)
 		}else{
 			this.props.backendStore.addArticle(topicId, article);
 		}
-		this.setState({open: false, article: defArticle})
+		articleForm.close();
 	}
 
 	handleSelectedTopic = (e, {value}) => {
-		const {article} = this.state;
-		let topic = Object.assign({}, article);
-		topic.id = value;
-		article.topic = topic;
-		this.setState({ article: article});
+		articleForm.setTopicId(value)
 	}
 
 	onPageChange = (e, {activePage}) => {
@@ -82,30 +106,30 @@ class ArticlesComponent extends React.Component {
 	render(){
 		const {articles} = this.props.backendStore;
 		const {data, totalPage}  = articles;
-		const {open, article, tab, topics, activePage} = this.state;
+		const {open, article, tab, topics, activePage} = articleForm;
 
 		return(
 				<Container>
 				<Card fluid>
-							<Segment color='blue'>
-								<Header floated='left'>Topic</Header>
-								<Button primary floated='right' onClick={this.show}>New</Button>
-								<EditArticleComponent
-									open={open}
-									title={article.title}
-									tab = {tab}
-									topicId = {article.topic.id}
-									slug = {article.slug}
-									pages = {topics}
-									body={article.body}
-									handleSelectedTopic = {this.handleSelectedTopic}
-									handleTabChange = {this.handleTabChange}
-									handleValueChange = {this.handleValueChange}
-									handleChange ={this.handleChange}
-									handleNegativeClick={()=> {this.setState({open: false, article: defArticle})}} 
-									handlePositiveClick={this.handlePositiveClick}
-								/>
-							</Segment>
+						<Segment color='blue'>
+							<Header floated='left'>Topic</Header>
+							<Button primary floated='right' onClick={() => articleForm.show()}>New</Button>
+							<EditArticleComponent
+								open={open}
+								title={article.title}
+								tab = {tab}
+								topicId = {article.topic.id}
+								slug = {article.slug}
+								pages = {topics}
+								body={article.body}
+								handleSelectedTopic = {this.handleSelectedTopic}
+								handleTabChange = {this.handleTabChange}
+								handleValueChange = {this.handleValueChange}
+								handleChange ={this.handleChange}
+								handleNegativeClick={()=> articleForm.close()} 
+								handlePositiveClick={this.handlePositiveClick}
+							/>
+						</Segment>
 						<Table celled>
 							<Table.Header>
 								<Table.Row>
@@ -123,13 +147,7 @@ class ArticlesComponent extends React.Component {
 										<Table.Cell>{article.published === true ? "Yes": "No"}</Table.Cell>
 										<Table.Cell><Button
 										 floated='right'
-										 onClick={()=> {
-											let articleCopy = Object.assign({}, article);
-											this.setState({
-												open: true,
-												article: articleCopy
-											});
-										 }}
+										 onClick={()=> articleForm.setEditArticle(article)}
 										 primary icon='edit'/>
 										 </Table.Cell>
 									</Table.Row>
