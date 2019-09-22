@@ -58,9 +58,8 @@ const articleForm = observable({
 		this.open = true;
 	}),
 
-	setTopicId: action(function(id){
-		const topic = this.topics.find(x => x.value === id);
-		this.article.topic = {id: topic.value};
+	setArticleTopic: action(function(topic){
+		this.article.topic = topic;
 	}),
 
 	setPublishArticle: action(function(article){
@@ -116,6 +115,12 @@ class ArticlesComponent extends React.Component {
 		this.props.backendStore.publishArticle(articleForm.article);
 	}
 
+	handleSelectedTopic = (e, {value}) => {
+		const {topics} = this.props.pageStore;
+		const topic = topics.find(x => x.id === value);
+		articleForm.setArticleTopic(topic)
+	}
+
 	render(){
 		const {articles} = this.props.backendStore;
 		const {data, totalPage}  = articles;
@@ -134,7 +139,7 @@ class ArticlesComponent extends React.Component {
 								slug = {article.slug}
 								pages = {topics}
 								body={article.body}
-								handleSelectedTopic = {(e, {value}) => articleForm.setTopicId(value)}
+								handleSelectedTopic = {this.handleSelectedTopic}
 								handleTabChange = {this.handleTabChange}
 								handleValueChange = {this.handleValueChange}
 								handleChange ={this.handleChange}
