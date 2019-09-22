@@ -42,27 +42,27 @@ class LoginPage extends Component {
 				</Header>
 				<Form size='large' onSubmit={this.onSubmit}>
 				<Segment stacked>
-						<Form.Input
-						 fluid
-						 icon='user'
-						 iconPosition='left'
-						 placeholder='E-mail address'
-						 name="username"
-						 value={loginForm.username}
-						 onChange={this.handleChange}/>
-						<Form.Input
-						 fluid
-						 icon='lock'
-						 iconPosition='left' 
-						 placeholder='Password' 
-						 type='password' name="password" 
-						 value={loginForm.password} onChange={this.handleChange}/>
-						<Button type="submit" color='teal' fluid size='large'>Login</Button>
+					<Form.Input
+						fluid
+						icon='user'
+						iconPosition='left'
+						placeholder='E-mail address'
+						name="username"
+						value={loginForm.username}
+						onChange={this.handleChange}/>
+					<Form.Input
+						fluid
+						icon='lock'
+						iconPosition='left' 
+						placeholder='Password' 
+						type='password' name="password" 
+						value={loginForm.password} onChange={this.handleChange}/>
+					<Button type="submit" color='teal' fluid size='large'>Login</Button>
 					</Segment>
 				</Form>
 				<Message> New to user?<Link to='/register'> Sign Up</Link></Message>
 			</Grid.Column>
-			</Grid>
+		</Grid>
 		)
 	}
 }

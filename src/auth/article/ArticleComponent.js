@@ -18,7 +18,7 @@ const articleForm = observable({
 	tab: 'write',
 	topics: [],
 	activePage: 1,
-	topicId: 0,
+	topicId: undefined,
 	article: {
 		title: '',
 		body: '',
@@ -54,11 +54,12 @@ const articleForm = observable({
 
 	setEditArticle: action(function(value){
 		this.article = value;
+		this.topicId = value.topic.id;
 		this.open = true;
 	}),
 
-	setTopicId: action(function(id){
-		this.topicId = id;
+	setArticleTopic: action(function(topic){
+		this.article.topic = topic;
 	}),
 
 	setPublishArticle: action(function(article){
@@ -90,17 +91,14 @@ class ArticlesComponent extends React.Component {
 	handleTabChange = (tab = "write" | "preview") => articleForm.setField('tab', tab);
 
 	handlePositiveClick= ()=> {
-		const {article, topicId} = articleForm;
+		const {article} = articleForm;
+		const {topic} = article;
 		if(article.id){
-			this.props.backendStore.updateArticle(article)
+			this.props.backendStore.updateArticle(article);
 		}else{
-			this.props.backendStore.addArticle(topicId, article);
+			this.props.backendStore.addArticle(topic.id, article);
 		}
 		articleForm.close();
-	}
-
-	handleSelectedTopic = (e, {value}) => {
-		articleForm.setTopicId(value)
 	}
 
 	onPageChange = (e, {activePage}) => {
@@ -117,11 +115,16 @@ class ArticlesComponent extends React.Component {
 		this.props.backendStore.publishArticle(articleForm.article);
 	}
 
+	handleSelectedTopic = (e, {value}) => {
+		const {topics} = this.props.pageStore;
+		const topic = topics.find(x => x.id === value);
+		articleForm.setArticleTopic(topic)
+	}
+
 	render(){
 		const {articles} = this.props.backendStore;
 		const {data, totalPage}  = articles;
 		const {open, article, tab, topics, activePage} = articleForm;
-
 		return(
 				<Container>
 				<Card fluid>

@@ -86,6 +86,7 @@ class backendStore {
 	@action
 	updateArticle(article){
 		this.isLoading = true;
+		console.log(article.topic.id);
 		service.updateArticle(article)
 		.then(action((res)=> {
 			const {data} = this.articles;
