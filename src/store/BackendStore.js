@@ -7,8 +7,8 @@ class backendStore {
 	@observable recents = [];
 	@observable isLoading = false;
 
+	@observable tab = 'Write';
 	@observable currentArticle = {
-		tab: 'write'
 	}
 
 	@action
@@ -22,6 +22,17 @@ class backendStore {
 			console.log(error.message);
 		}))
 		.finally(action(()=> this.isLoading = false));
+	}
+
+	@action
+	setTab(tab){
+		this.tab = tab;
+	}
+
+	@action
+	appendBody(value){
+		const body = this.currentArticle.body;
+		this.currentArticle.body = body.concat(value);
 	}
 
 	@action
