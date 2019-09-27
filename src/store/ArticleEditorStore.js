@@ -1,20 +1,11 @@
 import { observable, action } from "mobx";
 import service from "../service/service";
 
-class ArticleStore {
+class ArticleEditorStore {
 
-	@observable articles = {
-        data: []
-	};
-	
 	@observable isLoading = false;
 
 	@observable currentArticle = {}
-
-	@action
-	getArticleByTopic(id){
-		// 
-	}
 
 	@action
 	getArticleById(id){
@@ -26,5 +17,5 @@ class ArticleStore {
 	}
 }
 
-export default new ArticleStore();
+export default new ArticleEditorStore();
 

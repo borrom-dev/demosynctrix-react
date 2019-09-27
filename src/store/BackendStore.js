@@ -7,10 +7,8 @@ class backendStore {
 	@observable recents = [];
 	@observable isLoading = false;
 
-	@observable formData = {
-		article: {
-
-		}
+	@observable currentArticle = {
+		tab: 'write'
 	}
 
 	@action
@@ -67,8 +65,13 @@ class backendStore {
 		this.isLoading = true;
 		service.getArticleById(id)
 		.then(action((res) => {
-			this.formData['article'] = res.data;
+			this.currentArticle = res.data;
 		}))
+	}
+
+	@action
+	setCurrentArticle(name, value){
+		this.currentArticle[name] = value;
 	}
 
 	@action
