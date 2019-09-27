@@ -11,11 +11,9 @@ class UserStore {
 		Service.getUsers()
 		.then(action((res)=> {
 			this.users = res.data;
-			console.log(res.data);
 		}))
 		.finally(action(()=> this.isLoading = false))
 	}
 }
 
 export default new UserStore();
-

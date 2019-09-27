@@ -15,7 +15,7 @@ import {Loader} from 'semantic-ui-react';
 import BlogComponent from './frontend/BlogComponent';
 
 
-@inject('pageStore')
+@inject('pageStore', 'authStore')
 @observer
 class App extends React.Component {
 
@@ -36,7 +36,7 @@ class App extends React.Component {
           <AdminRoute exact path='/dashboard/topics' component={TopicComponent}/>
           <AdminRoute exact path='/dashboard/articles' component={ArticleComponent}/>
           <AdminRoute exact path='/dashboard/files' component={FileComponent}/>
-          <FrontendRoute exact path='/articles/:slug' component = {BlogComponent}/>
+          <FrontendRoute exact path='/articles/:id/:slug' component = {BlogComponent}/>
             {this.props.pageStore.topics.map((topic, id) => (
               <FrontendRoute exact key={id} path={topic.url} topic={topic} component={FrontendComponent}/>
             ))}

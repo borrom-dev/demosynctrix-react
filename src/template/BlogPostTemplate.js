@@ -18,7 +18,7 @@ class BlogPostTemplate extends React.Component {
 		return(
 			<Container>
 				{ data.map((article, id) => (
-					<Link to={`/articles/${article.slug}`}>{article.title}</Link>
+					<Link key={id} to={`/articles/${article.id}/${article.slug}`}>{article.title}</Link>
 				))}		
 			</Container>
 		);

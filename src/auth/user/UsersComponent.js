@@ -89,7 +89,7 @@ class UsersComponent extends React.Component {
 							</Table.Header>
 							<Table.Body>
 								{users.map((user, id)=> (
-									<Table.Row>
+									<Table.Row key={id}>
 										<Table.Cell>{user.id}</Table.Cell>
 										<Table.Cell>{user.username}</Table.Cell>
 										<Table.Cell>{user.role}</Table.Cell>

@@ -3,11 +3,12 @@ import React from 'react';
 import {isLogin} from '../helper';
 import {AdminHeader} from '../component/AdminHeader';
 
-export function AdminRoute({ component: Component, ...rest }) {
+export function AdminRoute({ props, component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={props => isLogin() ? (
+      render={
+        props => isLogin() ? (
 					<div>
 						<AdminHeader {...props}/>
           	<Component {...props} />
