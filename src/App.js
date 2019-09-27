@@ -13,6 +13,8 @@ import FrontendComponent from './frontend/FrontendComponent';
 import { inject, observer } from 'mobx-react';
 import {Loader} from 'semantic-ui-react';
 import BlogComponent from './frontend/BlogComponent';
+import NewArticleComponent from './auth/article/NewArticleComponent';
+import EditArticleComponent from './auth/article/EditArticleComponent';
 
 
 @inject('pageStore', 'authStore')
@@ -35,6 +37,8 @@ class App extends React.Component {
           <AdminRoute exact path='/dashboard/users' component={UsersComponent}/>
           <AdminRoute exact path='/dashboard/topics' component={TopicComponent}/>
           <AdminRoute exact path='/dashboard/articles' component={ArticleComponent}/>
+          <AdminRoute exact path='/dashboard/new-article' component={NewArticleComponent}/>
+          <AdminRoute exact path='/dashboard/edit-article/:id' component={EditArticleComponent}/>
           <AdminRoute exact path='/dashboard/files' component={FileComponent}/>
           <FrontendRoute exact path='/articles/:id/:slug' component = {BlogComponent}/>
             {this.props.pageStore.topics.map((topic, id) => (

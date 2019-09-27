@@ -10,7 +10,6 @@ import {
  } from 'semantic-ui-react'
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { inject, observer } from 'mobx-react';
-import EditArticleComponent from './EditArticleComponent';
 import { observable, action } from 'mobx';
 
 const articleForm = observable({
@@ -130,22 +129,7 @@ class ArticlesComponent extends React.Component {
 				<Card fluid>
 						<Segment color='blue'>
 							<Header floated='left'>Topic</Header>
-							<Button primary floated='right' onClick={() => articleForm.show()}>New</Button>
-							<EditArticleComponent
-								open={open}
-								title={article.title}
-								tab = {tab}
-								topicId = {article.topic.id}
-								slug = {article.slug}
-								pages = {topics}
-								body={article.body}
-								handleSelectedTopic = {this.handleSelectedTopic}
-								handleTabChange = {this.handleTabChange}
-								handleValueChange = {this.handleValueChange}
-								handleChange ={this.handleChange}
-								handleNegativeClick={()=> articleForm.close()} 
-								handlePositiveClick={this.handlePositiveClick}
-							/>
+							<Button primary floated='right' onClick={() => this.props.history.push('/dashboard/new-article')}>New</Button>
 						</Segment>
 						<Table celled>
 							<Table.Header>
@@ -169,7 +153,10 @@ class ArticlesComponent extends React.Component {
 
 											<Button
 												floated='right'
-												onClick={()=> articleForm.setEditArticle(article)}
+												onClick={()=> {
+													const url = `/dashboard/edit-article/${article.id}`
+													this.props.history.push(url)
+												}}
 												primary icon='edit'/>
 
 											<Button
