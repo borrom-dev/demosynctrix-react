@@ -1,19 +1,32 @@
 import { observable, action } from "mobx";
-import Service from "../service/service";
+import service from "../service/service";
 
 class PageStore {
 	@observable topics =  [];
 	@observable isLoading = false;
+	@observable articles = {
+		data: []
+	};
 
 
 	@action
 	getPages(){
 		this.isLoading = true;
-		Service.getPages()
+		service.getPages()
 		.then(action((res)=> {
 			this.topics = res.data;
 		}))
-		.finally(action(()=> this.isLoading = false))
+		.finally(action(()=> this.isLoading = false));
+	}
+
+	@action
+	getArticleByTopic(id){
+		this.isLoading = true;
+		service.getAllArticles(0)
+		.then(action((res) => {
+			this.articles = res.data; 
+		}))
+		.finally(action(() => this.isLoading = false));
 	}
 }
 

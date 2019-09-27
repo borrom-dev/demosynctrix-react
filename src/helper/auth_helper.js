@@ -3,7 +3,7 @@ export function authHeader() {
 	if(token){
 		return  {
 			headers: {
-				'Authorization': token
+				'Authorization': `Bearer ${token}`
 			}
 	}
 	}else {

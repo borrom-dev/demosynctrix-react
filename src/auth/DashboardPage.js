@@ -17,7 +17,7 @@ class DashboardPage extends React.Component {
 			<Grid columns='three' divided>
 				{recents.map((article, id) => (
 					<Grid.Column>
-						<Link to={`/articles/${article.slug}`}>{article.title}</Link>
+						<Link to={`/articles/${article.id}/${article.slug}`}>{article.title}</Link>
       				</Grid.Column>
 				))}
 				</Grid>

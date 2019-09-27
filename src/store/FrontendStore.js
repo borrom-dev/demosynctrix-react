@@ -11,7 +11,7 @@ class FrontendStore {
         this.isLoading = true;
 	    service.getAllArticles()
 		.then(action((res)=> {
-			this.response = res.data;
+			this.articles = res.data;
 		}))
 		.finally(action(()=> this.isLoading = false))
     }
@@ -21,7 +21,7 @@ class FrontendStore {
         this.isLoading = true;
         service.getAllPostByTopic(id)
         .then(action((res) => {
-            this.response = res.data;
+            this.articles = res.data;
         }))
         .finally(action((error) => {
             this.isLoading = false;

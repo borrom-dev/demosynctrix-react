@@ -7,6 +7,12 @@ class backendStore {
 	@observable recents = [];
 	@observable isLoading = false;
 
+	@observable formData = {
+		article: {
+
+		}
+	}
+
 	@action
 	getRecentArticles(){
 		this.isLoading = true;
@@ -54,6 +60,15 @@ class backendStore {
 			this.topics.pop(res.data);
 		}))
 		.finally(action(() => this.isLoading = false));
+	}
+
+	@action
+	getArticleById(id){
+		this.isLoading = true;
+		service.getArticleById(id)
+		.then(action((res) => {
+			this.formData['article'] = res.data;
+		}))
 	}
 
 	@action

@@ -71,7 +71,7 @@ class PageComponent extends React.Component {
 							</Table.Header>
 							<Table.Body>
 								{topics.map((topic, id)=> (
-									<Table.Row>
+									<Table.Row key={id}>
 										<Table.Cell>{topic.name}</Table.Cell>
 										<Table.Cell>{topic.url}</Table.Cell>
 										<Table.Cell>{topic.role}</Table.Cell>
