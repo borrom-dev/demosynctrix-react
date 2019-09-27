@@ -7,10 +7,8 @@ class backendStore {
 	@observable recents = [];
 	@observable isLoading = false;
 
-	@observable formData = {
-		article: {
-
-		}
+	@observable tab = 'Write';
+	@observable currentArticle = {
 	}
 
 	@action
@@ -24,6 +22,17 @@ class backendStore {
 			console.log(error.message);
 		}))
 		.finally(action(()=> this.isLoading = false));
+	}
+
+	@action
+	setTab(tab){
+		this.tab = tab;
+	}
+
+	@action
+	appendBody(value){
+		const body = this.currentArticle.body;
+		this.currentArticle.body = body.concat(value);
 	}
 
 	@action
@@ -67,8 +76,13 @@ class backendStore {
 		this.isLoading = true;
 		service.getArticleById(id)
 		.then(action((res) => {
-			this.formData['article'] = res.data;
+			this.currentArticle = res.data;
 		}))
+	}
+
+	@action
+	setCurrentArticle(name, value){
+		this.currentArticle[name] = value;
 	}
 
 	@action
