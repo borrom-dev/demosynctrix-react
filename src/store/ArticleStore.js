@@ -3,24 +3,33 @@ import service from "../service/service";
 
 class ArticleStore {
 
+	@observable topicsOptions = []
+
 	@observable articles = {
         data: []
 	};
 	
 	@observable isLoading = false;
 
-	@observable currentArticle = {}
+	@observable currentArticle = {
+		topic_id: undefined,
+	}
 
 	@observable form = {
 		tab: 'Write'
 	}
 
-
-
 	@action
 	getArticleById(id){
 		this.isLoading = true;
-		service.getArticleById(id)
+		service.getPages()
+		.then(action((res) => {
+			this.topicsOptions = [];
+			res.data.map((topic, id) => {
+				this.topicsOptions.push({key: id, text: topic.name, value: topic.id})
+			})
+			return service.getArticleById(id)
+		}))
 		.then(action((res)=> {
 			this.currentArticle = res.data;
 		}))
@@ -36,6 +45,11 @@ class ArticleStore {
 	appendBody(value) {
 		const {body} = this.currentArticle;
 		this.currentArticle.body = body.concat(value);
+	}
+
+	@action
+	setTopicId(id){
+		this.currentArticle.topic_id = id;
 	}
 
 	@action

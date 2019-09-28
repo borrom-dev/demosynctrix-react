@@ -1,5 +1,5 @@
 import React from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import {Container} from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
 import htmlParser from 'react-markdown/plugins/html-parser';
@@ -10,6 +10,7 @@ const parseHtml = htmlParser({
 })
 
 @inject('articleStore')
+@observer
 class BlogTemplate extends React.Component {
 
 	componentDidMount(){

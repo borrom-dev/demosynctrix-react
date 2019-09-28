@@ -123,7 +123,7 @@ class ArticlesComponent extends React.Component {
 	render(){
 		const {articles} = this.props.backendStore;
 		const {data, totalPage}  = articles;
-		const {open, article, tab, topics, activePage} = articleForm;
+		const {activePage} = articleForm;
 		return(
 				<Container>
 				<Card fluid>
