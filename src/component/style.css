@@ -1,13 +1,13 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
 blockquote { 
-  font-size: 1.2em;
-  width:60%;
+  font-size: 0.9 em;
   font-family:Open Sans;
   font-style:italic;
+  width:60%;
   color: #555555;
   margin: 2em 0 2em 0;
   padding: 0 0 0 40px;
-  line-height:1.6;
+  line-height: 1.6;
   position: relative;
 }
 
