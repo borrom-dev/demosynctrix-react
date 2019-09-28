@@ -12,13 +12,6 @@ const menuStyle = {
   transition: 'box-shadow 0.5s ease, padding 0.5s ease',
 }
 
-
-const fixedMenuStyle = {
-  backgroundColor: '#fff',
-  border: '1px solid #ddd',
-  boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
-}
-
 @inject('pageStore')
 @observer
 class  FrontendHeader extends React.Component {
@@ -28,7 +21,6 @@ class  FrontendHeader extends React.Component {
     overlayFixed: false,
 	}
 
-	stickTopMenu = () => this.setState({ menuFixed: true })
 
   	unStickTopMenu = () => this.setState({ menuFixed: false })
 
@@ -48,22 +40,14 @@ class  FrontendHeader extends React.Component {
 					<span>Steve Jobs</span>
 				</blockquote>
 	        </Container>
-					<Visibility
-	          onBottomPassed={this.stickTopMenu}
-	          onBottomVisible={this.unStickTopMenu}
-	          once={false}
-	        >
-	          <Menu
-	            fixed={menuFixed ? 'top' : undefined}
-	            style={menuFixed ? fixedMenuStyle : menuStyle}
-	          >
+		
+	          <Menu style={ menuStyle} >
 	            <Container>
 	              {this.props.pageStore.topics.map((topic, id) => (
 					<Menu.Item key={id}><Link to={topic.url}>{topic.name}</Link></Menu.Item>
 				  ))}
 	            </Container>
 	          </Menu>
-	        </Visibility>
 			</div>
 		)
 	}

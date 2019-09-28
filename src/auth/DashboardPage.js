@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container, Grid, Image } from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
+import { Container, Grid, Image, Item, Segment, Label } from 'semantic-ui-react';
 import { inject, observer } from 'mobx-react';
+import {Link} from 'react-router-dom';
 
 @inject('backendStore')
 @observer
@@ -14,10 +14,13 @@ class DashboardPage extends React.Component {
 		const {recents} = this.props.backendStore;
 		return(
 			<Container>
-			<Grid columns='three' divided>
+			<Grid columns={2}>
 				{recents.map((article, id) => (
 					<Grid.Column>
-						<Link to={`/articles/${article.id}/${article.slug}`}>{article.title}</Link>
+						<Segment raised>
+							<Label color='teal' ribbon><Link to={`/articles/${article.id}/${article.slug}`} style={{fontSize: 18}}>{article.title}</Link></Label>
+							<p style={{margin: 20}}>{article.body}</p>	
+						</Segment>
       				</Grid.Column>
 				))}
 				</Grid>
