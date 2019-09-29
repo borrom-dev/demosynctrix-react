@@ -140,13 +140,13 @@ class ArticlesComponent extends React.Component {
 					<GridColumn key={id}>
 						<Segment clearing>
 							<Item>
-								<Header as='h1'><Link>{article.title}</Link></Header>
+								<Header as='h1'><Link to={`/articles/${article.id}/${article.slug}`}>{article.title}</Link></Header>
 								<Item.Description>{article.description}</Item.Description>
 								<Item.Meta style={{marginTop: 15}}>
-									<Button primary floated='right' onClick={() => {
+									<Button size='mini' primary floated='right' onClick={() => {
 										this.props.history.push(`/dashboard/edit-article/${article.id}`)
 									}}>Edit</Button>
-									<Label>Published</Label>
+									<Button size='mini' floated='right'>{article.published ? 'Live' : 'Draft'}</Button>
 								</Item.Meta>
 							</Item>
 						</Segment>

@@ -20,21 +20,6 @@ class ArticleStore {
 	}
 
 	@action
-	getAllTopics(){
-		this.isLoading = true;
-		service.getPages()
-		.then(action((res) => {
-			this.topicsOptions = [];
-			res.data.map((topic, id) => {
-				if(topic.url !== '/'){
-					this.topicsOptions.push({key: id, text: topic.name, value: topic.id})
-				}
-			})
-		}))
-		.finally(action(() => this.isLoading = false))
-	}
-
-	@action
 	getArticleById(id){
 		this.isLoading = true;
 		service.getPages()
@@ -53,35 +38,6 @@ class ArticleStore {
 		.finally(action(()=> this.isLoading = false))
 	}
 
-	@action
-	setTab(value) {
-		this.form.tab = value;
-	}
-
-	@action
-	appendBody(value) {
-		const {body} = this.currentArticle;
-		this.currentArticle.body = body.concat(value);
-	}
-
-	@action
-	setTopicId(id){
-		this.currentArticle.topic_id = id;
-	}
-
-	@action
-	saveArticle(){
-		this.isLoading = true;
-		return service.saveArticle(this.currentArticle)
-		.finally(action(() => this.isLoading = false));
-	}
-
-	@action setCurrentArticle(name, value){
-		if(name === 'title'){
-			this.currentArticle['slug'] = '/'.concat(value.split(' ').join('-')).toLowerCase();
-		}
-		this.currentArticle[name] = value;
-	}
 }
 
 export default new ArticleStore();

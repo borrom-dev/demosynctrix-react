@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Container, Button, TextArea, Segment, Menu, Select} from 'semantic-ui-react';
+import {Form, Container, Button, TextArea, Segment, Menu, Select, Divider, Input, Header} from 'semantic-ui-react';
 import { inject, observer } from 'mobx-react';
 import ReactMarkdown  from 'react-markdown';
 import CodeBlock from '../../component/CodeBlock';
@@ -43,28 +43,29 @@ class NewArticleComponent extends React.Component {
 
         return(
             <Container>
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Group widths='equal'>
-                        <Form.Field>  
-                            <Form.Input
-                                label='Title'
-                                placeholder='Title'
-                                value={currentArticle.title}
-                                onChange={this.handleTitleChange}
-                                name="title"/>
-                        </Form.Field>
+                <Header as='h1' style={{marginTop: 20}}>New Article</Header>
+                 <Divider clearing/>
+                <Form onSubmit={this.handleSubmit} style={{marginTop: 15}}>
+                    <Form.Input
+                        width={7}
+                        control={Input}
+                        label='Title'
+                        placeholder='Title'
+                        value={currentArticle.title}
+                        onChange={this.handleTitleChange}
+                        name="title"/>
 
-                        <Form.Field>  
-                            <Form.Input
-                                label='Slug'
-                                placeholder='Slug'
-                                value={currentArticle.slug}
-                                onChange={this.handleTitleChange}
-                                name="slug"/>
-                        </Form.Field>
-                    </Form.Group>
+                    <Form.Input
+                        width={7}
+                        control={Input}
+                        label='Slug'
+                        placeholder='Slug'
+                        value={currentArticle.slug}
+                        onChange={this.handleTitleChange}
+                        name="slug"/>
+                   
                     <Form.Field
-                        width={5}
+                        width={7}
                         control={Select}
                         options={topicsOptions}
                         onChange={this.handleSelectTopic}
@@ -74,10 +75,12 @@ class NewArticleComponent extends React.Component {
                         search
                         searchInput={{ id: 'form-select-control-gender' }}
                     />
+                    
                    <Form.Field>
                         <Form.TextArea
+                            label='Description'
                             style={{
-                                minHeight: 100,
+                                minHeight: 150,
                             }}
                             value={currentArticle.description}
                             onChange={this.handleTitleChange}
@@ -131,6 +134,7 @@ class NewArticleComponent extends React.Component {
                         this.props.history.goBack();
                     }}>Cancel</Button>
                 </Form>
+                <Divider horizontal clearing>Demotrix</Divider>
             </Container>
         )
     }

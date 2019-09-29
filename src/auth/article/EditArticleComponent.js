@@ -1,62 +1,74 @@
 import React from 'react';
-import {Form, Container, Button, TextArea, Segment, Menu, Select} from 'semantic-ui-react';
+import {Form, Container, Button, TextArea, Segment, Menu, Select, Divider, Header, Input} from 'semantic-ui-react';
 import { inject, observer } from 'mobx-react';
 import ReactMarkdown  from 'react-markdown';
 import CodeBlock from '../../component/CodeBlock';
 
-@inject('articleStore')
+@inject('editArticleStore')
 @observer
 class EditArticleComponent extends React.Component {
 
     componentDidMount(){
         const {params} = this.props.match;
-        this.props.articleStore.getArticleById(params.id);
+        this.props.editArticleStore.getArticleById(params.id);
     }
 
-    handleTitleChange = (e, target) => {
+    handleValueChange = (e, target) => {
         const {name, value} = target;
-        this.props.articleStore.setCurrentArticle(name, value);
+        this.props.editArticleStore.setCurrentArticle(name, value);
     }
 
     handleTabChange = (e, {name}) => {
-        this.props.articleStore.setTab(name);
+        this.props.editArticleStore.setTab(name);
 
     }
 
     handleApplyStyle =(valule) => {
-        this.props.articleStore.appendBody(valule);
+        this.props.editArticleStore.appendBody(valule);
     }
 
     handleSubmit = () => {
-        // this.props.articleStore.updateArticle()
-        // .then(() => {
-        //     this.props.history.push('/dashboard/articles');
-        // })
+        this.props.editArticleStore.updateArticle()
+        .then(() => {
+            this.props.history.push('/dashboard/articles');
+        })
     }
 
     handleSelectTopic = (e, {value}) => {
-        this.props.articleStore.setTopicId(value);
+        this.props.editArticleStore.setTopicId(value);
     }
 
     render(){
-        const {currentArticle, topicsOptions} = this.props.articleStore;
-        const {form} = this.props.articleStore;
+        const {currentArticle, topicsOptions} = this.props.editArticleStore;
+        const {form} = this.props.editArticleStore;
 
         return(
             <Container>
+                <Button primary floated='right' type='submit'>Delete</Button>
+                <Button positive floated='right' onClick={() => this.props.history.push('/dashboard/new-article')}>New</Button>
+                <Header as='h1'>Edit Article</Header>
+                <Divider clearing/>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Field>  
-                        <Form.Input
-                            label='TItle'
-                            width ={5}
-                            placeholder='Title'
-                            value={currentArticle.title}
-                            onChange={this.handleTitleChange}
-                            name="title"/>
-                    </Form.Field>
-
                     <Form.Field
-                       width={5}
+                        label='Title'
+                        control={Input}
+                        placeholder='Title'
+                        width={7}
+                        value={currentArticle.title}
+                        onChange={this.handleValueChange}
+                        name="title"/>
+                    <Form.Field
+                        control={Input}
+                        width={7}
+                        label='Slug'
+                        placeholder='Slug'
+                        onChange={this.handleValueChange}
+                        value={currentArticle.slug}
+                        name="slug"/>
+                
+                    <Form.Field
+                        label='Description'
+                        width={7}
                         control={Select}
                         options={topicsOptions}
                         onChange={this.handleSelectTopic}
@@ -66,16 +78,15 @@ class EditArticleComponent extends React.Component {
                         search
                         searchInput={{ id: 'form-select-control-gender' }}
                     />
-                   <Form.Field>
-                        <Form.TextArea
-                            style={{
-                                minHeight: 100,
-                            }}
-                            value={currentArticle.description}
-                            onChange={this.handleTitleChange}
-                            placeholder='Description'
-                            name="description"/>
-                    </Form.Field>
+                
+                    <Form.TextArea
+                        style={{
+                            minHeight: 150,
+                        }}
+                        value={currentArticle.description}
+                        onChange={this.handleValueChange}
+                        placeholder='Description'
+                        name="description"/>
                     <Menu tabular>
                         <Menu.Item
                          name='Write'
@@ -105,7 +116,7 @@ class EditArticleComponent extends React.Component {
                                     name='body'
                                     style={{minHeight: 400}}
                                     value={currentArticle.body}
-                                    onChange={this.handleTitleChange}
+                                    onChange={this.handleValueChange}
                                     placeholder='Write your article here,..'
                                 /> 
                             </Segment>
@@ -123,6 +134,7 @@ class EditArticleComponent extends React.Component {
                         this.props.history.goBack();
                     }}>Cancel</Button>
                 </Form>
+                <Divider clearing horizontal>Demotrix</Divider>
             </Container>
         )
     }
