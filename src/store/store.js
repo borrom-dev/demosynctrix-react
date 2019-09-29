@@ -5,6 +5,7 @@ import backendStore from './BackendStore';
 import pageStore from './PageStore';
 import frontendStore from './FrontendStore';
 import articleStore from './ArticleStore';
+import newArticleStore from './NewArticleStore';
 
 export default {
 		authStore,
@@ -13,5 +14,6 @@ export default {
 		backendStore,
 		pageStore,
 		frontendStore,
-		articleStore
+		articleStore,
+		newArticleStore
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Container, Button, TextArea, Segment, Menu} from 'semantic-ui-react';
+import {Form, Container, Button, TextArea, Segment, Menu, Select} from 'semantic-ui-react';
 import { inject, observer } from 'mobx-react';
 import ReactMarkdown  from 'react-markdown';
 import CodeBlock from '../../component/CodeBlock';
@@ -27,27 +27,45 @@ class EditArticleComponent extends React.Component {
         this.props.articleStore.appendBody(valule);
     }
 
-    handleSubmit = () =>{
-        this.props.articleStore.updateArticle()
-        .then(() => {
-            this.props.history.push('/dashboard/articles');
-        })
+    handleSubmit = () => {
+        // this.props.articleStore.updateArticle()
+        // .then(() => {
+        //     this.props.history.push('/dashboard/articles');
+        // })
+    }
+
+    handleSelectTopic = (e, {value}) => {
+        this.props.articleStore.setTopicId(value);
     }
 
     render(){
-        const {currentArticle} = this.props.articleStore;
+        const {currentArticle, topicsOptions} = this.props.articleStore;
         const {form} = this.props.articleStore;
+
         return(
             <Container>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Field>
+                    <Form.Field>  
                         <Form.Input
+                            label='TItle'
+                            width ={5}
                             placeholder='Title'
                             value={currentArticle.title}
                             onChange={this.handleTitleChange}
                             name="title"/>
                     </Form.Field>
 
+                    <Form.Field
+                       width={5}
+                        control={Select}
+                        options={topicsOptions}
+                        onChange={this.handleSelectTopic}
+                        value={currentArticle.topic_id}
+                        label={{ children: 'Gender', htmlFor: 'form-select-control-gender' }}
+                        placeholder='Gender'
+                        search
+                        searchInput={{ id: 'form-select-control-gender' }}
+                    />
                    <Form.Field>
                         <Form.TextArea
                             style={{

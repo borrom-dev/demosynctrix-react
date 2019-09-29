@@ -1,6 +1,6 @@
 import React from 'react';
-import { inject } from 'mobx-react';
-import {Container} from 'semantic-ui-react';
+import { inject, observer } from 'mobx-react';
+import {Container, Loader} from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import CodeBlock from '../component/CodeBlock';
@@ -10,6 +10,7 @@ const parseHtml = htmlParser({
 })
 
 @inject('articleStore')
+@observer
 class BlogTemplate extends React.Component {
 
 	componentDidMount(){
@@ -17,14 +18,18 @@ class BlogTemplate extends React.Component {
 		this.props.articleStore.getArticleById(params.id);
 	}
 	render(){
-		const {currentArticle} = this.props.articleStore;
+		const {currentArticle, isLoading} = this.props.articleStore;
 		return(<Container>
-			<ReactMarkdown
-			source={currentArticle.body}
-			escapeHtml={false}
-			renderers={{code: CodeBlock}}
-			astPlugins={[parseHtml]}
-			/>
+			{
+			 	isLoading  ?
+			 	<Loader/> : 	
+				<ReactMarkdown
+				source={currentArticle.body}
+				escapeHtml={false}
+				renderers={{code: CodeBlock}}
+				astPlugins={[parseHtml]}
+				/>
+			}
 		</Container>);
 	}
 }

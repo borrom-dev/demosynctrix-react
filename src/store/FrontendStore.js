@@ -27,6 +27,16 @@ class FrontendStore {
             this.isLoading = false;
         }))
     }
+
+    @action
+    getRecentArticle(){
+        this.isLoading = true;
+        service.getRecentArticle()
+        .then(action((res) => {
+            this.articles = res.data;
+        }))
+        .finally(action(action(() => this.isLoading = false)));
+    }
 }
 
 export default new FrontendStore();

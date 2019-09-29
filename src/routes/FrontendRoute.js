@@ -8,7 +8,7 @@ export function FrontendRoute({ component: Component, topic,  ...rest }) {
     <Route
       {...rest}
       render={(props) =>  (
-					<Container content> 
+					<Container text> 
 						<FrontendHeader {...props}/>
           	<Component {...props} topic={topic} />
 					</Container>

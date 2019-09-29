@@ -4,7 +4,11 @@ import service from '../service/service';
 class backendStore {
 	@observable topics = [];
 	@observable articles = {data: [], size: 0, totalPage: 0};
-	@observable recents = [];
+	@observable recents = {
+		data: [],
+		size: 0,
+		totalPage: 0
+	};
 	@observable isLoading = false;
 
 	@observable tab = 'Write';
@@ -14,7 +18,7 @@ class backendStore {
 	@action
 	getRecentArticles(){
 		this.isLoading = true;
-		service.getRecentPosts()
+		service.getRecentArticle()
 		.then(action((res)=> {
 			this.recents = res.data;
 		}))
