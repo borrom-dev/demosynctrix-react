@@ -9,18 +9,25 @@ class DashboardPage extends React.Component {
 
 	componentDidMount(){
 		this.props.backendStore.getRecentArticles();
+	
 	}
 	render(){
 		const {recents} = this.props.backendStore;
+		console.log(recents);
 		return(
 			<Container>
 			<Grid columns={2}>
-				{recents.map((article, id) => (
+				{recents.data.map((article, id) => (
 					<Grid.Column>
-						<Segment raised>
-							<Label color='teal' ribbon><Link to={`/articles/${article.id}/${article.slug}`} style={{fontSize: 18}}>{article.title}</Link></Label>
-							<p style={{margin: 20}}>{article.body}</p>	
-						</Segment>
+						<Item style={{marginTop: '15px'}} key={id}>
+						<Item.Content>
+							<Item.Header as='h1'>
+								<Link to={`/dashboard/edit-article/${article.id}`}>{article.title}</Link>
+							</Item.Header>
+							<Item.Meta><span style={{fontSize: 14}}>{article.create_at}</span></Item.Meta>
+							<Item.Description><p style={{fontSize: 18}}>{article.title}</p> </Item.Description>
+						</Item.Content>
+					</Item>
       				</Grid.Column>
 				))}
 				</Grid>

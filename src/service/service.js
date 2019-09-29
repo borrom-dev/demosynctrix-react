@@ -6,7 +6,7 @@ const Service = {
 	getUsers: () => api.get('/users'),
 	getPages: () => api.get_free('/topics'),
 	getRecentArticle: () => api.get('/articles/recent'),
-	addArticle: (pageId, article) => api.post(`/articles/${pageId}`, article),
+	saveArticle: (article) => api.post(`/articles/${article.topic_id}`, article),
 	getAllPostByTopic: (id) => api.get_free(`/articles/${id}?page=0&size=20`),
 	getAllArticles: (currentPage) => api.get_free(`/articles?page=${currentPage}&size=10`),
 	updateArticle: (article) => api.put(`/articles/${article.topic_id}`, article),

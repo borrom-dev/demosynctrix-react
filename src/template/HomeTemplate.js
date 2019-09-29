@@ -21,7 +21,7 @@ class HomeTemplate extends React.Component {
 								<Link to={`/articles/${article.id}/${article.slug}`}>{article.title}</Link>
 							</Item.Header>
 							<Item.Meta><span style={{fontSize: 14}}>{article.create_at}</span></Item.Meta>
-							<Item.Description><p style={{fontSize: 18}}>{article.body}</p> </Item.Description>
+							<Item.Description><p style={{fontSize: 18}}>{article.title}</p> </Item.Description>
 						</Item.Content>
 					</Item>
 				))}

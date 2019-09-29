@@ -11,7 +11,6 @@ class EditArticleComponent extends React.Component {
     componentDidMount(){
         const {params} = this.props.match;
         this.props.articleStore.getArticleById(params.id);
-        console.log(this.state);
     }
 
     handleTitleChange = (e, target) => {
@@ -29,10 +28,10 @@ class EditArticleComponent extends React.Component {
     }
 
     handleSubmit = () => {
-        this.props.articleStore.updateArticle()
-        .then(() => {
-            this.props.history.push('/dashboard/articles');
-        })
+        // this.props.articleStore.updateArticle()
+        // .then(() => {
+        //     this.props.history.push('/dashboard/articles');
+        // })
     }
 
     handleSelectTopic = (e, {value}) => {
@@ -48,6 +47,8 @@ class EditArticleComponent extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Field>  
                         <Form.Input
+                            label='TItle'
+                            width ={5}
                             placeholder='Title'
                             value={currentArticle.title}
                             onChange={this.handleTitleChange}
@@ -55,6 +56,7 @@ class EditArticleComponent extends React.Component {
                     </Form.Field>
 
                     <Form.Field
+                       width={5}
                         control={Select}
                         options={topicsOptions}
                         onChange={this.handleSelectTopic}

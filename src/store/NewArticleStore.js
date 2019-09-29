@@ -1,7 +1,7 @@
 import { observable, action } from "mobx";
 import service from "../service/service";
 
-class ArticleStore {
+class NewArticleStore {
 
 	@observable topicsOptions = []
 
@@ -84,5 +84,5 @@ class ArticleStore {
 	}
 }
 
-export default new ArticleStore();
+export default new NewArticleStore();
 

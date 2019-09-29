@@ -1,15 +1,19 @@
 import React from 'react'
 import {
-	Segment,
+	Grid,
+	GridColumn,
 	Header,
-	Table,
 	Container,
-	Card,
 	Button,
-	Pagination
+	Item,
+	Divider,
+	Radio,
+	Pagination,
+	Segment,
+	Label
  } from 'semantic-ui-react'
-import "react-mde/lib/styles/css/react-mde-all.css";
 import { inject, observer } from 'mobx-react';
+import {Link} from 'react-router-dom';
 import { observable, action } from 'mobx';
 
 const articleForm = observable({
@@ -125,67 +129,31 @@ class ArticlesComponent extends React.Component {
 		const {data, totalPage}  = articles;
 		const {activePage} = articleForm;
 		return(
-				<Container>
-				<Card fluid>
-						<Segment color='blue'>
-							<Header floated='left'>Topic</Header>
-							<Button primary floated='right' onClick={() => this.props.history.push('/dashboard/new-article')}>New</Button>
+			<Container>
+			<Header as='h1' floated='left'>Article</Header>
+			<Button primary floated='right' onClick={() => {
+				this.props.history.push('/dashboard/new-article')}
+				}>New</Button>
+			<Divider clearing />
+				<Grid columns={2}>
+				{articles.data.map((article, id) => (
+					<GridColumn key={id}>
+						<Segment clearing>
+							<Item>
+								<Header as='h1'><Link>{article.title}</Link></Header>
+								<Item.Description>{article.description}</Item.Description>
+								<Item.Meta style={{marginTop: 15}}>
+									<Button primary floated='right' onClick={() => {
+										this.props.history.push(`/dashboard/edit-article/${article.id}`)
+									}}>Edit</Button>
+									<Label>Published</Label>
+								</Item.Meta>
+							</Item>
 						</Segment>
-						<Table celled>
-							<Table.Header>
-								<Table.Row>
-									<Table.HeaderCell>Title</Table.HeaderCell>
-									<Table.HeaderCell>Slug</Table.HeaderCell>
-									<Table.HeaderCell>Action</Table.HeaderCell>
-								</Table.Row>
-							</Table.Header>
-							<Table.Body>
-								{data.map((article, id)=> (
-									<Table.Row key={id}>
-										<Table.Cell>{article.title}</Table.Cell>
-										<Table.Cell>{article.slug}</Table.Cell>
-										<Table.Cell>
-											<Button
-												floated='right'
-												negative
-												onClick={() => this.deleteArticle(article)}
-												icon='delete'/>
-
-											<Button
-												floated='right'
-												onClick={()=> {
-													const url = `/dashboard/edit-article/${article.id}`
-													this.props.history.push(url)
-												}}
-												primary icon='edit'/>
-
-											<Button
-												floated='right'
-												onClick={()=> this.publish(article)}
-												positive
-												icon={article.published ? 'toggle on' : 'toggle off'}/>	
-										 </Table.Cell>
-									</Table.Row>
-								))}
-							</Table.Body>
-							<Table.Footer>
-								<Table.Row>
-									<Table.HeaderCell colSpan='4'>
-										<Pagination
-										 floated='right'
-										 boundaryRange={2}
-										 firstItem={null}
-										 activePage = {activePage}
-										 lastItem={null}
-										 ellipsisItem={null}
-										 totalPages={totalPage}
-										 onPageChange = {this.onPageChange}/>
-									</Table.HeaderCell>
-								</Table.Row>
-							</Table.Footer>
-						</Table>
-					</Card>
-				</Container>
+					</GridColumn>
+				))}
+				</Grid>
+			</Container>
 		)
 	}
 }

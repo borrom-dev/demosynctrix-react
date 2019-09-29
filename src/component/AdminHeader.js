@@ -32,5 +32,5 @@ export const  AdminHeader = (props) =>{
 			</Container>
 		</Menu>
 	)
-	
+
 }
