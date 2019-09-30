@@ -16,14 +16,35 @@ class EditTopicStore {
     }
 
     @action
+    handleValueChange(name, value){
+        this.formData.topic[name] = value;
+    }
+
+    @action
     getTopicById(id){
         this.isLoading = true;
-        service.getTopicById(id)
+       service.getTopicById(id)
         .then(action((res) => {
             this.formData.topic = res.data;
         }))
         .finally(action(() => this.isLoading = false));
         
+    }
+
+    @action
+    updateTopic(){
+        this.isLoading = true;
+        const {topic} = this.formData;
+        return service.updateTopic(topic)
+        .finally(action(() => this.isLoading = false));
+    }
+
+    @action
+    deleteTopic(){
+        this.isLoading = true;
+        const {topic} = this.formData;
+        return service.deleteTopic(topic.id)
+        .finally(action(() => this.isLoading = false));
     }
 }
 

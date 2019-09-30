@@ -13,15 +13,36 @@ class EditTopicComponent extends React.Component {
         const {params} = this.props.match;
         this.props.editTopicStore.getTopicById(params.id);
     }
-    handleTabChange = (e, {name}) => {
-        this.props.editTopicStore.handleSelectedTabChange(name)
+
+    handleValueChange = (e, target) => {
+        const {name, value} = target;
+        this.props.editTopicStore.handleValueChange(name, value);
     }
+
+    handleTabChange = (e, {name}) => {
+        this.props.editTopicStore.handleSelectedTabChange(name);
+    }
+
+    handleSubmit = () => {
+        this.props.editTopicStore.updateTopic()
+        .then(() => {
+            this.props.history.goBack();
+        }); 
+    }
+
+    handleDelete = () => {
+        this.props.editTopicStore.deleteTopic()
+        .then(() => {
+            this.props.history.goBack();
+        })
+    }
+
     render(){
         const {formData} = this.props.editTopicStore;
         const {topic} = formData;
         return (
             <Container>
-                <Button negative floated='right'>Delete</Button>
+                <Button negative floated='right' onClick={this.handleDelete}>Delete</Button>
 			    <Button positive floated='right' onClick={() => {
 				    this.props.history.push('/dashboard/new-topic')}
 				}>New</Button>
