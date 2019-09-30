@@ -12,7 +12,10 @@ const Service = {
 	updateArticle: (article) => api.put(`/articles/${article.topic_id}`, article),
 	deleteArticle: (article) => api.destroy('/articles', article),
 	getArticleById: (id) => api.get(`/articles/id/${id}`),
-getTopicById: (id) => api.get(`topics/${id}`)
+	getTopicById: (id) => api.get(`topics/${id}`),
+	updateTopic: (topic) => api.put(`/topics/${topic.id}`, topic),
+	deleteTopic: (id) => api.destroy(`/topics/${id}`, {}),
+	saveTopic: (topic) => api.post('/topics', topic)
 }
 
 export default Service;

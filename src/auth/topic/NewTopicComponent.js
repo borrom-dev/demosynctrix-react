@@ -2,7 +2,6 @@
 import React from 'react';
 import { Container, Button, Header, Divider, Form, Input, Menu, Segment, TextArea } from 'semantic-ui-react';
 import ReactMarkdown  from 'react-markdown';
-import {Link} from 'react-router-dom';
 import CodeBlock from '../../component/CodeBlock';
 import { inject, observer } from 'mobx-react';
 
@@ -10,9 +9,26 @@ import { inject, observer } from 'mobx-react';
 @observer
 class NewTopicComponent extends React.Component {
 
+    componentDidMount(){
+        this.props.newTopicStore.reset();
+    }
+
     handleTabChange = (e, {name}) => {
         this.props.newTopicStore.handleSelectedTabChange(name)
     }
+
+    handleSubmit = () => {
+        this.props.newTopicStore.saveTopic()
+        .then(() => {
+            this.props.history.goBack();
+        });
+    }
+
+    handleValueChange= (e, target) => {
+        const {name, value} = target;
+        this.props.newTopicStore.handleValueChange(name, value);
+    }
+
     render(){
         const {formData} = this.props.newTopicStore;
         const {topic} = formData;
@@ -36,7 +52,7 @@ class NewTopicComponent extends React.Component {
                         label='Url'
                         placeholder='Url'
                         onChange={this.handleValueChange}
-                        value={topic.slug}
+                        value={topic.url}
                         name="url"/>
 
                     <Form.Field
@@ -45,7 +61,7 @@ class NewTopicComponent extends React.Component {
                         label='Template'
                         placeholder='Template'
                         onChange={this.handleValueChange}
-                        value={topic.slug}
+                        value={topic.template}
                         name="template"/>
 
                     <Form.Field
