@@ -44,7 +44,7 @@ class EditArticleComponent extends React.Component {
 
         return(
             <Container>
-                <Button primary floated='right' type='submit'>Delete</Button>
+                <Button negative floated='right' type='submit'>Delete</Button>
                 <Button positive floated='right' onClick={() => this.props.history.push('/dashboard/new-article')}>New</Button>
                 <Header as='h1'>Edit Article</Header>
                 <Divider clearing/>
@@ -130,9 +130,6 @@ class EditArticleComponent extends React.Component {
                             </Segment>
                         }
                     <Button positive floated='right' type='submit'>Save Page</Button>
-                    <Button negative floated='right' onClick={() => {
-                        this.props.history.goBack();
-                    }}>Cancel</Button>
                 </Form>
                 <Divider clearing horizontal>Demotrix</Divider>
             </Container>

@@ -131,9 +131,8 @@ class ArticlesComponent extends React.Component {
 		return(
 			<Container>
 			<Header as='h1' floated='left'>Article</Header>
-			<Button primary floated='right' onClick={() => {
-				this.props.history.push('/dashboard/new-article')}
-				}>New</Button>
+			<Link to='/dashboard/new-article'><Button positive floated='right'>New</Button>
+			</Link>
 			<Divider clearing />
 				<Grid columns={2}>
 				{articles.data.map((article, id) => (

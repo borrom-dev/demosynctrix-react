@@ -11,7 +11,8 @@ const Service = {
 	getAllArticles: (currentPage) => api.get_free(`/articles?page=${currentPage}&size=10`),
 	updateArticle: (article) => api.put(`/articles/${article.topic_id}`, article),
 	deleteArticle: (article) => api.destroy('/articles', article),
-	getArticleById: (id) => api.get(`/articles/id/${id}`)
+	getArticleById: (id) => api.get(`/articles/id/${id}`),
+getTopicById: (id) => api.get(`topics/${id}`)
 }
 
 export default Service;

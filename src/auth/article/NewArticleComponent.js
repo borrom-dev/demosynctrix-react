@@ -3,6 +3,7 @@ import {Form, Container, Button, TextArea, Segment, Menu, Select, Divider, Input
 import { inject, observer } from 'mobx-react';
 import ReactMarkdown  from 'react-markdown';
 import CodeBlock from '../../component/CodeBlock';
+import {Link} from 'react-router-dom';
 
 @inject('newArticleStore')
 @observer
@@ -130,9 +131,6 @@ class NewArticleComponent extends React.Component {
                             </Segment>
                         }
                     <Button positive floated='right' type='submit'>Save Page</Button>
-                    <Button negative floated='right' onClick={() => {
-                        this.props.history.goBack();
-                    }}>Cancel</Button>
                 </Form>
                 <Divider horizontal clearing>Demotrix</Divider>
             </Container>
