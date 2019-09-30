@@ -2,7 +2,7 @@ import axios from 'axios';
 import {authHeader} from '../helper';
 
 const client = axios.create({
-	baseURL: 'http://localhost:8080',
+	baseURL: 'https://api.demotrix.com',
 })
 
 const api = {
@@ -10,7 +10,7 @@ const api = {
 	post,
 	get_free,
 	put,
-	destroy,
+	destroy
 }
 
 const shouldLogout = (error) => {
