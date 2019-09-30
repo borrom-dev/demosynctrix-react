@@ -2,30 +2,23 @@
 import React from 'react';
 import { Container, Button, Header, Divider, Form, Input, Menu, Segment, TextArea } from 'semantic-ui-react';
 import ReactMarkdown  from 'react-markdown';
+import {Link} from 'react-router-dom';
 import CodeBlock from '../../component/CodeBlock';
 import { inject, observer } from 'mobx-react';
 
-@inject('editTopicStore')
+@inject('newTopicStore')
 @observer
-class EditTopicComponent extends React.Component {
+class NewTopicComponent extends React.Component {
 
-    componentDidMount(){
-        const {params} = this.props.match;
-        this.props.editTopicStore.getTopicById(params.id);
-    }
     handleTabChange = (e, {name}) => {
-        this.props.editTopicStore.handleSelectedTabChange(name)
+        this.props.newTopicStore.handleSelectedTabChange(name)
     }
     render(){
-        const {formData} = this.props.editTopicStore;
+        const {formData} = this.props.newTopicStore;
         const {topic} = formData;
         return (
             <Container>
-                <Button negative floated='right'>Delete</Button>
-			    <Button positive floated='right' onClick={() => {
-				    this.props.history.push('/dashboard/new-topic')}
-				}>New</Button>
-                <Header as='h1'>Edit Topic</Header>
+                <Header as='h1'>New Topic</Header>
                 <Divider clearing/>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Field
@@ -43,7 +36,7 @@ class EditTopicComponent extends React.Component {
                         label='Url'
                         placeholder='Url'
                         onChange={this.handleValueChange}
-                        value={topic.url}
+                        value={topic.slug}
                         name="url"/>
 
                     <Form.Field
@@ -52,7 +45,7 @@ class EditTopicComponent extends React.Component {
                         label='Template'
                         placeholder='Template'
                         onChange={this.handleValueChange}
-                        value={topic.template}
+                        value={topic.slug}
                         name="template"/>
 
                     <Form.Field
@@ -114,4 +107,4 @@ class EditTopicComponent extends React.Component {
     }
 }
 
-export default EditTopicComponent;
+export default NewTopicComponent;

@@ -7,6 +7,8 @@ import frontendStore from './FrontendStore';
 import editArticleStore from './EditArticleStore';
 import newArticleStore from './NewArticleStore';
 import articleStore from './ArticleStore';
+import newTopicStore from './NewTopicStore';
+import editTopicStore from './EditTopicStore';
 
 export default {
 		authStore,
@@ -17,5 +19,7 @@ export default {
 		frontendStore,
 		editArticleStore,
 		newArticleStore,
-		articleStore
+		articleStore,
+		newTopicStore,
+		editTopicStore
 }

@@ -1,22 +1,15 @@
 import React from 'react';
-import {Card, Image, Icon, Container} from 'semantic-ui-react';
+import {Segment, Header, Button, Icon, Container} from 'semantic-ui-react';
 
 export default class FileComponent extends React.Component {
 
   render() {
     return (
 			<Container>
-				<Card>
-				<Image src='https://react.semantic-ui.com/images/avatar/large/daniel.jpg' wrapped ui={false} />
-				<Card.Content>
-					<Card.Header>Daniel</Card.Header>
-					<Card.Meta>Joined in 2016</Card.Meta>
-					<Card.Description>
-						Daniel is a comedian living in Nashville.
-					</Card.Description>
-				</Card.Content>
-				<Card.Content extra> <Icon name='user' /> 10 Friends </Card.Content>
-			</Card>
+				  <Segment placeholder>
+					<Header icon> <Icon name='images'/>There are no image files!</Header>
+					<Button primary>Add File</Button>
+				</Segment>
 		</Container>
     );
   }

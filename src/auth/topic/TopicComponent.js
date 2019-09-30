@@ -6,7 +6,8 @@ import {
 	Header,
 	Divider,
 	Container,
-	Button
+	Button,
+	Segment
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 import {Link} from 'react-router-dom';
@@ -35,17 +36,24 @@ class PageComponent extends React.Component {
 		return(
 			<Container>
 				 <Header as='h1' floated='left'>Topic</Header>
-				 <Button primary floated='right'>New</Button>
+				 <Link to='/dashboard/new-topic'>
+				 	<Button positive floated='right'>New</Button>
+				 </Link>
 			<Divider clearing />
 				<Grid columns={2}>
 				{topics.map((topic, id) => (
 					<GridColumn>
+						<Segment clearing>
 							<Item>
 								<Item.Content>
 									<Item.Header as='h1'><Link>{topic.name}</Link></Item.Header>
 									<Item.Description>{topic.content}</Item.Description>
+									<Link to={`/dashboard/edit-topic/${topic.id}`}>
+										<Button primary floated='right' size='mini'>Edit</Button>
+									</Link>
 								</Item.Content>
 							</Item>
+						</Segment>
 					</GridColumn>
 				))}
 				</Grid>

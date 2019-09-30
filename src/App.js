@@ -15,6 +15,10 @@ import {Loader} from 'semantic-ui-react';
 import BlogComponent from './frontend/BlogComponent';
 import NewArticleComponent from './auth/article/NewArticleComponent';
 import EditArticleComponent from './auth/article/EditArticleComponent';
+import NewTopicComponent from './auth/topic/NewTopicComponent';
+import EditTopicComponent from './auth/topic/EditTopicComponent';
+import EditUserComponent from './auth/user/EditUserComponent';
+import NewUserComponent from './auth/user/NewUserComponent';
 
 
 @inject('pageStore', 'authStore')
@@ -35,7 +39,11 @@ class App extends React.Component {
           <Route exact path='/register' component={RegisterPage}/>
           <AdminRoute exact path='/dashboard' component={DashboardPage}/>
           <AdminRoute exact path='/dashboard/users' component={UsersComponent}/>
+          <AdminRoute exact path='/dashboard/new-user' component={NewUserComponent}/>
+          <AdminRoute exact path='/dashboard/edit-user/:id' component={EditUserComponent}/>
           <AdminRoute exact path='/dashboard/topics' component={TopicComponent}/>
+          <AdminRoute exact path='/dashboard/new-topic' component={NewTopicComponent}/>
+          <AdminRoute exact path='/dashboard/edit-topic/:id' component={EditTopicComponent}/>
           <AdminRoute exact path='/dashboard/articles' component={ArticleComponent}/>
           <AdminRoute exact path='/dashboard/new-article' component={NewArticleComponent}/>
           <AdminRoute exact path='/dashboard/edit-article/:id' component={EditArticleComponent}/>
