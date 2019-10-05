@@ -7,7 +7,8 @@ import {
 	Divider,
 	Container,
 	Button,
-	Segment
+	Segment,
+	Icon
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 import {Link} from 'react-router-dom';
@@ -31,6 +32,10 @@ class PageComponent extends React.Component {
 
 	handleValueChange = (value) => this.setState({ value });
 
+	handleStatus = (topic) => {
+		this.props.backendStore.updateTopicStatus(topic);
+	}
+
 	render(){
 		const {topics} = this.props.backendStore;
 		return(
@@ -46,11 +51,12 @@ class PageComponent extends React.Component {
 						<Segment clearing>
 							<Item>
 								<Item.Content>
-									<Item.Header as='h1'><Link>{topic.name}</Link></Item.Header>
+									<Item.Header as='h1'><Icon name='checkmark' color={topic.status ? 'blue' : 'grey'}/> {topic.name}</Item.Header>
 									<Item.Description>{topic.content}</Item.Description>
 									<Link to={`/dashboard/edit-topic/${topic.id}`}>
 										<Button primary floated='right' size='mini'>Edit</Button>
 									</Link>
+									<Button onClick={() => this.handleStatus(topic)} positive floated='right' size='mini'>{topic.status ? 'hide' : 'show'}</Button>
 								</Item.Content>
 							</Item>
 						</Segment>
