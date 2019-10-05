@@ -4,6 +4,7 @@ import {Container, Loader} from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import CodeBlock from '../component/CodeBlock';
+import InlineCode from '../component/InlineCode';
 
 const parseHtml = htmlParser({
 	isValidNode: node => node.type !== 'script',
@@ -17,6 +18,8 @@ class BlogTemplate extends React.Component {
 		const {params} = this.props.match;
 		this.props.articleStore.getArticleById(params.id);
 	}
+
+
 	render(){
 		const {currentArticle, isLoading} = this.props.articleStore;
 		return(<Container>
@@ -26,7 +29,7 @@ class BlogTemplate extends React.Component {
 				<ReactMarkdown
 				source={currentArticle.body}
 				escapeHtml={false}
-				renderers={{code: CodeBlock}}
+				renderers={{code: CodeBlock, inlineCode: InlineCode}}
 				astPlugins={[parseHtml]}
 				/>
 			}
