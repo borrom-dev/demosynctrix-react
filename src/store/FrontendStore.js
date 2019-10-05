@@ -31,7 +31,7 @@ class FrontendStore {
     @action
     getRecentArticle(){
         this.isLoading = true;
-        service.getRecentArticle()
+        service.getHomeArticle()
         .then(action((res) => {
             this.articles = res.data;
         }))
