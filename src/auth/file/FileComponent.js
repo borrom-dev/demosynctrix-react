@@ -57,7 +57,7 @@ class FileComponent extends React.Component {
 							<Grid columns={5}>
 								{files.map((file, id) => (
 									<Grid.Column key={id}>
-										<Segment onClick={() => this.handleSelectedImage(id)} color= {selectedImage == id ? 'blue' : ''}>
+										<Segment onClick={() => this.handleSelectedImage(id)} color= {selectedImage === id ? 'blue' : ''}>
 											<Image  src={src}/>
 										</Segment>
 									</Grid.Column>

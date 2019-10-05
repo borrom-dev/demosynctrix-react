@@ -2,7 +2,7 @@ import axios from 'axios';
 import {authHeader} from '../helper';
 
 const client = axios.create({
-	baseURL: 'http://localhost:8080',
+	baseURL: 'https://api.demotrix.com',
 })
 
 const api = {
@@ -15,10 +15,10 @@ const api = {
 }
 
 const shouldLogout = (error) => {
-	const {status} = error.response;
-	if(status && status === 401){
-		localStorage.removeItem('token');	
-	}
+	
+	// if(status && status === 401){
+	// 	localStorage.removeItem('token');	
+	// }
 	return Promise.reject(error);
 }
 
