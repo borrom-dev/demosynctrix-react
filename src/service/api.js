@@ -10,7 +10,8 @@ const api = {
 	post,
 	get_free,
 	put,
-	destroy
+	destroy,
+	upload
 }
 
 const shouldLogout = (error) => {
@@ -42,6 +43,13 @@ function put(url, data) {
 function destroy(url, data){
 	const {headers} = authHeader();
 	return client.delete(url, {headers, data})
+	.catch(shouldLogout)
+}
+
+function upload(url, formUrl){
+	const {headers} = authHeader();
+	headers['\'Content-Type\'']  = 'multipart/form-data'
+	return client.post(url, formUrl, {headers})
 	.catch(shouldLogout)
 }
 
