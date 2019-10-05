@@ -143,10 +143,12 @@ class backendStore {
 
 	@action
 	publishArticle(article){
+		article.published = !article.published;
+		console.log(article.topic_id);
 		service.updateArticle(article)
-		.then(action(() => {
-			const indexOf = this.articles.data.findIndex(x => x.id === article.id);
-			this.articles.data[indexOf] = article;
+		.then(action((res) => {
+			const indexOf = this.articles.data.findIndex(x => x.id === res.data.id);
+			this.articles.data[indexOf] = res.data;
 		}))
 		.finally(action(()=> this.isLoading = false))
 	}

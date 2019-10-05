@@ -18,6 +18,7 @@ import NewTopicComponent from './auth/topic/NewTopicComponent';
 import EditTopicComponent from './auth/topic/EditTopicComponent';
 import EditUserComponent from './auth/user/EditUserComponent';
 import NewUserComponent from './auth/user/NewUserComponent';
+import HomeComponent from './frontend/HomeComponent';
 
 
 @inject('pageStore', 'authStore')
@@ -47,6 +48,7 @@ class App extends React.Component {
           <AdminRoute exact path='/dashboard/edit-article/:id' component={EditArticleComponent}/>
           <AdminRoute exact path='/dashboard/files' component={FileComponent}/>
           <FrontendRoute exact path='/articles/:id/:slug' component = {BlogComponent}/>
+          <FrontendRoute exact path='/' component = {HomeComponent}/>
             {this.props.pageStore.topics.map((topic, id) => (
               <FrontendRoute exact key={id} path={topic.url} topic={topic} component={FrontendComponent}/>
             ))}
