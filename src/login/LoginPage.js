@@ -60,7 +60,6 @@ class LoginPage extends Component {
 					<Button type="submit" color='teal' fluid size='large'>Login</Button>
 					</Segment>
 				</Form>
-				<Message> New to user?<Link to='/register'> Sign Up</Link></Message>
 			</Grid.Column>
 		</Grid>
 		)

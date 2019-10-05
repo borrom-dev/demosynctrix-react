@@ -1,16 +1,79 @@
-import React from 'react';
-import {Segment, Header, Button, Icon, Container} from 'semantic-ui-react';
+import React, {Fragment} from 'react';
+import { 
+	Segment, 
+	Header, 
+	Button, 
+	Icon, 
+	Image, 
+	Divider, 
+	Card, 
+	Container, 
+	Grid
+} from 'semantic-ui-react';
+import { inject, observer } from 'mobx-react';
 
-export default class FileComponent extends React.Component {
+const src = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUQEhIVFRUXFRUWFRUVFRUXFhUVFRUWFxUVFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGxAQGi8lHyUtLy0uLTAtLS0tLS0tLS0tKy8tLS0tLS0tLS0tLy0tLi0tLS0tLSstLS0tLSstLS0tLf/AABEIAJ8BPgMBIgACEQEDEQH/xAAbAAACAwEBAQAAAAAAAAAAAAADBAECBQYAB//EADsQAAEDAgQDBQYEBQQDAAAAAAEAAhEDIQQSMUEFUWETInGBkQYyobHB8EJS0eEUI2KC8TNykqKys8L/xAAaAQADAQEBAQAAAAAAAAAAAAACAwQBBQAG/8QALxEAAgIBBAEDAwIFBQAAAAAAAAECEQMEEiExQVFh8BMicUKxFIGR4fEFFTLB0f/aAAwDAQACEQMRAD8A7BzkvUU50Nzl9ElR8owNRqXcxNOVC1HYAk6mh9knixRkXtwIkaKo6itWnhpQatGFimaZhpKBSTjmKkI9xllaVJOUaaHTTVFDJmjFGmtDD00rRKfoFTzbGRSHsO1aNFIUCn6RUOQvw0M0ymA5K0yvGpdTONlsZ7UOhyq96X7RUfUQqAcs3BFd6zcS5M1nrPxD1XiiczUZLM/FFY2LK08U9Y+KcurhRypu2ZmKKzK60MSVnVjafJdCIUBCslKgWi9pAcIvE/27+aRcLHyRlEGJvCC4JmoEFwQtFUWAIVSEUhVIQUMsEQohFLVGVe2m2DhRlRYXoRKJ6weVTlRcq9lTFAzcUDVYNVw1XDUxRBcj6m2qpzpFtRFa9cpxOe2MZlIQWlFagYNlgFOVS1EAS2ahnBhDx9HdEwpgo2PiEq6kNq4mFUalnJ2qElUVURDLtci0qiWBUNej22Y2a9Gqn6FVYNKon8PUS54zynR0OHqLRpOWNw45iAtutWp0xDjfkNVzcyp0dLTXJWXa5UDki7iY2FvFUOOOx9EKxS9BzmvU0u0VHPS/aKM0/wCFmwW8h6rUSFdyPWaUpXMAkSO6fHx9J9VRBEeVvyJ4gC8OkgTEW5GCs3EZScsCU7UMgkci0aCSYvYaALIPvgdVfiRFIrVpgaBYeJae8ACYc02E7OvHougrwLlYGMguJHwKqxM9jfIlUqPMgk3F5aBbebJetTj6fumXEwQS7TQknQg6eqA9pibp5XESqBBcEdy8GgFsiZIt0ndeooToEKcRLcznaN5DmVV7BDu7BaRN+ZTJbD3lxECQQQbtJ2jfRUo0Ya4n8VgN4/MVtG7vIlC9CdGGA1QKlMDQr20JTTAwvZUTKpyo1E2wYarZVfKrBqYoguRQNVw1XDEQNRpAOR2THJvDCVn03J3DvgrjS6JJDr6MXU0wmmOBCDlukbjxZoRWhUYEUBAzUeCpVeSrOQXlYkaLVikapW1/AlzZCxcS2DCdjaYMlRFMWTXDsCajoSLasC6Z4fx0UrhuY+gTZKW17QVHczqaXBGtEmw3JSWJxmHZYHOf6dP+R+krB4hxyrXs50N/KLD0380o0TukQwzfM2UuGNdI3m8XP4e74a+qqMYSsppC6n2e4ZTqMFUnNcjLyI/MtybMa3NDccd32pimHa9+gtudh5rToUw3qef6I/EagENFgNhoku0U+5zV9AZJKLpDnaWUCuAk3VVTONSYGkxN9dPvVZ9MV9Q0TVkSlazo70xG6rRdtMwdfIFUxLgQZ0hejGmBPJaM6vWzOBJPjH9TgPBIdoDVPn69D5LR/hwBDqmU7gi0SSATzusTiFI03Bsh0tDgW6EEkfRXYqfCJez2OeZv7oMEc4+/gsmvcyAI5Sm61YuAZH7nZFxHDQGWu7n5aeCoi1Hs1NRqzNbhj7zhAh1v7Spqe7MeSap0nve1kQAZe63ujRo6m6vU4YRpUP8AcAflCPcvLC3q+WYjsEDfQctx0Qn4NvM+PLw6rVqYGoNC0+oSwbPh8zuUxD45W+mKuOYy6m0/NeLJuf8AHRMlqghEFuFSxVdTTJaoLUR7cI1KE9FUYdPZFBYiQX1GImkV4MTuRR2SYjfqCzG3V8qNk3UhGA5G9SKcpFZlF6fpOXFYMkaNGoQmWlIUinKRSJHkhqkE4xgSVMo4eUiQyKJrtSdW1zZJ8U48yn3W99/IaDxK5jGY6pVPfdb8osPRNx4pPsLY2dY72nYxpYwZnc9v3XH43G1HuLi435WVRZDLlTjxKLtDKSJBcdZRGSqtKK0poLYam0phspZqMHLAWHEroPY/iOSo6k42eLf7x+on0C5l1UplzCA14sbEH6oMkFOO1+T0G73Lwdhjq0uKXzpLC4vtG5jrofFGzKVQ28E0pWwrnLz5MeFrW3mSl3uVDVIESY5Tb0RbQbH21BEifQHS09NFV9S2axiIF/eOkgjS0pbDV4aZ2v8ANAr4yab3C0GnfxLhKxQd0LkymJrB2amHEvgukGAXNuWf1EjNdZ3Eqktou0mmR/xef1TVImrMNphxkZw2CAR33G8aHXqkMXixZrGsNNgysztkm93zYiTexGyqxxp18+f3PLsBh3EvaBrI+FzPktStXAimLvdYD72SOCoB3fDH040LHyDrMNqA/NNMY2hSqYoZqj/dGYAES4C4B0kgmNginTfzsDJTf/XuVxrhTZ2YNyJqO5DfwnbkFnHDPDc7Q4NibOIMc8qrw4uqvh4Lo77wYEuzSNY6W0gIlCjUbVFSoHAkkvJu0CDYEbaW8ExLbwMS2Wr57/J7A1XF0F2YFpI01BG/mlwyC4cnO+aJw0QadokERylpP0V67YqPHOD/ANR9ZR+TXxJr52LlirkTBaoLUSZu4WLFUsTWVQWokz24SqEN1Qm1gmK+HL5LWyRvYfNKuouBu1w8j806KTGxaaLhxN4srAjVS5+aws0alRr4bBEkYVN1drVIaitaisFyD0Cn6JSFG2qIeI0mavHgL/JcVlLi30bVAJprgLkwOq5et7RWim3zd+iz6uLqVPfcT029EvY2FHBLyddiOP0mWaS8/wBOnqsjG8bq1LA5G8m6+ZWZSokpylRARxxxQ3YoizKSM2im2sU9gU1IXKYGnS2VK2HhbWBwdtEtj2wYWp80IeTkyRQTWFoAmCYXsqiUTVhRym3huCteJp1GuI1bofKVSrwtzdWkeSy6dQtuDCep8aeGlrjmmLk6ATP30U0seRPh2WQz43w40K4yhAW9isCW0KZI1Y0+IIlJ4tgewOC36VFz8NTEEwwDwiyVlyNKL9x2GEd017HMcPq5Xlux+YWpnWfWwzmEktIU0K+ye1u5RxckluY456FUepfFom4m8TqRt4IcTIBi3MAdLm2/xWJAWQzERIN2nUforMxbqbnZCN80ixjRoHQE/FAax2YAthx0GhH9XhyP6JvFYUBstmQB1kD7K17emC66FcVxMlpaKTGF1nOb+Icoiyzqbczg3mQPLdTUch0quV7XciD5bp8YpLgYo0uDo8oAgWGwS5E0Kw5On0DHKKeOpvOVrpOsQR8wjsZLazBu0R4ua4fRT9dkTTj37fuKYBkNfViSbWEkhgsPGS5L03Gnhszi7MRPf1DnmAL8iUljaT2AOLXUyC2XAkCJv3m206qrcSaxFFr+0m+xDRpmc4a6/JUqHnwUfTvnx5/kGwtAue2NGEEnrs0KuMc11QkFwgBs5QWmJ6zvHki4mu2llwtOZjvHcCJufzH72VCGtF4A62RJ+Tyu7/oAAOzmu88p9HQpdI95pHlb1RTSBUCkR7pI8CQjtHtyFn4loIF777XVe0L3ljbBol7zo0IeOxBDoLWPgXzNE+GZsFExNQdjTLWANeXF4k3cCLEm5GvoExR69xu3rjsBiKpeQ2lmAbpFpB/E49V51SvT94mOsOE8pCKH5RIe1phohwIbmcA8yRrDS0DkrUKZyRkblJdJa7MIyyTqYuAmWkuuDzaS64KYhxfTa865iDGkoTWo2DbNJ7eUOChgRLi0ZdWiGtRWtUtaitascgJSOYxFQk3J9VRjEFtWUxTcuQkfQVQzRpp+hTStALTw9NMURU5BKbEyykjUKCfpYZa2kSzmLYbDrWw+AlDpUYWnhHREpOWb8E7dvk0+GcHAFwsT2l4NlOYLqaPFGNaub41xPtT0UWnlmeW/BTqfoxxJRfJz1Hh8o7+BgiWuv1TuHbZO06dldPLJdMhxuznaPAazjlaAT4rPrUC1xY4EOBgg6ghfROEgh08muIHMhpgLJxeA/jQatIRVaJeOYH1So6p7mpdep0oadzxbo9+gr7MYTtTkd7ov49F3fZhrA1oEAQI0C4r2axAbmGhsukbi481Fq4ylP2KdFqI48fPYrxBgdIcFyOIo5Hkaj9V0+KrzdYVWmXOJVWnuKORqpKU7QFptpYaA8vEboVQaQLHWYO5B22A+JTxowECANcwsfdIhwEuyuB8xN/BPUhILhrYeB/Q7/wBjtFpPCSwdMmpm6XjwgDw09Fohsocj+4Vk7OY4jh8joBttPLx0We887J/idYueZ0BIHgCky2GkgwdxFuQ8d/RWQuuSqHSsJwwTVbNxf1gwtpz3tOZhiYkESDEx8yszhFElxeRdsdPeBFwtVLyP7ifO/uAVuN5P9VkdWmZ/tN/iUrieL0W03VaIaXuIbZmU5oJBfYEgXKyOIuJqOnmQPAGAl2t7jwPzUz8Kg/8AoJ8cMasbHTQpP/AThzv5gc4yTMk6kkH6qmIrF5k+Q5DkvUyBM67eKGnpc2PpbrNzBPzMEaxHPSQCfRZ5xlQ2Bv4DX0UdqWQWmMzBPSCR9PivUqRGUkESbdfVZGKVtiVBJtlHGSZHTzTdNodhv9lX4OH6uQXU7kEf5RsFX7PM0sD2ugua7+mdPvkjl1wZN8cE06gLAwuaxwLe8WBwcAIvbWIH9oVMQWyBTFyMogWEm+UaybeCay4d2z6R6XH1+iu1rKQzNdnc6cp2A380G5J9P8Cd6T6f4+f+gcgpNy6vcO9yaOSExqM1m5udyrCmiujNxRrUZrV5rEVrUDkLlI+fUk9hwkaC0sM1RY0fTzZo4WmtrB0UhgWLouH4eUc3SI5sZwWFlalHBdE7wrhjnXiBzXQUMBAsPNcrPq1F0huLSymrOfZw6LlFHDib6BdGMIB480J9AhSfxTY56GuzlMXhSLBZNSlddviMKCJhYOJwkHRWYNRaObqNJKLszaTLJqk6ArOpoDrJze4njFxZpYOpBlaOAp02Cs6m3K40yTEmSM1wNtRZc8zEQiUuKljgR4RzB1Cly4m+jq6TOodmBwKqP4hmYFwzXDdT9mF1VaSTAtJjw2U8H4RTZVOJE6EsbsC6QZ6XWrg2Bz1mbUKUrXhBrSVGr7ZnM4Q91yrs4VBuF1IAVHtCk/ipMd/tuNcnFYjCxZZ1bD6+Dv8AxK7bF4QG4CQq8NnbUEeoIVePUquSDLo5J8HPYbDBjMx3ufAfZKxuJ4sl3dJAE6bzqV0fGMNeB7otHhquZxdKFbgal9zIZY9suTHeobWixCvWagk/eqvQyrNng8EPcN8s+UwhcZxeUBrTDjc+F1n0Mc+nIbF9ZE3StV5cSSZJ1KFY/utilh+/c+g+PaGBtMRIALzr3jtfT90rRAipaO6NLiz2bHz3XlfDNLi4CPcfJJAAlsNkmwl2UeaoSpDapAHi+sjn4KoCJWoOYQHgtO0ixtJhw1uSqlpH66j1TUaGoMkEj3mwfLQ/MKTLtSZXsFUyuk6EEHwKco1sggtE6tOoueaxtp9CZtpi1KmmmjX7+9AqWBPz2M/JEc7b1+/RY3YqTbPZQpDe6Ojj/wBh+y81EYLOHQH0P7rGxbZARGhQwIrWoGxbZAaitaoa1Ha1LkxTZwGD4TUJAykCdYJjrAuulw/sfiwY7KRs5pBa4bFrtwum4PUpzlcRIMQQu24RXDRlBkagdd4XNz6jJh6R9nCGPKuGzieFexte2YBvxXacK9nG0wM1z1/RbtNwIkK65ebXZcnD4KMejxRd9lGUgFdeXlEVJJHlEKV5eNKOphZnEsFIkLWUObNkcJuLsTlwxnGmcJVdBISWIeu4qcJpkyQgP4HTOy6UdZjONLQZfY+eV6p6pMYkhw1Xf4zgLIlY54MCCWgkc4VcNRjkiSePJjdNCw49DAAp4bxp2aSDCNS4MCdJUvwjWGDZBtxcpGy1GSk2dJhOJyJ2RTxAcx6rnKdQDR0KpxA5yp3pVYxf6i0qOiGOBMBMioIXM08YznHijjiOXRyCWmfgZDXr9Ro8QaDPgPkuR4rQGy16uPB3SVeoDuqcEJQJdRnjN2jlKoLSYGoIv15JN1MrpsVQbKTfQaunCaJVko59zFXItl9Fqp2LU5SC+qY7xAJRsRQPfpNHdpjPUJ/GR+LwEnKOUnWU/UotIR6jyxzHubLLPAI7ri6iGOl0Xi4jx5ot/oY8voZNHD1G07z2dSnUcwTImnDpy7WB9UqwRcWWyJP817iRD2sbOpc0tcGj8LQD8AEp2QTIS7v584PKfqKsHMelv2R6Y5HyNvvyKLTpXA5rSZgmDr46ei9LIkKnlSMvsptBHPz3hOUWhwMxM+fS6ehKPoQCTzS9+4S8m4WII15wjthtyO8RpyB5r1Ey4fd4sr0JiTuTJP3zRSZkmeaGnmPiEUNhQGc4noigaJbYqTPMajNCq1qM0JUmJkzH9rcFUw9efda4zTfs4fldyI0lRwb2me0gOOhTFLhOFoQ/iONNUi4pl5iejAS4+iy/aTiuErVm1MKxze7D5aGtdEZXNbqDFjPIdVDilv8Asdv3PvVlXDqn+59Y4NxrNTFQzlJhzvyu2McufXxW0zF7H/PVfMvZPjsltEkZT3YLgG32vZfQhWl1w21rZnaW0C5uowbJU0UZMipOLNVpUoTX+Pofmr5lCNTLLyiV4lYaSoKgvHT1QjiBIEtvaxvK2gXJIh1eDdL47FdmW1NWHuuj8PJ330VK7nbNqeXZfOUqa4INGpAD+60Oe1znEySIte1k6MV2Tym+h3HP7udt2lU4XimOaKVgRaDuOnVc7wnixovNCo17mSQf5bQ1ggmfekzawkonFqBpuBBlpuxw9deaa8VfY/5MT9X9aXs0auOwjqZzsuOS9QfSxAyuAndp1SnCvaJp/l1jbQPPyd+qtxnhZH82kTzBadPArOU9suH4ZjUa3QVryjP4v7MPEuw7pH5Ha+RXKYmrUpkteC13Vdvw/wBoD7laA7Z/4XdHcj1XuJto4xrmADtWi7TAeAdDbUciLFV4tTkg9uRWvUiy6TDNbsXD9D5y7Hm90I8ReN0binBn0iSLiSsZz114OMlaIPpo1m8TPNHZjid1z/aIjK0I9iPPGjcOLKh1UlZjMQmWVZXttC3Ggz5QnSiB6kiVqMFS873XqVd7ZyOsdWmC0+LTYotRiXcxNjT7PcM9UrOcZMaAAAQGgaBo2CqSpAUgJq4MdF6Du8PELSNdvMLJB5ojVkoWIyQTNQOUPEghL4Z+yM50JLjTJnGmLtEEHkfqjZSCeXwVGmUamOSKTNkwjL2hEAUNKI0JLYiTLNCK0KrQitCU2Jkz4vTfvufj4rY4VhX1TDRPXQDqSqv9mqtNoqVIAtoQfkt/g9UNAaBopcU3R91kkvB2nstwOnQDXuh9TmdG/wC0fX5LvKNOQHHc5rbht/nHouP9nqZrPazbVx5NGsfLzXXYzEtBLZLRZoy7AclBqpSlOr5Dwf8AFyYeiJvkqybmXwJPQOhMZNLAX5yeaSpVm/nefElPA+79fBRTTKoNMKG+Kh7fpuVdQUofRXL4eiDXbIIzx/tAm3qjsdIUEnkPVauzHyjHxuFa8doKFJ8gOPaWIkb906QsTEUSActPCUpHvEkkdRGWCugzZXlr4fM2i0HZcfxplOk8tOHa46i4Njpqr8HPHz9zn53XPz9guLwLMWzM0UX1W915zEMe9jZLbAiHWInTqhezXGmOH8FiOzaHEik1jv8ATge4J8yPMaQkMPj3seHCixlPRwEXvYwNUT2y4earDxCk2m12XvCLnKYzB35hHwCZJfpfXj2YEZX9y78+6K8bwz8O/K64/C4aOC0fZv2n7OKVW7Nt48P0+uq/s/xQY/D9hWH8xg1HMDUFczxGi6i8sO2hWJKa2T7Md43ugfSuL8HbUb2tKCCJtcEHcLlqrYIa8O7p7rmnLUpk6mm/bq02O43QPZj2sdh3Br5dSJ7w3aT+Jv1C7finCWV2drT3E8p/RCpPE9s+vDNljWRb8fflHKYyu4NDq5FRmjcQxsQeWIpi7T1C5riuEBdFgSMwIuCOYIsQugqtdScRto5p0cOqRxuFblLqVmmc1M6AnUtP4T1Cuwy2vj58/p+CDJy78nJYjDub4IIetHEvygZiS2SCdxyB/UctktVotd3mea6UJeoH5KMcj06iT0RGuTaAkjQp1Uyx6zWOTFOoscRMkPIbmKrXorSvJUKYuWKITTmoTmI4yMsAQrBqtlVgEywGyWFFmUMBEaEDFSLtCMwKjAitSpMRJhWhFYENqMwJMmIkwjQitCo0IrQlNiWf/9k=';
+@inject('fileStore')
+@observer
+class FileComponent extends React.Component {
 
-  render() {
-    return (
-			<Container>
-				  <Segment placeholder>
-					<Header icon> <Icon name='images'/>There are no image files!</Header>
-					<Button primary>Add File</Button>
-				</Segment>
-		</Container>
-    );
-  }
+	state = {
+		selectedImage: undefined
+	}
+
+	componentDidMount(){
+		this.props.fileStore.loadFiles();
+	}
+
+	handleFileClick = () => {
+		this.fileRef.click();
+	}	
+
+	handleFileInputChange = (e) => {
+		const {target} = e;
+		const selectedFile = target.files[0];
+		this.props.fileStore.formData.append('file', selectedFile);
+		this.props.fileStore.upload();
+	}
+
+	handleSelectedImage = (id)=> {
+		this.setState({selectedImage: id});
+	}
+
+
+	render() {
+		const {files} = this.props.fileStore;
+		const {selectedImage} = this.state;
+		return (
+				<Fragment>
+					<input onChange={this.handleFileInputChange} style={{display: 'none'}} type='file' ref={(ref) => this.fileRef = ref} />
+					{files.length > 0 ? 
+					<Container>
+						<Button negative floated='right' onClick={this.handleDelete}>Delete</Button>
+						<Button primary floated='right' onClick={this.handleFileClick}>Add File</Button>
+						<Header as='h1'>Files</Header>
+						<Divider clearing/>
+						<Segment>
+							<Grid columns={5}>
+								{files.map((file, id) => (
+									<Grid.Column key={id}>
+										<Segment onClick={() => this.handleSelectedImage(id)} color= {selectedImage == id ? 'blue' : ''}>
+											<Image  src={src}/>
+										</Segment>
+									</Grid.Column>
+								))}		
+							</Grid>
+						</Segment>
+					</Container>
+					:
+					<Segment placeholder>
+						<Header icon> <Icon name='images'/>There are no image files!</Header>
+						<Button onClick={this.handleFileClick} primary>Add File</Button>
+					</Segment>
+					}
+			</Fragment>
+		);
+	}
 }
+
+export default FileComponent;

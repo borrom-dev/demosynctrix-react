@@ -150,6 +150,18 @@ class backendStore {
 		}))
 		.finally(action(()=> this.isLoading = false))
 	}
+
+	@action
+	updateTopicStatus(topic){
+		this.isLoading = true;
+		topic['status'] = !topic.status;
+		service.updateTopic(topic)
+		.then(action((res) => {
+			const indexOf = this.topics.findIndex(x => x.id === res.data.id);
+			this.topics[indexOf] = res.data;
+		}))
+		.finally(action(() => this.isLoading = false));
+	}
 }
 
 export default new backendStore();

@@ -4,7 +4,6 @@ import {AdminRoute, FrontendRoute} from './routes';
 import DashboardPage from './auth/DashboardPage';
 import TopicComponent from './auth/topic/TopicComponent';
 import LoginPage from './login/LoginPage';
-import RegisterPage from './register/RegisterPage';
 import {PageNotFound } from './component';
 import FileComponent from './auth/file/FileComponent';
 import UsersComponent from './auth/user/UsersComponent';
@@ -36,7 +35,6 @@ class App extends React.Component {
     return(
         <Switch>
           <Route exact path='/login' component={LoginPage}/>
-          <Route exact path='/register' component={RegisterPage}/>
           <AdminRoute exact path='/dashboard' component={DashboardPage}/>
           <AdminRoute exact path='/dashboard/users' component={UsersComponent}/>
           <AdminRoute exact path='/dashboard/new-user' component={NewUserComponent}/>

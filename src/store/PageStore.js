@@ -12,7 +12,7 @@ class PageStore {
 	@action
 	getPages(){
 		this.isLoading = true;
-		service.getPages()
+		service.getActivePages()
 		.then(action((res)=> {
 			this.topics = res.data;
 		}))

@@ -11,14 +11,14 @@ const api = {
 	get_free,
 	put,
 	destroy,
+	upload
 }
 
 const shouldLogout = (error) => {
-	console.log(error);
-	// const {status} = error.response;
-	// if(status && status === 401){
-		// localStorage.removeItem('token');	
-	// }
+	const {status} = error.response;
+	if(status && status === 401){
+		localStorage.removeItem('token');	
+	}
 	return Promise.reject(error);
 }
 
@@ -43,6 +43,13 @@ function put(url, data) {
 function destroy(url, data){
 	const {headers} = authHeader();
 	return client.delete(url, {headers, data})
+	.catch(shouldLogout)
+}
+
+function upload(url, formUrl){
+	const {headers} = authHeader();
+	headers['\'Content-Type\'']  = 'multipart/form-data'
+	return client.post(url, formUrl, {headers})
 	.catch(shouldLogout)
 }
 
