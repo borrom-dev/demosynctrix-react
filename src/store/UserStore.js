@@ -8,6 +8,7 @@ class UserStore {
 
 	@action
 	loadUsers(){
+		this.isLoading = true;
 		Service.getUsers()
 		.then(action((res)=> {
 			this.users = res.data;
