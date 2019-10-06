@@ -1,4 +1,21 @@
+
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
+
+p {
+  font-size: 18px;
+  line-height:  28px;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+li {
+    font-size: 18px;
+    line-height: 28px;
+}
+
 blockquote { 
   font-size: 0.9 em;
   font-family:Open Sans;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import {authHeader} from '../helper';
 
 const client = axios.create({
-	baseURL: 'localhost:8080',
+	baseURL: 'http://localhost:8080',
 })
 
 const api = {

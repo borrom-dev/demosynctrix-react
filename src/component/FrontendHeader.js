@@ -2,7 +2,6 @@ import React from 'react';
 import {Menu, Container, Header, Visibility} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import './style.css'
 
 const menuStyle = {
   border: 'none',
