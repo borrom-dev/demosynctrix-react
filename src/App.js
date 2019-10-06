@@ -21,7 +21,7 @@ import HomeComponent from './frontend/HomeComponent';
 import './style.css'
 
 
-@inject('pageStore', 'authStore')
+@inject('pageStore')
 @observer
 class App extends React.Component {
 
@@ -29,6 +29,7 @@ class App extends React.Component {
     this.props.pageStore.getPages()
   }
   render(){
+    const {isLoading} = this.props.pageStore;
     return(
         <Switch>
           <Route exact path='/login' component={LoginPage}/>
@@ -45,9 +46,15 @@ class App extends React.Component {
           <AdminRoute exact path='/dashboard/files' component={FileComponent}/>
           <FrontendRoute exact path='/articles/:id/:slug' component = {BlogComponent}/>
           <FrontendRoute exact path='/' component = {HomeComponent}/>
-            {this.props.pageStore.topics.map((topic, id) => (
-              <FrontendRoute exact key={id} path={topic.url} topic={topic} component={FrontendComponent}/>
-            ))}
+          { isLoading 
+          ? <>
+            </>
+          : <>
+              {this.props.pageStore.topics.map((topic, id) => (
+                <FrontendRoute exact key={id} path={topic.url} topic={topic} component={FrontendComponent}/>
+              ))}
+            </>
+          }
           <FrontendRoute component = {PageNotFound}/>
         </Switch>
     )
