@@ -32,7 +32,7 @@ class  FrontendHeader extends React.Component {
 		const { menuFixed } = this.state
 	return(
 			<div>
-			   <Container style={{margin: '2em'}}>
+			   <Container style={{marginTop: '1.5em'}}>
 				<Link to='/'><h1>Demotrix</h1></Link>
 				<blockquote>
 				Creativity is just connecting things. When you ask creative people how they did something, they feel a little guilty because they didn't really do it, they just saw something. It seemed obvious to them after a while. That's because they were able to connect experiences they've had and synthesize new things.

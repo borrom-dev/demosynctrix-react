@@ -27,7 +27,7 @@ blockquote {
   position: relative;
 }
 
-blockquote::before{
+blockquote::before {
   font-family:Arial;
   content: "\201C";
   color:#78C0A8;
@@ -41,10 +41,52 @@ blockquote::after{
   content: '';
 }
 
-blockquote span{
+blockquote span {
   display:block;
   color:#333333;
   font-style: normal;
   font-weight: bold;
   margin-top:1em;
+}
+
+@media only screen and (max-width: 991px) {
+ 
+  .ui.container {
+    margin: 0;
+    width: 100%;
+    padding: 1rem 1rem 0 1em !important;
+  }
+
+  .ui.text.container {
+    font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+    line-height: 1.5;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 1.14285714rem;
+  }
+
+  html {
+    font-size: 1.6rem;
+  }
+
+  p {
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+  }
+
+  blockquote {
+    font-size: 1.2rem;
+    margin-bottom: 0 !important;
+  }
+
+  blockquote::before {
+    left: -25px;
+    top:-55px;
+    font-size: 4rem;
+  }
+
+  .ui.menu {
+    font-size: 1.2rem;
+  }
+
 }
