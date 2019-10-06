@@ -3,7 +3,7 @@ import {Form, Container, Button, TextArea, Segment, Menu, Select, Divider, Input
 import { inject, observer } from 'mobx-react';
 import ReactMarkdown  from 'react-markdown';
 import CodeBlock from '../../component/CodeBlock';
-import {Link} from 'react-router-dom';
+import InlineCode from '../../component/InlineCode';
 
 @inject('newArticleStore')
 @observer
@@ -125,7 +125,7 @@ class NewArticleComponent extends React.Component {
                             <Segment style={{minHeight: 400}}>
                                 <ReactMarkdown
                                 source={currentArticle.body}
-                                renderers={{code: CodeBlock}}
+                                renderers={{code: CodeBlock, inlineCode: InlineCode}}
                                 escapeHtml={false}
                                 />
                             </Segment>

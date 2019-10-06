@@ -19,6 +19,7 @@ import EditTopicComponent from './auth/topic/EditTopicComponent';
 import EditUserComponent from './auth/user/EditUserComponent';
 import NewUserComponent from './auth/user/NewUserComponent';
 import HomeComponent from './frontend/HomeComponent';
+import './style.css'
 
 
 @inject('pageStore', 'authStore')

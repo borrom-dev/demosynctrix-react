@@ -18,10 +18,10 @@ class HomeComponent extends React.Component {
 					<Item style={{marginTop: '15px'}} key={id}>
 						<Item.Content>
 							<Item.Header as='h1'>
-								<Link to={`/articles/${article.id}/${article.slug}`}>{article.title}</Link>
+								<Link to={`/articles/${article.id}${article.slug}`}>{article.title}</Link>
 							</Item.Header>
 							<Item.Meta><span style={{fontSize: 14}}>{article.create_at}</span></Item.Meta>
-							<Item.Description><p style={{fontSize: 18}}>{article.description}</p> </Item.Description>
+							<Item.Description><p>{article.description}</p> </Item.Description>
 						</Item.Content>
 					</Item>
 				))}
