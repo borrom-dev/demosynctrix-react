@@ -8,7 +8,8 @@ import {
 	Container,
 	Button,
 	Segment,
-	Icon
+	Icon,
+	Loader
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 import {Link} from 'react-router-dom';
@@ -37,7 +38,7 @@ class PageComponent extends React.Component {
 	}
 
 	render(){
-		const {topics} = this.props.backendStore;
+		const {topics, isLoading} = this.props.backendStore;
 		return(
 			<Container>
 				 <Header as='h1' floated='left'>Topic</Header>
@@ -45,24 +46,27 @@ class PageComponent extends React.Component {
 				 	<Button positive floated='right'>New</Button>
 				 </Link>
 			<Divider clearing />
-				<Grid columns={2}>
-				{topics.map((topic, id) => (
-					<GridColumn>
-						<Segment clearing>
-							<Item>
-								<Item.Content>
-									<Item.Header as='h1'><Icon name='checkmark' color={topic.status ? 'blue' : 'grey'}/> {topic.name}</Item.Header>
-									<Item.Description>{topic.content}</Item.Description>
-									<Link to={`/dashboard/edit-topic/${topic.id}`}>
-										<Button primary floated='right' size='mini'>Edit</Button>
-									</Link>
-									<Button onClick={() => this.handleStatus(topic)} positive floated='right' size='mini'>{topic.status ? 'hide' : 'show'}</Button>
-								</Item.Content>
-							</Item>
-						</Segment>
-					</GridColumn>
-				))}
-				</Grid>
+				{isLoading
+				 ? <Loader active/>
+				 : <Grid columns={2}>
+					{topics.map((topic, id) => (
+						<GridColumn>
+							<Segment clearing>
+								<Item>
+									<Item.Content>
+										<Item.Header as='h1'><Icon name='checkmark' color={topic.status ? 'blue' : 'grey'}/> {topic.name}</Item.Header>
+										<Item.Description>{topic.content}</Item.Description>
+										<Link to={`/dashboard/edit-topic/${topic.id}`}>
+											<Button primary floated='right' size='mini'>Edit</Button>
+										</Link>
+										<Button onClick={() => this.handleStatus(topic)} positive floated='right' size='mini'>{topic.status ? 'hide' : 'show'}</Button>
+									</Item.Content>
+								</Item>
+							</Segment>
+						</GridColumn>
+					))}
+					</Grid>
+				}
 			</Container>
 		)
 	}

@@ -10,7 +10,8 @@ import {
 	Radio,
 	Pagination,
 	Segment,
-	Label
+	Label,
+	Loader
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 import {Link} from 'react-router-dom';
@@ -29,31 +30,33 @@ class ArticlesComponent extends React.Component {
 	}
 
 	render(){
-		const {articles} = this.props.backendStore;
+		const {articles, isLoading} = this.props.backendStore;
 		return(
 			<Container>
 			<Header as='h1' floated='left'>Article</Header>
 			<Link to='/dashboard/new-article'><Button positive floated='right'>New</Button>
 			</Link>
 			<Divider clearing />
+			{isLoading ? <Loader active/> :
 				<Grid columns={2}>
-				{articles.data.map((article, id) => (
-					<GridColumn key={id}>
-						<Segment clearing>
-							<Item>
-								<Header as='h1'><Link to={`/articles/${article.id}${article.slug}`}>{article.title}</Link></Header>
-								<Item.Description>{article.description}</Item.Description>
-								<Item.Meta style={{marginTop: 15}}>
-									<Button size='mini' positive floated='right' onClick={() => {
-										this.props.history.push(`/dashboard/edit-article/${article.id}`)
-									}}>Edit</Button>
-									<Button size='mini' primary onClick={() => this.publish(article)} floated='right'>{article.published ? 'draft' : 'go live'}</Button>
-								</Item.Meta>
-							</Item>
-						</Segment>
-					</GridColumn>
-				))}
+					{articles.data.map((article, id) => (
+						<GridColumn key={id}>
+							<Segment clearing>
+								<Item>
+									<Header as='h1'><Link to={`/articles/${article.id}${article.slug}`}>{article.title}</Link></Header>
+									<Item.Description>{article.description}</Item.Description>
+									<Item.Meta style={{marginTop: 15}}>
+										<Button size='mini' positive floated='right' onClick={() => {
+											this.props.history.push(`/dashboard/edit-article/${article.id}`)
+										}}>Edit</Button>
+										<Button size='mini' primary onClick={() => this.publish(article)} floated='right'>{article.published ? 'draft' : 'go live'}</Button>
+									</Item.Meta>
+								</Item>
+							</Segment>
+						</GridColumn>
+					))}
 				</Grid>
+			}
 			</Container>
 		)
 	}

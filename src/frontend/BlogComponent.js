@@ -25,7 +25,7 @@ class BlogTemplate extends React.Component {
 		return(<Container>
 			{
 			 	isLoading  ?
-			 	<Loader/> : 	
+			 	<Loader active/> : 	
 				<ReactMarkdown
 				source={currentArticle.body}
 				escapeHtml={false}
