@@ -4,7 +4,8 @@ import {
 	Container,
 	Table,
 	Divider,
-	Button
+	Button,
+	Loader
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 import {Link} from 'react-router-dom';
@@ -30,8 +31,8 @@ class UsersComponent extends React.Component {
 	}
 
 	render(){
-		const {users} = this.props.userStore;
-		const {open, username, selectedId} = this.state;
+		const {users, isLoading} = this.props.userStore;
+		const {selectedId} = this.state;
 		return(
 			<Container>
 				 <Link to='/dashboard/new-user'>
@@ -42,24 +43,29 @@ class UsersComponent extends React.Component {
 				 </Link>
 				 <Header as='h1' style={{marginTop: 20}}>Users</Header>
                  <Divider clearing/>
-				<Table celled>
-					<Table.Header>
-					<Table.Row>
-						<Table.HeaderCell>Name</Table.HeaderCell>
-						<Table.HeaderCell>Email</Table.HeaderCell>
-						<Table.HeaderCell>Status</Table.HeaderCell>
-					</Table.Row>
-					</Table.Header>
-					<Table.Body>
-						{users.map((user, id) => (
-						    <Table.Row warning={ selectedId === user.id} onClick={() => {this.setState({selectedId: user.id})}}>
-								<Table.Cell>{user.username}</Table.Cell>
-								<Table.Cell>{user.email}</Table.Cell>
-								<Table.Cell>Active</Table.Cell>
-						    </Table.Row>
-						))}
-					</Table.Body>
-				</Table>
+				 {isLoading
+				  ?
+					<Loader active/>
+				  :
+					<Table celled>
+						<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell>Name</Table.HeaderCell>
+							<Table.HeaderCell>Email</Table.HeaderCell>
+							<Table.HeaderCell>Status</Table.HeaderCell>
+						</Table.Row>
+						</Table.Header>
+						<Table.Body>
+							{users.map((user, id) => (
+								<Table.Row warning={ selectedId === user.id} onClick={() => {this.setState({selectedId: user.id})}}>
+									<Table.Cell>{user.username}</Table.Cell>
+									<Table.Cell>{user.email}</Table.Cell>
+									<Table.Cell>Active</Table.Cell>
+								</Table.Row>
+							))}
+						</Table.Body>
+					</Table>
+				 }
 			</Container>
 		)
 	}

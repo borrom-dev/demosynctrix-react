@@ -10,7 +10,6 @@ import UsersComponent from './auth/user/UsersComponent';
 import ArticleComponent from './auth/article/ArticleComponent';
 import FrontendComponent from './frontend/FrontendComponent';
 import { inject, observer } from 'mobx-react';
-import {Loader} from 'semantic-ui-react';
 import BlogComponent from './frontend/BlogComponent';
 import NewArticleComponent from './auth/article/NewArticleComponent';
 import EditArticleComponent from './auth/article/EditArticleComponent';
@@ -30,10 +29,6 @@ class App extends React.Component {
     this.props.pageStore.getPages()
   }
   render(){
-    const {isLoading} = this.props.pageStore;
-    if(isLoading){
-      return (<Loader style={{marginTop: '4em'}} active inline='centered'/>)
-    }
     return(
         <Switch>
           <Route exact path='/login' component={LoginPage}/>
