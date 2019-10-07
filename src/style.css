@@ -1,8 +1,8 @@
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
 
-.fronted-header {
-  margin-top: 2em;
+ #fronted-header {
+  margin-top: 1.2rem;
 }
 
 p {

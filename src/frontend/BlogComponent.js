@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import {Container, Loader} from 'semantic-ui-react';
+import { Loader} from 'semantic-ui-react';
+import {Helmet} from 'react-helmet';
 import ReactMarkdown from 'react-markdown';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import CodeBlock from '../component/CodeBlock';
@@ -22,18 +23,21 @@ class BlogTemplate extends React.Component {
 
 	render(){
 		const {currentArticle, isLoading} = this.props.articleStore;
-		return(<Container>
+		return(<>
+		<Helmet>
+			<title>{currentArticle.title}</title>
+		</Helmet>
 			{
-			 	isLoading  ?
-			 	<Loader active/> : 	
-				<ReactMarkdown
+			isLoading
+			?  <Loader active/> 
+			:  <ReactMarkdown
 				source={currentArticle.body}
 				escapeHtml={false}
 				renderers={{code: CodeBlock, inlineCode: InlineCode}}
 				astPlugins={[parseHtml]}
 				/>
 			}
-		</Container>);
+		</>);
 	}
 }
 
