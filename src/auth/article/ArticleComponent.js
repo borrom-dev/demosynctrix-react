@@ -38,13 +38,13 @@ class ArticlesComponent extends React.Component {
 		return(
 			<Container>
 			<Grid>
-				<Grid.Column width={2} >
+				<Grid.Column width={3} >
 					<Header as='h1' floated='left'>Article</Header>
 				</Grid.Column>
-				<Grid.Column width={9}>
+				<Grid.Column width={4} verticalAlign='middle'>
 					<Search showNoResults={false} floated='left'/>
 				</Grid.Column>
-				<Grid.Column width={5}>
+				<Grid.Column width={9}>
 				<Link to='/dashboard/new-article'><Button positive floated='right'>New</Button></Link>
 				</Grid.Column>
 			</Grid>	
