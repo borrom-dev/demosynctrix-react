@@ -1,14 +1,41 @@
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
 
+.fronted-header {
+  margin-top: 2em;
+}
+
 p {
-  font-size: 18px;
-  line-height:  28px;
+  font-size: 1.4rem;
+  line-height: 2.3rem;
   display: block;
   margin-block-start: 1em;
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+}
+
+h1 {
+  font-size: 2.8rem;
+}
+
+h2 {
+  font-size: 2.6rem;
+}
+
+h3 {
+  font-size: 2.5rem;
+}
+
+h4, h5, h6 {
+  font-size: 2.3rem;
+}
+.description {
+  line-height: 1.6rem;
+}
+
+.ui.menu {
+  font-size: 1.2rem;
 }
 
 li {
@@ -17,7 +44,7 @@ li {
 }
 
 blockquote { 
-  font-size: 0.9 em;
+  font-size: 1.2rem;
   font-family:Open Sans;
   font-style:italic;
   color: #555555;
@@ -27,24 +54,45 @@ blockquote {
   position: relative;
 }
 
-blockquote::before{
+blockquote::before {
   font-family:Arial;
   content: "\201C";
   color:#78C0A8;
   font-size:4em;
   position: absolute;
-  left: 0px;
-  top:-30px;
+  left: -1rem;
+  top:-2rem;
 }
 
 blockquote::after{
   content: '';
 }
 
-blockquote span{
+blockquote span {
   display:block;
   color:#333333;
   font-style: normal;
   font-weight: bold;
   margin-top:1em;
+}
+
+@media only screen and (max-width: 991px) {
+ 
+  .ui.container {
+    margin: 0;
+    width: 100% !important;
+    padding: 1rem 1rem 0 1em !important;
+  }
+
+  .ui.text.container {
+    max-width: 100% !important;
+  }
+
+  html {
+    font-size: 1.6rem;
+  }
+  
+  blockquote {
+    margin-bottom: 0 !important;
+  }
 }

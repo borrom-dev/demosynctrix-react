@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Container, Grid, Header, Loader, Item } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
 @inject('frontendStore')
 @observer
@@ -14,12 +15,18 @@ class BlogPostTemplate extends React.Component {
 
 	render(){
 		const {articles, isLoading} = this.props.frontendStore;
+		const {topic} = this.props;
 		const {data} = articles;
 		return(
+			<>
+			<Helmet>
+				<meta charSet="utf-8" />
+				<title>{`${topic.name} Tutorial | Demotrix`}</title>
+			</Helmet>
 			<Container>
 				{ isLoading
-				  ? <Loader/>
-				  :  data.map((article, id) => (
+				? <Loader/>
+				:  data.map((article, id) => (
 						<Item style={{marginTop: '15px'}} key={id}>
 							<Item.Content>
 								<Item.Header as='h1'>
@@ -31,7 +38,8 @@ class BlogPostTemplate extends React.Component {
 						</Item>
 					))
 				}	
-		   </Container>
+			</Container>
+		   </>
 		);
 	}
 }
