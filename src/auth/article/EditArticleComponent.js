@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import ReactMarkdown  from 'react-markdown';
 import CodeBlock from '../../component/CodeBlock';
 import InlineCode from '../../component/InlineCode';
+import AdsenseComponent from '../../component/AdsenseRender';
 
 @inject('editArticleStore')
 @observer

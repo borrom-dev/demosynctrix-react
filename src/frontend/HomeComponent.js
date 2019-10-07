@@ -12,8 +12,7 @@ class HomeComponent extends React.Component {
 	}
 	render(){
 		const {articles} = this.props.frontendStore;
-		return(
-			<Container>
+		return(<>
 				{articles.data.map((article, id) => (
 					<Item style={{marginTop: '15px'}} key={id}>
 						<Item.Content>
@@ -25,8 +24,7 @@ class HomeComponent extends React.Component {
 						</Item.Content>
 					</Item>
 				))}
-			</Container>
-			);
+			</>);
 	}
 }
 
