@@ -45,7 +45,7 @@ class EditArticleComponent extends React.Component {
         return(
             <Container>
                 <Button negative floated='right' type='submit'>Delete</Button>
-                <Button positive floated='right' onClick={() => this.props.history.push('/dashboard/new-article')}>New</Button>
+                <Button primary floated='right' onClick={() => this.props.history.push('/dashboard/new-article')}>New</Button>
                 <Header as='h1'>Edit Article</Header>
                 <Divider clearing/>
                 {isLoading ? <Loader active inline='centered'/> :

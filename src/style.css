@@ -38,6 +38,10 @@ h4, h5, h6 {
   font-size: 1.2rem;
 }
 
+.ui.table {
+  font-size: 1.2rem;
+}
+
 li {
     font-size: 18px;
     line-height: 28px;
@@ -91,8 +95,13 @@ blockquote span {
   html {
     font-size: 1.6rem;
   }
-  
+
   blockquote {
     margin-bottom: 0 !important;
   }
+  
+  .ui.table {
+    font-size: 0.8rem;
+  }
+
 }
