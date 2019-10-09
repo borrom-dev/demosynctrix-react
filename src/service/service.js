@@ -9,7 +9,7 @@ const Service = {
 	getHomeArticle: () => api.get('/articles/published_recent'),
 	saveArticle: (article) => api.post(`/articles/${article.topic_id}`, article),
 	getAllPostByTopic: (id) => api.get_free(`/articles/published/${id}?page=0&size=20`),
-	getAllArticles: (currentPage) => api.get_free(`/articles?page=${currentPage}&size=10`),
+	getAllArticles: (currentPage) => api.get_free(`/articles?page=${currentPage}&size=20`),
 	updateArticle: (article) => api.put(`/articles/${article.topic_id}`, article),
 	deleteArticle: (article) => api.destroy('/articles', article),
 	getArticleById: (id) => api.get(`/articles/id/${id}`),

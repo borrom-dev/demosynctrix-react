@@ -7,7 +7,8 @@ import {
 	Loader,
 	Table,
 	Input,
-	Label
+	Label,
+	Item
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 
@@ -54,12 +55,12 @@ class ArticlesComponent extends React.Component {
 					<Table.Row>
 						<Table.HeaderCell colSpan={3} >
 							<Label as='h3' size='large' color='blue' ribbon>Articles</Label>
-							<Input  floated/>
-							<Button floated='right' primary onClick={() => this.navigateTo("new-article")}>New</Button>
-							<Button disabled={selected === undefined} onClick={() => {
+							<Input size='small' floated/>
+							<Button size='small' floated='right' primary onClick={() => this.navigateTo("new-article")}>New</Button>
+							<Button size='small' secondary disabled={selected === undefined} onClick={() => {
 								this.props.history.push(`/articles/${selected.id}${selected.slug}`)
-							}} color='twitter' floated='right'>Preview</Button>
-							<Button onClick={() => this.navigateTo(`edit-article/${selected.id}`)} disabled={selected === undefined} positive floated='right'>Edit</Button>
+							}} floated='right'>Preview</Button>
+							<Button positive size='small' onClick={() => this.navigateTo(`edit-article/${selected.id}`)} disabled={selected === undefined} floated='right'>Edit</Button>
 						</Table.HeaderCell>
 					</Table.Row>
 				</Table.Header>
