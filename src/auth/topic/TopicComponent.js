@@ -2,14 +2,16 @@ import React from 'react'
 import {
 	GridColumn,
 	Item,
-	Grid,
+	Label,
+	Input,
 	Header,
 	Divider,
 	Container,
 	Button,
 	Segment,
 	Icon,
-	Loader
+	Loader,
+	Table
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 import {Link} from 'react-router-dom';
@@ -21,7 +23,8 @@ class PageComponent extends React.Component {
 	state = {
 		open: false,
 		value: '',
-		tab: 'write'
+		tab: 'write',
+		selected: undefined
 	}
 	componentDidMount(){
 		this.props.backendStore.getTopics();
@@ -37,8 +40,17 @@ class PageComponent extends React.Component {
 		this.props.backendStore.updateTopicStatus(topic);
 	}
 
+	navigateTo = (url) => {
+		this.props.history.push(`/dashboard/${url}`);
+	}
+
+	handleCellClick = (value) => {
+		this.setState({selected: value});
+	}
+
 	render(){
 		const {topics, isLoading} = this.props.backendStore;
+		const {selected} = this.state;
 		return(
 			<Container>
 				 <Header as='h1' floated='left'>Topic</Header>
@@ -48,24 +60,29 @@ class PageComponent extends React.Component {
 			<Divider clearing />
 				{isLoading
 				 ? <Loader active/>
-				 : <Grid columns={2}>
-					{topics.map((topic, id) => (
-						<GridColumn>
-							<Segment clearing>
-								<Item>
-									<Item.Content>
-										<Item.Header as='h1'><Icon name='checkmark' color={topic.status ? 'blue' : 'grey'}/> {topic.name}</Item.Header>
-										<Item.Description>{topic.content}</Item.Description>
-										<Link to={`/dashboard/edit-topic/${topic.id}`}>
-											<Button primary floated='right' size='mini'>Edit</Button>
-										</Link>
-										<Button onClick={() => this.handleStatus(topic)} positive floated='right' size='mini'>{topic.status ? 'hide' : 'show'}</Button>
-									</Item.Content>
-								</Item>
-							</Segment>
-						</GridColumn>
-					))}
-					</Grid>
+				 : <Table celled selectable>
+						<Table.Header>
+							<Table.Row>
+								<Table.HeaderCell colSpan={3} >
+									<Label as='h3' size='large' color='blue' ribbon>Articles</Label>
+									<Input floated/>
+									<Button size='small' floated='right' primary onClick={() => this.navigateTo("new-topic")}>New</Button>
+									<Button size='small' secondary disabled={selected === undefined} onClick={() => {
+										this.props.history.push(`/${selected.name}`)
+									}} floated='right'>Preview</Button>
+									<Button positive size='small' onClick={() => this.navigateTo(`edit-topic/${selected.id}`)} disabled={selected === undefined} floated='right'>Edit</Button>
+								</Table.HeaderCell>
+							</Table.Row>
+					</Table.Header>
+					<Table.Body>
+						{topics.map((topic, id) => (
+							<Table.Row active={selected ? topic.id === selected.id : false} primary onClick={() => this.handleCellClick(topic)} key={id}>					
+								<Table.Cell collapsing>{topic.name}</Table.Cell>
+								<Table.Cell>{topic.url}</Table.Cell>
+							</Table.Row>
+						))}
+					</Table.Body>
+					</Table>
 				}
 			</Container>
 		)

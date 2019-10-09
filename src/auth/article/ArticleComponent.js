@@ -1,27 +1,29 @@
 import React from 'react'
 import {
-	Grid,
-	GridColumn,
 	Header,
-	Container,
 	Button,
-	Item,
 	Divider,
 	Pagination,
-	Segment,
-	Search,
-	Loader
+	Loader,
+	Table,
+	Input,
+	Label,
+	Item
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
-import {Link} from 'react-router-dom';
 
 
 @inject('backendStore', 'pageStore')
 @observer
 class ArticlesComponent extends React.Component {
 
+	state = {
+		selected: undefined,
+		activePage: 1
+	}
 	componentDidMount(){
-		this.props.backendStore.getArticles(0);
+		const {active} = this.state;
+		this.props.backendStore.getArticles(active - 1);
 	}
 
 	publish = (article)=> {
@@ -31,59 +33,68 @@ class ArticlesComponent extends React.Component {
 	handlePageChnage = (e, data) => {
 		const {activePage} = data;
 		this.props.backendStore.getArticles(activePage - 1);
+		this.setState({activePage: data.activePage});
+	}
+
+	handleCellClick = (value) => {
+		this.setState({selected: value});
+	}
+
+	navigateTo = (url) => {
+		this.props.history.push(`/dashboard/${url}`);
 	}
 
 	render(){
 		const {articles, isLoading} = this.props.backendStore;
+		const {selected, activePage} = this.state; 
 		return(
-			<Container>
-			<Grid>
-				<Grid.Column width={3} >
-					<Header as='h1' floated='left'>Article</Header>
-				</Grid.Column>
-				<Grid.Column width={4} verticalAlign='middle'>
-					<Search showNoResults={false} floated='left'/>
-				</Grid.Column>
-				<Grid.Column width={9}>
-				<Link to='/dashboard/new-article'><Button positive floated='right'>New</Button></Link>
-				</Grid.Column>
-			</Grid>	
-			
-			<Divider clearing inverted/>
-			{isLoading
-			 ?
-			<Loader active inline='centered'/>
-			 :
-			<Grid columns={2}>
-				{articles.data.map((article, id) => (
-					<GridColumn key={id}>
-						<Segment clearing>
-							<Item>
-								<Header as='h1'><Link to={`/articles/${article.id}${article.slug}`}>{article.title}</Link></Header>
-								<Item.Description>{article.description}</Item.Description>
-								<Item.Meta style={{marginTop: 15}}>
-									<Button size='mini' positive floated='right' onClick={() => {
-										this.props.history.push(`/dashboard/edit-article/${article.id}`)
-									}}>Edit</Button>
-									<Button size='mini' primary onClick={() => this.publish(article)} floated='right'>{article.published ? 'draft' : 'go live'}</Button>
-								</Item.Meta>
-							</Item>
-						</Segment>
-					</GridColumn>
-				))}
-			</Grid>
+			<>
+			{isLoading ? <Loader inline='centered' active/> :	
+			<Table celled selectable>
+				<Table.Header>
+					<Table.Row>
+						<Table.HeaderCell colSpan={3} >
+							<Label as='h3' size='large' color='blue' ribbon>Articles</Label>
+							<Input size='small' floated/>
+							<Button size='small' floated='right' primary onClick={() => this.navigateTo("new-article")}>New</Button>
+							<Button size='small' secondary disabled={selected === undefined} onClick={() => {
+								this.props.history.push(`/articles/${selected.id}${selected.slug}`)
+							}} floated='right'>Preview</Button>
+							<Button positive size='small' onClick={() => this.navigateTo(`edit-article/${selected.id}`)} disabled={selected === undefined} floated='right'>Edit</Button>
+						</Table.HeaderCell>
+					</Table.Row>
+				</Table.Header>
+
+				<Table.Body>
+					{articles.data.map((article, id) => (
+						<Table.Row active={selected ? article.id === selected.id : false} primary onClick={() => this.handleCellClick(article)} key={id}>
+							<Table.Cell collapsing>{article.published ? <Label ribbon color='blue'>Live</Label> : ''} {article.title}</Table.Cell>
+							<Table.Cell>{article.slug}</Table.Cell>
+							<Table.Cell collapsing>{article.create_at}</Table.Cell>
+						</Table.Row>
+					))}
+				</Table.Body>
+
+				<Table.Footer>
+					<Table.Row>
+						<Table.HeaderCell colSpan='3'>
+							<Pagination
+								floated='right'
+								defaultActivePage={1}
+								activePage={activePage}
+								firstItem={null}
+								lastItem={null}
+								siblingRange={1}
+								onPageChange={this.handlePageChnage}				
+								totalPages={articles.totalPage}
+							/>
+						</Table.HeaderCell>
+					</Table.Row>
+				</Table.Footer>
+			</Table>
 			}
-			<Pagination style={{marginTop: 20, marginBottom: 20}}
-				floated='right'
-				defaultActivePage={1}
-				firstItem={null}
-				lastItem={null}
-				siblingRange={1}
-				onPageChange={this.handlePageChnage}
-				totalPages={articles.totalPage}
-			/>
 			<Divider style={{paddingTop: 20, paddingBottom: 20}} clearing horizontal>Demotrix</Divider>
-			</Container>
+			</>
 		)
 	}
 }

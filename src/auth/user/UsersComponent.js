@@ -30,19 +30,15 @@ class UsersComponent extends React.Component {
 		this.setState({ [name]: value });
 	}
 
+	handleNavigate =(url) => {
+		this.props.history.push(`/dashboard/${url}`);
+	}
+
 	render(){
 		const {users, isLoading} = this.props.userStore;
 		const {selectedId} = this.state;
 		return(
-			<Container>
-				 <Link to='/dashboard/new-user'>
-				 	<Button primary floated='right'>New</Button>
-				 </Link>
-				 <Link to={`/dashboard/edit-user/${selectedId}`}>
-				 	<Button positive floated='right' disabled={!selectedId}>Edit</Button>
-				 </Link>
-				 <Header as='h1' style={{marginTop: 20}}>Users</Header>
-                 <Divider clearing/>
+			<>
 				 {isLoading
 				  ?
 					<Loader active/>
@@ -50,9 +46,11 @@ class UsersComponent extends React.Component {
 					<Table celled>
 						<Table.Header>
 						<Table.Row>
-							<Table.HeaderCell>Name</Table.HeaderCell>
-							<Table.HeaderCell>Email</Table.HeaderCell>
-							<Table.HeaderCell>Status</Table.HeaderCell>
+							<Table.HeaderCell colSpan={3}>
+								<Header as='h3' floated='left'>Users</Header>
+								<Button primary floated='right' onClick={() => this.handleNavigate('new-user')}>New</Button>
+								<Button positive floated='right' onClick={() => this.handleNavigate(`edit-user/${selectedId}`)} disabled={!selectedId}>Edit</Button>
+							</Table.HeaderCell>
 						</Table.Row>
 						</Table.Header>
 						<Table.Body>
@@ -66,7 +64,7 @@ class UsersComponent extends React.Component {
 						</Table.Body>
 					</Table>
 				 }
-			</Container>
+			</>
 		)
 	}
 }
