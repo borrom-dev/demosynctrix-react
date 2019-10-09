@@ -52,19 +52,14 @@ class PageComponent extends React.Component {
 		const {topics, isLoading} = this.props.backendStore;
 		const {selected} = this.state;
 		return(
-			<Container>
-				 <Header as='h1' floated='left'>Topic</Header>
-				 <Link to='/dashboard/new-topic'>
-				 	<Button positive floated='right'>New</Button>
-				 </Link>
-			<Divider clearing />
+			<>
 				{isLoading
 				 ? <Loader active/>
 				 : <Table celled selectable>
 						<Table.Header>
 							<Table.Row>
 								<Table.HeaderCell colSpan={3} >
-									<Label as='h3' size='large' color='blue' ribbon>Articles</Label>
+									<Label as='h3' size='large' color='blue' ribbon>Topics</Label>
 									<Input floated/>
 									<Button size='small' floated='right' primary onClick={() => this.navigateTo("new-topic")}>New</Button>
 									<Button size='small' secondary disabled={selected === undefined} onClick={() => {
@@ -79,12 +74,13 @@ class PageComponent extends React.Component {
 							<Table.Row active={selected ? topic.id === selected.id : false} primary onClick={() => this.handleCellClick(topic)} key={id}>					
 								<Table.Cell collapsing>{topic.name}</Table.Cell>
 								<Table.Cell>{topic.url}</Table.Cell>
+								<Table.Cell collapsing>{topic.createdAt}</Table.Cell>
 							</Table.Row>
 						))}
 					</Table.Body>
 					</Table>
 				}
-			</Container>
+			</>
 		)
 	}
 }
