@@ -1,13 +1,15 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import {Container, Item} from 'semantic-ui-react'
+import {Item} from 'semantic-ui-react'
 import {Link} from 'react-router-dom';
+import { PageView } from '../component/PageView';
 
 @inject('frontendStore')
 @observer
 class HomeComponent extends React.Component {
 
 	componentDidMount(){
+		 PageView()
 		 this.props.frontendStore.getRecentArticle();
 	}
 	render(){

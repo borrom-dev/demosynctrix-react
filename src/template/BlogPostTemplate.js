@@ -3,12 +3,14 @@ import { inject, observer } from 'mobx-react';
 import { Container, Grid, Header, Loader, Item } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
+import { PageView } from '../component/PageView';
 
 @inject('frontendStore')
 @observer
 class BlogPostTemplate extends React.Component {
 
 	componentDidMount(){
+		PageView()
 		const {id} = this.props.topic;
 		this.props.frontendStore.getAllPostByTopic(id)
 	}

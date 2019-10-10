@@ -26,10 +26,6 @@ class ArticlesComponent extends React.Component {
 		this.props.backendStore.getArticles(active - 1);
 	}
 
-	publish = (article)=> {
-		this.props.backendStore.publishArticle(article);
-	}
-
 	handlePageChnage = (e, data) => {
 		const {activePage} = data;
 		this.props.backendStore.getArticles(activePage - 1);
@@ -55,7 +51,7 @@ class ArticlesComponent extends React.Component {
 					<Table.Row>
 						<Table.HeaderCell colSpan={3} >
 							<Label as='h3' size='large' color='blue' ribbon>Articles</Label>
-							<Input size='small' floated/>
+							<Input size='small' action={{ icon: 'search' }} placeholder='Search...' floated/>
 							<Button size='small' floated='right' primary onClick={() => this.navigateTo("new-article")}>New</Button>
 							<Button size='small' secondary disabled={selected === undefined} onClick={() => {
 								this.props.history.push(`/articles/${selected.id}${selected.slug}`)
@@ -78,6 +74,9 @@ class ArticlesComponent extends React.Component {
 				<Table.Footer>
 					<Table.Row>
 						<Table.HeaderCell colSpan='3'>
+							{
+								articles.totalPage > 1
+							? 
 							<Pagination
 								floated='right'
 								defaultActivePage={1}
@@ -88,6 +87,9 @@ class ArticlesComponent extends React.Component {
 								onPageChange={this.handlePageChnage}				
 								totalPages={articles.totalPage}
 							/>
+							: 
+							''
+							}
 						</Table.HeaderCell>
 					</Table.Row>
 				</Table.Footer>

@@ -79,6 +79,14 @@ class EditArticleStore {
 		}
 		this.currentArticle[name] = value;
 	}
+
+	@action
+	publishArticle(article){
+		this.isLoading = true;
+		article.published = !article.published;
+		return service.updateArticle(article)
+		.finally(action(()=> this.isLoading = false))
+	}
 }
 
 export default new EditArticleStore();

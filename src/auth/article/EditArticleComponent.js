@@ -36,6 +36,13 @@ class EditArticleComponent extends React.Component {
         })
     }
 
+    publish = (article)=> {
+        this.props.editArticleStore.publishArticle(article)
+        .then(() => {
+            this.props.history.push('/dashboard/articles');
+        })
+	}
+
     handleSelectTopic = (e, {value}) => {
         this.props.editArticleStore.setTopicId(value);
     }
@@ -45,7 +52,7 @@ class EditArticleComponent extends React.Component {
         return(
             <Container>
                 <Button negative floated='right' type='submit'>Delete</Button>
-                <Button primary floated='right' onClick={() => this.props.history.push('/dashboard/new-article')}>New</Button>
+                <Button secondary floated='right' onClick={() => this.publish(currentArticle)}>{currentArticle.published ? "shutdwon" : "go live"}</Button>
                 <Header as='h1'>Edit Article</Header>
                 <Divider clearing/>
                 {isLoading ? <Loader active inline='centered'/> :

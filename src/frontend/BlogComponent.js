@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import CodeBlock from '../component/CodeBlock';
 import InlineCode from '../component/InlineCode';
+import { PageView } from '../component/PageView';
 
 const parseHtml = htmlParser({
 	isValidNode: node => node.type !== 'script',
@@ -16,6 +17,7 @@ const parseHtml = htmlParser({
 class BlogTemplate extends React.Component {
 
 	componentDidMount(){
+		PageView();
 		const {params} = this.props.match;
 		this.props.articleStore.getArticleById(params.id);
 	}

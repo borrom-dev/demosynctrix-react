@@ -1,20 +1,12 @@
 import React from 'react'
 import {
-	GridColumn,
-	Item,
 	Label,
 	Input,
-	Header,
-	Divider,
-	Container,
 	Button,
-	Segment,
-	Icon,
 	Loader,
 	Table
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
-import {Link} from 'react-router-dom';
 
 @inject('backendStore')
 @observer
@@ -36,10 +28,6 @@ class PageComponent extends React.Component {
 
 	handleValueChange = (value) => this.setState({ value });
 
-	handleStatus = (topic) => {
-		this.props.backendStore.updateTopicStatus(topic);
-	}
-
 	navigateTo = (url) => {
 		this.props.history.push(`/dashboard/${url}`);
 	}
@@ -60,7 +48,7 @@ class PageComponent extends React.Component {
 							<Table.Row>
 								<Table.HeaderCell colSpan={3} >
 									<Label as='h3' size='large' color='blue' ribbon>Topics</Label>
-									<Input floated/>
+									<Input size='small' action={{ icon: 'search' }} placeholder='Search...' floated/>
 									<Button size='small' floated='right' primary onClick={() => this.navigateTo("new-topic")}>New</Button>
 									<Button size='small' secondary disabled={selected === undefined} onClick={() => {
 										this.props.history.push(`/${selected.name}`)
@@ -72,7 +60,7 @@ class PageComponent extends React.Component {
 					<Table.Body>
 						{topics.map((topic, id) => (
 							<Table.Row active={selected ? topic.id === selected.id : false} primary onClick={() => this.handleCellClick(topic)} key={id}>					
-								<Table.Cell collapsing>{topic.name}</Table.Cell>
+								<Table.Cell collapsing>{topic.status ? <Label color='blue' ribbon>Live</Label> : '' } {topic.name}</Table.Cell>
 								<Table.Cell>{topic.url}</Table.Cell>
 								<Table.Cell collapsing>{topic.createdAt}</Table.Cell>
 							</Table.Row>
