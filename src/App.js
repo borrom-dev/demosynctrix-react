@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 import { Switch, Route} from "react-router-dom";
 import {AdminRoute, FrontendRoute} from './routes';
 import DashboardPage from './auth/DashboardPage';
@@ -26,6 +27,7 @@ import './style.css'
 class App extends React.Component {
 
   componentDidMount(){
+    ReactGA.initialize('{GA-ID}');
     this.props.pageStore.getPages()
   }
   render(){

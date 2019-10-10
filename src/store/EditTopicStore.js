@@ -28,7 +28,6 @@ class EditTopicStore {
             this.formData.topic = res.data;
         }))
         .finally(action(() => this.isLoading = false));
-        
     }
 
     @action
@@ -46,6 +45,14 @@ class EditTopicStore {
         return service.deleteTopic(topic.id)
         .finally(action(() => this.isLoading = false));
     }
+
+    @action
+	updateTopicStatus(topic){
+		this.isLoading = true;
+		topic['status'] = !topic.status;
+		return service.updateTopic(topic)
+		.finally(action(() => this.isLoading = false));
+	}
 }
 
 export default new EditTopicStore();

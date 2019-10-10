@@ -37,6 +37,12 @@ class EditTopicComponent extends React.Component {
         })
     }
 
+	handleStatus = (topic) => {
+        this.props.editTopicStore.updateTopicStatus(topic)
+        .then(() => this.props.history.push('/dashboard/topics'))
+	}
+
+
     render(){
         const {formData, isLoading} = this.props.editTopicStore;
         const {topic} = formData;
@@ -45,9 +51,7 @@ class EditTopicComponent extends React.Component {
                 {isLoading ? <Loader active/> :
                 <Container>
                     <Button negative floated='right' onClick={this.handleDelete}>Delete</Button>
-                    <Button positive floated='right' onClick={() => {
-                        this.props.history.push('/dashboard/new-topic')}
-                    }>New</Button>
+                    <Button secondary floated='right' onClick={() => this.handleStatus(topic)}>{topic.status ? 'shutdown': 'go live'}</Button>
                     <Header as='h1'>Edit Topic</Header>
                     <Divider clearing/>
                     <Form onSubmit={this.handleSubmit}>
