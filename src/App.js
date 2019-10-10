@@ -27,7 +27,7 @@ import './style.css'
 class App extends React.Component {
 
   componentDidMount(){
-    ReactGA.initialize('{GA-ID}');
+    ReactGA.initialize('UA-86649638-4');
     this.props.pageStore.getPages()
   }
   render(){
