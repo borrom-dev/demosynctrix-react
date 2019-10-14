@@ -15,10 +15,10 @@ const api = {
 }
 
 const shouldLogout = (error) => {
-	
-	// if(status && status === 401){
-	// 	localStorage.removeItem('token');	
-	// }
+	status = error.data
+	if(status && status === 401){
+		localStorage.removeItem('token');	
+	}
 	return Promise.reject(error);
 }
 
