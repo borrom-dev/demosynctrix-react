@@ -1,13 +1,7 @@
 import React, {Fragment} from 'react';
 import { 
-	Segment, 
-	Header, 
-	Button, 
-	Icon, 
+	Segment,
 	Image, 
-	Divider, 
-	Card, 
-	Container, 
 	Grid
 } from 'semantic-ui-react';
 import { inject, observer } from 'mobx-react';
@@ -47,30 +41,17 @@ class FileComponent extends React.Component {
 		return (
 				<Fragment>
 					<input onChange={this.handleFileInputChange} style={{display: 'none'}} type='file' ref={(ref) => this.fileRef = ref} />
-					{files.length > 0 ? 
-					<Container>
-						<Button negative floated='right' onClick={this.handleDelete}>Delete</Button>
-						<Button primary floated='right' onClick={this.handleFileClick}>Add File</Button>
-						<Header as='h1'>Files</Header>
-						<Divider clearing/>
-						<Segment>
-							<Grid columns={5}>
-								{files.map((file, id) => (
-									<Grid.Column key={id}>
-										<Segment onClick={() => this.handleSelectedImage(id)} color= {selectedImage === id ? 'blue' : ''}>
-											<Image  src={src}/>
-										</Segment>
-									</Grid.Column>
-								))}		
-							</Grid>
-						</Segment>
-					</Container>
-					:
-					<Segment placeholder>
-						<Header icon> <Icon name='images'/>There are no image files!</Header>
-						<Button onClick={this.handleFileClick} primary>Add File</Button>
+					<Segment>
+						<Grid columns={5}>
+							{files.map((file, id) => (
+								<Grid.Column key={id}>
+									<Segment onClick={() => this.handleSelectedImage(id)} color= {selectedImage === id ? 'blue' : ''}>
+										<Image  src={src}/>
+									</Segment>
+								</Grid.Column>
+							))}		
+						</Grid>
 					</Segment>
-					}
 			</Fragment>
 		);
 	}

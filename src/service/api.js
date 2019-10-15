@@ -15,7 +15,7 @@ const api = {
 }
 
 const shouldLogout = (error) => {
-	status = error.data
+	const {status} = error.response
 	if(status && status === 401){
 		localStorage.removeItem('token');	
 	}

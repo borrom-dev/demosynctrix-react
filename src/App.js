@@ -39,7 +39,7 @@ class App extends React.Component {
           <AdminRoute exact path='/dashboard/users' component={UsersComponent}/>
           <AdminRoute exact path='/dashboard/new-user' component={NewUserComponent}/>
           <AdminRoute exact path='/dashboard/edit-user/:id' component={EditUserComponent}/>
-          <AdminRoute exact path='/dashboard/topics' component={TopicComponent}/>
+          <AdminRoute exact path='/dashboard/pages' component={TopicComponent}/>
           <AdminRoute exact path='/dashboard/new-topic' component={NewTopicComponent}/>
           <AdminRoute exact path='/dashboard/edit-topic/:id' component={EditTopicComponent}/>
           <AdminRoute exact path='/dashboard/articles' component={ArticleComponent}/>

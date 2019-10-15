@@ -1,0 +1,19 @@
+.dashboard-container {
+    background-color: #FAFBFC;
+    height: 100vh;
+    overflow: hidden scroll;
+}
+
+.ui.menu {
+    border: none;
+    box-shadow: none;
+    padding-left: 2em;
+}
+.ui.vertical.menu {
+    top: 40px;
+    width: 18%;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 5em;
+    box-shadow: none;
+}

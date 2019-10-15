@@ -15,7 +15,6 @@ class DashboardPage extends React.Component {
 		const {recents} = this.props.backendStore;
 		console.log(recents);
 		return(
-			<Container>
 			<Grid columns={2}>
 				{recents.data.map((article, id) => (
 					<Grid.Column>
@@ -30,8 +29,7 @@ class DashboardPage extends React.Component {
 					</Item>
       				</Grid.Column>
 				))}
-				</Grid>
-			</Container>
+			</Grid>
 		)
 	}
 }
