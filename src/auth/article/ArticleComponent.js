@@ -80,7 +80,7 @@ class ArticlesComponent extends React.Component {
 			<>
 				<Grid>
 					<Grid.Column width={4}>
-						<Table celled selectable basic='very'>
+						<Table celled basic='very' selectable>
 							<Table.Body>
 								{articles.data.map((article, id) => (
 									<Table.Row active={selected ? article.id === selected.id : false} primary onClick={() => this.handleCellClick(article)} key={id}>
@@ -88,28 +88,6 @@ class ArticlesComponent extends React.Component {
 									</Table.Row>
 								))}
 							</Table.Body>
-							<Table.Footer>
-								<Table.Row>
-									<Table.HeaderCell colSpan='2'>
-										{
-											articles.totalPage > 1
-										? 
-										<Pagination
-											floated='right'
-											defaultActivePage={1}
-											activePage={activePage}
-											firstItem={null}
-											lastItem={null}
-											siblingRange={1}
-											onPageChange={this.handlePageChnage}				
-											totalPages={articles.totalPage}
-										/>
-										: 
-										''
-										}
-									</Table.HeaderCell>
-								</Table.Row>
-							</Table.Footer>
 						</Table>
 				</Grid.Column>
 				<Grid.Column width={12}>
