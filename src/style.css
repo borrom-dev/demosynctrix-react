@@ -1,52 +1,6 @@
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
 
- #fronted-header {
-  margin-top: 1.2rem;
-}
-
-p {
-  font-size: 1.4rem;
-  line-height: 2.3rem;
-  display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-}
-
-h1 {
-  font-size: 2.8rem;
-}
-
-h2 {
-  font-size: 2.6rem;
-}
-
-h3 {
-  font-size: 2.5rem;
-}
-
-h4, h5, h6 {
-  font-size: 2.3rem;
-}
-.description {
-  line-height: 1.6rem;
-}
-
-.ui.menu {
-  font-size: 1.2rem;
-}
-
-.ui.table {
-  font-size: 1.2rem;
-}
-
-li {
-    font-size: 18px;
-    line-height: 28px;
-}
-
 blockquote { 
   font-size: 1.2rem;
   font-family:Open Sans;
@@ -68,7 +22,7 @@ blockquote::before {
   top:-2rem;
 }
 
-blockquote::after{
+blockquote::after {
   content: '';
 }
 
@@ -80,28 +34,4 @@ blockquote span {
   margin-top:1em;
 }
 
-@media only screen and (max-width: 991px) {
- 
-  .ui.container {
-    margin: 0;
-    width: 100% !important;
-    padding: 1rem 1rem 0 1em !important;
-  }
 
-  .ui.text.container {
-    max-width: 100% !important;
-  }
-
-  html {
-    font-size: 1.6rem;
-  }
-
-  blockquote {
-    margin-bottom: 0 !important;
-  }
-  
-  .ui.table {
-    font-size: 0.8rem;
-  }
-
-}

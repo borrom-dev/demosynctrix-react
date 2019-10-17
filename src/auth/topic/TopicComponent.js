@@ -1,12 +1,11 @@
 import React from 'react'
 import {
-	Label,
-	Input,
-	Button,
-	Loader,
-	Table
+	Card,
+	Table,
+	Grid
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
+import {ProfileComponent} from '../../component/ProfileComponent';
 
 @inject('backendStore')
 @observer
@@ -41,33 +40,38 @@ class PageComponent extends React.Component {
 		const {selected} = this.state;
 		return(
 			<>
-				{isLoading
-				 ? <Loader active/>
-				 : <Table celled selectable>
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell colSpan={3} >
-									<Label as='h3' size='large' color='blue' ribbon>Topics</Label>
-									<Input size='small' action={{ icon: 'search' }} placeholder='Search...' floated/>
-									<Button size='small' floated='right' primary onClick={() => this.navigateTo("new-topic")}>New</Button>
-									<Button size='small' secondary disabled={selected === undefined} onClick={() => {
-										this.props.history.push(`/${selected.name}`)
-									}} floated='right'>Preview</Button>
-									<Button positive size='small' onClick={() => this.navigateTo(`edit-topic/${selected.id}`)} disabled={selected === undefined} floated='right'>Edit</Button>
-								</Table.HeaderCell>
-							</Table.Row>
-					</Table.Header>
-					<Table.Body>
-						{topics.map((topic, id) => (
-							<Table.Row active={selected ? topic.id === selected.id : false} primary onClick={() => this.handleCellClick(topic)} key={id}>					
-								<Table.Cell collapsing>{topic.status ? <Label color='blue' ribbon>Live</Label> : '' } {topic.name}</Table.Cell>
-								<Table.Cell>{topic.url}</Table.Cell>
-								<Table.Cell collapsing>{topic.createdAt}</Table.Cell>
-							</Table.Row>
-						))}
-					</Table.Body>
-					</Table>
-				}
+				<Grid>
+					<Grid.Column width={4}>
+						<Table selectable basic='very'>
+							<Table.Body>
+								{topics.map((topic, id) => (
+									<Table.Row active={selected ? topic.id === selected.id : false} primary onClick={() => this.handleCellClick(topic)} key={id}>					
+										<Table.Cell collapsing>{topic.name}</Table.Cell>
+									</Table.Row>
+								))}
+							</Table.Body>
+						</Table>
+					</Grid.Column>
+					<Grid.Column width={12}>
+						<ProfileComponent title={selected ? selected.name : ''}/>
+						<Card.Group>
+							<Card>
+								<Card.Content>
+									<Card.Header content='Jake Smith' />
+									<Card.Meta content='Musicians' />
+									<Card.Description content='Jake is a drummer living in New York.' />
+								</Card.Content>
+							</Card>
+							<Card>
+								<Card.Content>
+									<Card.Header content='Jake Smith' />
+									<Card.Meta content='Musicians' />
+									<Card.Description content='Jake is a drummer living in New York.' />
+								</Card.Content>
+							</Card>
+						</Card.Group>
+					</Grid.Column>
+				</Grid>
 			</>
 		)
 	}

@@ -2,7 +2,7 @@ import axios from 'axios';
 import {authHeader} from '../helper';
 
 const client = axios.create({
-	baseURL: 'http://localhost:8080',
+	baseURL: 'https://localhost:8080',
 })
 
 const api = {
@@ -15,7 +15,7 @@ const api = {
 }
 
 const shouldLogout = (error) => {
-	status = error.data
+	const {status} = error.response
 	if(status && status === 401){
 		localStorage.removeItem('token');	
 	}

@@ -1,35 +1,51 @@
 import React from 'react'
 import {
-	Header,
-	Button,
-	Divider,
 	Pagination,
-	Loader,
 	Table,
-	Input,
-	Label,
-	Item
+	Grid,
+	Button,
+	Form,
+	TextArea,
+	Segment,
+	Icon
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
+import ReactMarkdown from 'react-markdown';
+import htmlParser from 'react-markdown/plugins/html-parser';
+import CodeBlock from '../../component/CodeBlock';
+import InlineCode from '../../component/InlineCode';
+import { ProfileComponent } from '../../component/ProfileComponent';
+import TextareaAutosize from 'react-autosize-textarea';
+
+const parseHtml = htmlParser({
+	isValidNode: node => node.type !== 'script',
+})
 
 
-@inject('backendStore', 'pageStore')
+@inject('articleStore')
 @observer
 class ArticlesComponent extends React.Component {
 
 	state = {
 		selected: undefined,
-		activePage: 1
+		activePage: 1,
+		onFocus: false,
 	}
+
+	constructor(props){
+		super(props);
+		this.formRef = React.createRef();
+	}
+
 	componentDidMount(){
 		const {active} = this.state;
-		this.props.backendStore.getArticles(active - 1);
+		this.props.articleStore.getArticles(active - 1);
 	}
 
 	handlePageChnage = (e, data) => {
-		const {activePage} = data;
-		this.props.backendStore.getArticles(activePage - 1);
-		this.setState({activePage: data.activePage});
+		// const {activePage} = data;
+		// this.props.articleStore.getArticles(activePage - 1);
+		// this.setState({activePage: data.activePage});
 	}
 
 	handleCellClick = (value) => {
@@ -40,62 +56,80 @@ class ArticlesComponent extends React.Component {
 		this.props.history.push(`/dashboard/${url}`);
 	}
 
+	handleFocus = (e) => {
+		this.setState({onFocus: true})
+	}
+
+	handleOnBlur = () =>{
+		this.setState({onFocus: false})
+	}
+
+	handleValueChange = (e) => {
+		const {target} = e;
+		this.setState(prevState => {
+			let selected = Object.assign({}, prevState.selected);
+			selected.body = target.value;
+			return {selected};
+		});
+	}
+
+	handleUpdate = () => {
+		this.setState({onFocus: false});
+		const {selected} = this.state;
+		this.props.backendStore.updateArticle(selected)
+
+	}
+
 	render(){
-		const {articles, isLoading} = this.props.backendStore;
-		const {selected, activePage} = this.state; 
+		const {articles, isLoading} = this.props.articleStore;
+		const {selected, activePage, onFocus} = this.state; 
 		return(
 			<>
-			{isLoading ? <Loader inline='centered' active/> :	
-			<Table celled selectable>
-				<Table.Header>
-					<Table.Row>
-						<Table.HeaderCell colSpan={3} >
-							<Label as='h3' size='large' color='blue' ribbon>Articles</Label>
-							<Input size='small' action={{ icon: 'search' }} placeholder='Search...' floated/>
-							<Button size='small' floated='right' primary onClick={() => this.navigateTo("new-article")}>New</Button>
-							<Button size='small' secondary disabled={selected === undefined} onClick={() => {
-								this.props.history.push(`/articles/${selected.id}${selected.slug}`)
-							}} floated='right'>Preview</Button>
-							<Button positive size='small' onClick={() => this.navigateTo(`edit-article/${selected.id}`)} disabled={selected === undefined} floated='right'>Edit</Button>
-						</Table.HeaderCell>
-					</Table.Row>
-				</Table.Header>
-
-				<Table.Body>
-					{articles.data.map((article, id) => (
-						<Table.Row active={selected ? article.id === selected.id : false} primary onClick={() => this.handleCellClick(article)} key={id}>
-							<Table.Cell collapsing>{article.published ? <Label ribbon color='blue'>Live</Label> : ''} {article.title}</Table.Cell>
-							<Table.Cell>{article.slug}</Table.Cell>
-							<Table.Cell collapsing>{article.create_at}</Table.Cell>
-						</Table.Row>
-					))}
-				</Table.Body>
-
-				<Table.Footer>
-					<Table.Row>
-						<Table.HeaderCell colSpan='3'>
-							{
-								articles.totalPage > 1
-							? 
-							<Pagination
-								floated='right'
-								defaultActivePage={1}
-								activePage={activePage}
-								firstItem={null}
-								lastItem={null}
-								siblingRange={1}
-								onPageChange={this.handlePageChnage}				
-								totalPages={articles.totalPage}
-							/>
-							: 
-							''
-							}
-						</Table.HeaderCell>
-					</Table.Row>
-				</Table.Footer>
-			</Table>
-			}
-			<Divider style={{paddingTop: 20, paddingBottom: 20}} clearing horizontal>Demotrix</Divider>
+				{/* <Grid>
+					<Grid.Column width={4}>
+						<Table celled basic='very' selectable>
+							<Table.Body>
+								{articles.data.map((article, id) => (
+									<Table.Row active={selected ? article.id === selected.id : false} primary onClick={() => this.handleCellClick(article)} key={id}>
+										<Table.Cell collapsing>{article.title}</Table.Cell>
+									</Table.Row>
+								))}
+							</Table.Body>
+						</Table>
+				</Grid.Column>
+				<Grid.Column width={12}>
+					<ProfileComponent title={selected ? selected.title : ''}/>
+					{onFocus ? 
+						<div className='ui form'>
+						<TextareaAutosize
+							name='body'
+							ref={this.formRef}
+							onBlur ={this.handleOnBlur}
+							onFocus={this.handleFocus}
+							onChange={this.handleValueChange}
+							style={{width: '100%', marginTop: '20px', lineHeight: '1.5em'}}
+							value={selected ? selected.body : ''}
+						/>
+						<div style={{marginTop: '2em'}}>
+							<Button positive onClick={this.handleUpdate}>Save</Button>
+							<Button basic onClick={() => {
+								this.setState({onFocus: false})
+							}} icon='cancel'/>
+						</div>
+						</div>
+					:
+					<Segment basic onClick={() => {
+							this.setState({onFocus: true})
+						}}>
+						<ReactMarkdown
+						source={selected ?  selected.body : ''}
+						escapeHtml={false}
+						renderers={{code: CodeBlock, inlineCode: InlineCode}}
+						astPlugins={[parseHtml]}/>
+					</Segment>
+					}
+				</Grid.Column>
+				</Grid> */}
 			</>
 		)
 	}

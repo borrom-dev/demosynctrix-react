@@ -1,8 +1,7 @@
 import {Route, Redirect} from 'react-router-dom';
 import React from 'react';
 import {isLogin} from '../helper';
-import {AdminHeader} from '../component/AdminHeader';
-import { Container } from 'semantic-ui-react';
+import DashboardComponent from '../auth/DashboardComponent';
 
 export function AdminRoute({ props, component: Component, ...rest }) {
   return (
@@ -10,12 +9,9 @@ export function AdminRoute({ props, component: Component, ...rest }) {
       {...rest}
       render={
         props => isLogin() ? (
-					<div>
-						<AdminHeader {...props}/>
-            <Container>
-          	  <Component {...props} />
-            </Container>
-					</div>
+          <DashboardComponent {...props}>
+            <Component {...props}/>
+          </DashboardComponent>
         ) : (
           <Redirect
             to={{
