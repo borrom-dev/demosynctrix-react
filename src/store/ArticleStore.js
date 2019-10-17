@@ -1,44 +1,36 @@
-import { observable, action } from "mobx";
-import service from "../service/service";
+import {types, flow, getParent } from 'mobx-state-tree';
 
-class ArticleStore {
+const Article = types.model("Article", {
+    id: types.number,
+    title: types.string,
+    slug: types.string,
+    description: types.string,
+    body: types.string,
+    published: types.boolean,
+    create_at: types.string,
+    topic_id: types.number
+})
 
-	@observable topicsOptions = []
+export const ArticleStore = types
+.model("ArticleStore", {
+    isLoading: true,
+    articles: types.array(Article)
+}).views(self => ({
+    get store(){
+        return getParent(self)
+    }
+}))
+.actions(self => {
 
-	@observable articles = {
-        data: []
-	};
-	
-	@observable isLoading = false;
+    const loadArticles = flow(function* loadArticles(){
+        try{
+            const json = yield self.store.fetch('articles');
+        }catch(error){
+            console.log(error)
+        }
+    })
 
-	@observable currentArticle = {
-		topic_id: undefined,
-	}
-
-	@observable form = {
-		tab: 'Write'
-	}
-
-	@action
-	getArticleById(id){
-		this.isLoading = true;
-		service.getPages()
-		.then(action((res) => {
-			this.topicsOptions = [];
-			res.data.map((topic, id) => {
-				if(topic.url !== '/'){
-					this.topicsOptions.push({key: id, text: topic.name, value: topic.id})
-				}
-			})
-			return service.getArticleById(id)
-		}))
-		.then(action((res)=> {
-			this.currentArticle = res.data;
-		}))
-		.finally(action(()=> this.isLoading = false))
-	}
-
-}
-
-export default new ArticleStore();
-
+    return {
+        loadArticles
+    }
+})

@@ -3,20 +3,76 @@ import 'semantic-ui-css/semantic.min.css'
 import ReactDOM from 'react-dom';
 import App from './App';
 import {Provider} from 'mobx-react';
-import {configure} from 'mobx';
-import stores from './store/store';
+import {Store} from './store/store';
 import {Router} from 'react-router-dom';
 import {createBrowserHistory} from 'history';
+import api from './service/api';
+
 const history = createBrowserHistory();
 
-window._____APP_STATE_____ = stores;
+// window._____APP_STATE_____ = store;
 
-configure({enforceActions: "always"})
+const fetcher = url => api.get_free(url).then(res => res.data);
+
+const store = Store.create(
+	{},
+	 {
+		 fetch: fetcher,
+		 alert: m => console.log(m)
+	  }
+)
+
+// const history = {
+// 	snapshots: observable.array([], {deep: false}),
+// 	actions: observable.array([], {deep: false}),
+// 	patches: observable.array([], {deep: false})
+// }
+
 
 ReactDOM.render(
-<Provider {...stores}>
-	<Router history={history}>
-	<App/>
-	</Router>
- </Provider>,
+	<Provider store={store}>
+		<Router history={history}>
+		<App/>
+		</Router>
+	</Provider>,
  document.getElementById('root'));
+
+//  reaction(
+// 	 () => store.view.currentUrl,
+// 	 path => {
+// 		 if(window.location.pathname != path) window.history.pushState(null, null, path)
+// 	 }
+//  )
+
+//  const router = createRouter({
+// 	 "/": store.view.openHomePage
+//  })
+
+//  window.onpopstate = function historyChange(ev){
+// 	 if(ev.type === 'popstate') router(window.location.pathname);
+//  }
+
+//  window.store = store;
+
+//  let recording = true;
+
+//  onSnapshot(
+// 	 store,
+// 	 s => recording && history.snapshots.unshift({
+// 		 data: s,
+// 		 replay() {
+// 			 recording = false;
+// 			 applyAction(store, this.data)
+// 			 recording = true;
+// 		 }
+// 	 })
+//  )
+
+//  history.snapshots.push({
+// 	 data: getSnapshot(store),
+// 	 replay(){
+// 		 recording = false
+// 		 applyAction(store, this.data)
+// 		 recording = true;
+// 	 }
+//  })

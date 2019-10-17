@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactGA from 'react-ga';
-import { Switch, Route} from "react-router-dom";
+import { Switch} from "react-router-dom";
 import {AdminRoute, FrontendRoute} from './routes';
 import DashboardPage from './auth/DashboardPage';
 import TopicComponent from './auth/topic/TopicComponent';
@@ -22,42 +22,12 @@ import HomeComponent from './frontend/HomeComponent';
 import './style.css'
 
 
-@inject('pageStore')
-@observer
 class App extends React.Component {
 
-  componentDidMount(){
-    ReactGA.initialize('UA-86649638-4');
-    this.props.pageStore.getPages()
-  }
   render(){
-    const {isLoading} = this.props.pageStore;
     return(
         <Switch>
-          <Route exact path='/login' component={LoginPage}/>
-          <AdminRoute exact path='/dashboard' component={DashboardPage}/>
-          <AdminRoute exact path='/dashboard/users' component={UsersComponent}/>
-          <AdminRoute exact path='/dashboard/new-user' component={NewUserComponent}/>
-          <AdminRoute exact path='/dashboard/edit-user/:id' component={EditUserComponent}/>
-          <AdminRoute exact path='/dashboard/pages' component={TopicComponent}/>
-          <AdminRoute exact path='/dashboard/new-topic' component={NewTopicComponent}/>
-          <AdminRoute exact path='/dashboard/edit-topic/:id' component={EditTopicComponent}/>
-          <AdminRoute exact path='/dashboard/articles' component={ArticleComponent}/>
-          <AdminRoute exact path='/dashboard/new-article' component={NewArticleComponent}/>
-          <AdminRoute exact path='/dashboard/edit-article/:id' component={EditArticleComponent}/>
-          <AdminRoute exact path='/dashboard/files' component={FileComponent}/>
-          <FrontendRoute exact path='/articles/:id/:slug' component = {BlogComponent}/>
-          <FrontendRoute exact path='/' component = {HomeComponent}/>
-          { isLoading 
-          ? <>
-            </>
-          : <>
-              {this.props.pageStore.topics.map((topic, id) => (
-                <FrontendRoute exact key={id} path={topic.url} topic={topic} component={FrontendComponent}/>
-              ))}
-            </>
-          }
-          <FrontendRoute component = {PageNotFound}/>
+          <FrontendRoute component={HomeComponent}/>
         </Switch>
     )
   }

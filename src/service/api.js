@@ -2,7 +2,7 @@ import axios from 'axios';
 import {authHeader} from '../helper';
 
 const client = axios.create({
-	baseURL: 'https://api.demotrix.com',
+	baseURL: 'https://localhost:8080',
 })
 
 const api = {

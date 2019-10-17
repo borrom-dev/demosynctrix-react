@@ -67,6 +67,7 @@ class EditArticleStore {
 
 	@action
 	updateArticle(){
+		console.log('hello');
 		this.isLoading = true;
 		return service.updateArticle(this.currentArticle)
 		.finally(action(() => this.isLoading = false));

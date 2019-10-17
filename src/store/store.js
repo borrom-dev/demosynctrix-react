@@ -1,27 +1,40 @@
-import authStore from './AuthStore';
-import postStore from './PostStore';
-import userStore from './UserStore';
-import backendStore from './BackendStore';
-import pageStore from './PageStore';
-import frontendStore from './FrontendStore';
-import editArticleStore from './EditArticleStore';
-import newArticleStore from './NewArticleStore';
-import articleStore from './ArticleStore';
-import newTopicStore from './NewTopicStore';
-import editTopicStore from './EditTopicStore';
-import fileStore from './FileStore';
+import { types, getEnv } from "mobx-state-tree";
+import {ArticleStore} from './ArticleStore';
+import { ViewStore } from "./ViewStore";
+import {TopicStore} from './TopicStore';
 
-export default {
-		authStore,
-		postStore,
-		userStore,
-		backendStore,
-		pageStore,
-		frontendStore,
-		editArticleStore,
-		newArticleStore,
-		articleStore,
-		newTopicStore,
-		editTopicStore,
-		fileStore
-}
+export const Store = types
+.model("store", {
+	articleStore: types.optional(ArticleStore, {
+		articles: {}
+	}),
+
+	topicStore: types.optional(TopicStore, {
+		topics: []
+	}),
+
+	view: types.optional(ViewStore, {})
+})
+.views(self => ({
+	get fetch() {
+		return getEnv(self).fetch
+	},
+	get alert() {
+
+	},
+	get isLoading() {
+
+	},
+	get articles() {
+		return self.articleStore.articles;
+	},
+
+	get topics() {
+		return self.topicStore.getTopics;
+	}
+}))
+.actions(self => ({
+	afterCreate(){
+		self.topicStore.loadTopics();
+	}
+}))

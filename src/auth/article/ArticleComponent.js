@@ -22,7 +22,7 @@ const parseHtml = htmlParser({
 })
 
 
-@inject('backendStore')
+@inject('articleStore')
 @observer
 class ArticlesComponent extends React.Component {
 
@@ -39,13 +39,13 @@ class ArticlesComponent extends React.Component {
 
 	componentDidMount(){
 		const {active} = this.state;
-		this.props.backendStore.getArticles(active - 1);
+		this.props.articleStore.getArticles(active - 1);
 	}
 
 	handlePageChnage = (e, data) => {
-		const {activePage} = data;
-		this.props.backendStore.getArticles(activePage - 1);
-		this.setState({activePage: data.activePage});
+		// const {activePage} = data;
+		// this.props.articleStore.getArticles(activePage - 1);
+		// this.setState({activePage: data.activePage});
 	}
 
 	handleCellClick = (value) => {
@@ -73,12 +73,19 @@ class ArticlesComponent extends React.Component {
 		});
 	}
 
+	handleUpdate = () => {
+		this.setState({onFocus: false});
+		const {selected} = this.state;
+		this.props.backendStore.updateArticle(selected)
+
+	}
+
 	render(){
-		const {articles, isLoading} = this.props.backendStore;
+		const {articles, isLoading} = this.props.articleStore;
 		const {selected, activePage, onFocus} = this.state; 
 		return(
 			<>
-				<Grid>
+				{/* <Grid>
 					<Grid.Column width={4}>
 						<Table celled basic='very' selectable>
 							<Table.Body>
@@ -104,9 +111,7 @@ class ArticlesComponent extends React.Component {
 							value={selected ? selected.body : ''}
 						/>
 						<div style={{marginTop: '2em'}}>
-							<Button positive onClick={() => {
-								this.setState({onFocus: false})
-							}} >Save</Button>
+							<Button positive onClick={this.handleUpdate}>Save</Button>
 							<Button basic onClick={() => {
 								this.setState({onFocus: false})
 							}} icon='cancel'/>
@@ -124,7 +129,7 @@ class ArticlesComponent extends React.Component {
 					</Segment>
 					}
 				</Grid.Column>
-				</Grid>
+				</Grid> */}
 			</>
 		)
 	}
