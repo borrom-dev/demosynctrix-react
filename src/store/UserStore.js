@@ -24,8 +24,13 @@ export const UserStore = types.model("UserStore", {
 	
 	const loadUsers = flow(function* loadUsers(){
 		self.isLoading = true;
-        const users = yield self.store.fetch('/users')
-        self.users.push(...users);
+		try{
+        	const users = yield self.store.fetch('/users')
+			self.users.push(...users);
+			self.isLoading = false;
+		} catch(error){
+			self.isLoading = false;
+		}
 	})
 
 	return {
