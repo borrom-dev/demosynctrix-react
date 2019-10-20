@@ -21,76 +21,30 @@ const parseHtml = htmlParser({
 	isValidNode: node => node.type !== 'script',
 })
 
+const onFocus = {}
 
-@inject('articleStore')
-@observer
-class ArticlesComponent extends React.Component {
+const formRef = {}
 
-	state = {
-		selected: undefined,
-		activePage: 1,
-		onFocus: false,
-	}
+const handleOnBlur = {}
 
-	constructor(props){
-		super(props);
-		this.formRef = React.createRef();
-	}
+const handleFocus = {}
 
-	componentDidMount(){
-		const {active} = this.state;
-		this.props.articleStore.getArticles(active - 1);
-	}
+const handleValueChange = {}
 
-	handlePageChnage = (e, data) => {
-		// const {activePage} = data;
-		// this.props.articleStore.getArticles(activePage - 1);
-		// this.setState({activePage: data.activePage});
-	}
+const handleUpdate = {}
 
-	handleCellClick = (value) => {
-		this.setState({selected: value});
-	}
+const ArticlesComponent = inject('store')(
+	observer(({store: {articleStore}}) => {
 
-	navigateTo = (url) => {
-		this.props.history.push(`/dashboard/${url}`);
-	}
-
-	handleFocus = (e) => {
-		this.setState({onFocus: true})
-	}
-
-	handleOnBlur = () =>{
-		this.setState({onFocus: false})
-	}
-
-	handleValueChange = (e) => {
-		const {target} = e;
-		this.setState(prevState => {
-			let selected = Object.assign({}, prevState.selected);
-			selected.body = target.value;
-			return {selected};
-		});
-	}
-
-	handleUpdate = () => {
-		this.setState({onFocus: false});
-		const {selected} = this.state;
-		this.props.backendStore.updateArticle(selected)
-
-	}
-
-	render(){
-		const {articles, isLoading} = this.props.articleStore;
-		const {selected, activePage, onFocus} = this.state; 
-		return(
+		console.log(articleStore.articles);
+		return (
 			<>
-				{/* <Grid>
+			<Grid>
 					<Grid.Column width={4}>
 						<Table celled basic='very' selectable>
 							<Table.Body>
-								{articles.data.map((article, id) => (
-									<Table.Row active={selected ? article.id === selected.id : false} primary onClick={() => this.handleCellClick(article)} key={id}>
+								{articleStore.articles.map((article, id) => (
+									<Table.Row active={article.id === articleStore.selected.id} primary onClick={() => this.handleCellClick(article)} key={id}>
 										<Table.Cell collapsing>{article.title}</Table.Cell>
 									</Table.Row>
 								))}
@@ -98,20 +52,20 @@ class ArticlesComponent extends React.Component {
 						</Table>
 				</Grid.Column>
 				<Grid.Column width={12}>
-					<ProfileComponent title={selected ? selected.title : ''}/>
+					<ProfileComponent title={articleStore.selected.title}/>
 					{onFocus ? 
 						<div className='ui form'>
 						<TextareaAutosize
 							name='body'
-							ref={this.formRef}
-							onBlur ={this.handleOnBlur}
-							onFocus={this.handleFocus}
-							onChange={this.handleValueChange}
+							ref={formRef}
+							onBlur ={handleOnBlur}
+							onFocus={handleFocus}
+							onChange={handleValueChange}
 							style={{width: '100%', marginTop: '20px', lineHeight: '1.5em'}}
-							value={selected ? selected.body : ''}
+							value={articleStore.selected.body}
 						/>
 						<div style={{marginTop: '2em'}}>
-							<Button positive onClick={this.handleUpdate}>Save</Button>
+							<Button positive onClick={handleUpdate}>Save</Button>
 							<Button basic onClick={() => {
 								this.setState({onFocus: false})
 							}} icon='cancel'/>
@@ -122,17 +76,17 @@ class ArticlesComponent extends React.Component {
 							this.setState({onFocus: true})
 						}}>
 						<ReactMarkdown
-						source={selected ?  selected.body : ''}
+						source={articleStore.selected.body}
 						escapeHtml={false}
 						renderers={{code: CodeBlock, inlineCode: InlineCode}}
 						astPlugins={[parseHtml]}/>
 					</Segment>
 					}
 				</Grid.Column>
-				</Grid> */}
+				</Grid>
 			</>
 		)
-	}
-}
+	})
+)
 
 export default ArticlesComponent;

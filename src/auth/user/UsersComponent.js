@@ -13,53 +13,30 @@ import {
 import { inject, observer } from 'mobx-react';
 import {ProfileComponent} from '../../component/ProfileComponent';
 
-@inject('userStore')
-@observer
-class UsersComponent extends React.Component {
-
-	state = {
-		selectedUser: undefined
-	}
-
-	componentDidMount(){
-		this.props.userStore.loadUsers();
-	}
-	show = () => this.setState({ open: true })
-
-	handleChange = (e) => {
-		const { name, value } = e.target;
-		this.setState({ [name]: value });
-	}
-
-	handleNavigate =(url) => {
-		this.props.history.push(`/dashboard/${url}`);
-	}
-
-	render(){
-		const {users, isLoading} = this.props.userStore;
-		const {selectedUser} = this.state;
-		return(
+const UsersComponent = inject('store')(
+	observer(({store: {userStore}}) => {
+		return (
 			<Grid>
 				<Grid.Column width={4}>
 					<Table celled selectable basic='very'>
 						<Table.Body>
-							{users.map((user, id) => (
-								<Table.Row active={selectedUser ?  selectedUser.id === user.id : false} onClick={() => {this.setState({selectedUser: user})}}>
+							{userStore.users.map((user, id) => (
+								<Table.Row key={id} active={userStore.selectedUser.id === user.id}>
 									<Table.Cell>{user.username}</Table.Cell>
 								</Table.Row>
-							))}
+						))}
 						</Table.Body>
 					</Table>
 				</Grid.Column>
-				<Grid.Column width={12}>
+					<Grid.Column width={12}>
 					<Container clearing>
 						<Header as='h2' floated='left'>
 							<Image style={{width: '2.5em', height: '2.5em', borderRadius: '500rem'}} src='https://images.unsplash.com/photo-1497316730643-415fac54a2af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80' />
-							<Header.Content>{selectedUser ?  selectedUser.username : ''}
+							<Header.Content>{userStore.selectedUser.username}
 								<Header.Subheader>borrom.dev@gmail.com</Header.Subheader>
 								<Header.Subheader>Borrom Sync</Header.Subheader>
 							</Header.Content>
-						</Header>
+					</Header>
 					</Container>
 					<Divider basic clearing/>
 					<Container style={{marginTop: '20px'}}>
@@ -74,9 +51,9 @@ class UsersComponent extends React.Component {
 								</Card.Content>
 							</Card>
 							<Card>
-								<Card.Content>
+							<Card.Content>
 								<Card.Header content='Jake Smith' />
-								<Card.Meta content='Musicians' />
+							<Card.Meta content='Musicians' />
 								<Card.Description content='Jake is a drummer living in New York.' />
 								</Card.Content>
 							</Card>
@@ -84,9 +61,8 @@ class UsersComponent extends React.Component {
 					</Container>
 				</Grid.Column>
 			</Grid>
-			
 		)
-	}
-}
+	})
+)
 
 export default UsersComponent;

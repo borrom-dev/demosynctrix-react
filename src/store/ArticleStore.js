@@ -16,21 +16,29 @@ export const ArticleStore = types
     isLoading: true,
     articles: types.array(Article)
 }).views(self => ({
+
     get store(){
         return getParent(self)
+    },
+
+    get selected(){
+        return {}
     }
 }))
 .actions(self => {
 
     const loadArticles = flow(function* loadArticles(){
-        try{
-            const json = yield self.store.fetch('articles');
+        try {
+            const {data} = yield self.store.fetch('/articles');
+            self.articles.push(...data);
         }catch(error){
             console.log(error)
         }
     })
 
     return {
-        loadArticles
+        afterCreate(){
+            loadArticles()
+        }
     }
 })

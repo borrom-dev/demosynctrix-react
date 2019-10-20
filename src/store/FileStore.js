@@ -1,34 +1,10 @@
-import { observable, action } from "mobx";
-import service from '../service/service';
+import {types} from 'mobx-state-tree';
 
-class FileStore {
 
-    @observable isLoading = false;
-    @observable files = []
-    @observable formData = new FormData();
-   
+export const File = types.model("Files", {
 
-    @action
-    loadFiles(){
-        this.isLoading = true;
-        service.getFiles()
-        .then(action((res) => {
-            this.files = res.data;
-        }))
-        .finally(action(() => this.isLoading = false));
-    }
+})
 
-    @action
-    upload(){
-        this.isLoading = true;
-        service.upload(this.formData)
-        .then(() => service.getFiles())
-        .then(action((res) => {
-            this.files = res.data;
-        }))
-        .finally(action(() => this.isLoading = false));
-    }
-
-}
-
-export default new FileStore();
+export const FileStore = types.model("FileStore", {
+    files: types.array(File)
+})
