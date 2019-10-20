@@ -7,7 +7,8 @@ import {
 	Form,
 	TextArea,
 	Segment,
-	Icon
+	Icon,
+	Loader
  } from 'semantic-ui-react'
 import { inject, observer } from 'mobx-react';
 import ReactMarkdown from 'react-markdown';
@@ -21,8 +22,6 @@ const parseHtml = htmlParser({
 	isValidNode: node => node.type !== 'script',
 })
 
-const onFocus = {}
-
 const formRef = {}
 
 const handleOnBlur = {}
@@ -35,56 +34,52 @@ const handleUpdate = {}
 
 const ArticlesComponent = inject('store')(
 	observer(({store: {articleStore}}) => {
-
-		console.log(articleStore.articles);
 		return (
-			<>
 			<Grid>
+				{articleStore.isLoading ? <Loader active/> :
+				<>
 					<Grid.Column width={4}>
-						<Table celled basic='very' selectable>
-							<Table.Body>
-								{articleStore.articles.map((article, id) => (
-									<Table.Row active={article.id === articleStore.selected.id} primary onClick={() => this.handleCellClick(article)} key={id}>
-										<Table.Cell collapsing>{article.title}</Table.Cell>
-									</Table.Row>
-								))}
-							</Table.Body>
-						</Table>
-				</Grid.Column>
-				<Grid.Column width={12}>
-					<ProfileComponent title={articleStore.selected.title}/>
-					{onFocus ? 
-						<div className='ui form'>
-						<TextareaAutosize
-							name='body'
-							ref={formRef}
-							onBlur ={handleOnBlur}
-							onFocus={handleFocus}
-							onChange={handleValueChange}
-							style={{width: '100%', marginTop: '20px', lineHeight: '1.5em'}}
-							value={articleStore.selected.body}
-						/>
-						<div style={{marginTop: '2em'}}>
-							<Button positive onClick={handleUpdate}>Save</Button>
-							<Button basic onClick={() => {
-								this.setState({onFocus: false})
-							}} icon='cancel'/>
-						</div>
-						</div>
-					:
-					<Segment basic onClick={() => {
-							this.setState({onFocus: true})
-						}}>
-						<ReactMarkdown
-						source={articleStore.selected.body}
-						escapeHtml={false}
-						renderers={{code: CodeBlock, inlineCode: InlineCode}}
-						astPlugins={[parseHtml]}/>
-					</Segment>
-					}
-				</Grid.Column>
-				</Grid>
-			</>
+							<Table celled basic='very' selectable>
+								<Table.Body>
+									{articleStore.articles.map((article, id) => (
+										<Table.Row key={id} onClick={() => articleStore.setSelectedIndex(id)} active={article.id === articleStore.selectedArticle.id} primary>
+											<Table.Cell collapsing>{article.title}</Table.Cell>
+										</Table.Row>
+									))}
+								</Table.Body>
+							</Table>
+					</Grid.Column>
+					<Grid.Column width={12}>
+						<ProfileComponent title={articleStore.selected.title}/>
+						{articleStore.focus ? 
+							<div className='ui form'>
+							<TextareaAutosize
+								name='body'
+								ref={formRef}
+								onBlur ={handleOnBlur}
+								onFocus={handleFocus}
+								onChange={handleValueChange}
+								style={{width: '100%', marginTop: '20px', lineHeight: '1.5em'}}
+								value={articleStore.selectedArticle.body}
+							/>
+							<div style={{marginTop: '2em'}}>
+								<Button positive onClick={handleUpdate}>Save</Button>
+								<Button basic icon='cancel' onClick={() => articleStore.setFocus(false)}/>
+							</div>
+							</div>
+						:
+						<Segment basic onClick={() => articleStore.setFocus(true)}>
+							<ReactMarkdown
+							source={articleStore.selectedArticle.body}
+							escapeHtml={false}
+							renderers={{code: CodeBlock, inlineCode: InlineCode}}
+							astPlugins={[parseHtml]}/>
+						</Segment>
+						}
+					</Grid.Column>
+				</>
+				}
+			</Grid>
 		)
 	})
 )
