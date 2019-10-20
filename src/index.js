@@ -12,12 +12,16 @@ const history = createBrowserHistory();
 
 // window._____APP_STATE_____ = store;
 
-const fetcher = url => api.get_free(url).then(res => res.data);
+const fetcher = url => api.get(url).then(res => res.data);
+
+const poster = (url, payload) => api.post(url, payload).then(res => res.data);
 
 const store = Store.create(
 	{},
 	 {
+		 history: history,
 		 fetch: fetcher,
+		 post: poster,
 		 alert: m => console.log(m)
 	  }
 )

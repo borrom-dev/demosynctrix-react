@@ -11,8 +11,7 @@ export const ViewStore = types
     }
 }))
 .actions(self => ({
-    openHomePage(){
-        self.page = "/";
-        self.selectedId = "";
+    openDashboard(){
+        self.store.history.replace('/dashboard')
     }
 }))

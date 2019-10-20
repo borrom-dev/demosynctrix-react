@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactGA from 'react-ga';
-import { Switch} from "react-router-dom";
+import { Switch, Route} from "react-router-dom";
 import {AdminRoute, FrontendRoute} from './routes';
 import DashboardPage from './auth/DashboardPage';
 import TopicComponent from './auth/topic/TopicComponent';
@@ -27,7 +27,14 @@ class App extends React.Component {
   render(){
     return(
         <Switch>
-          <FrontendRoute component={HomeComponent}/>
+          <AdminRoute exact path='/dashboard' component={DashboardPage} />
+          <AdminRoute exact path='/dashboard/users' component={UsersComponent} />
+          <AdminRoute exact path='/dashboard/articles' component={ArticleComponent} />
+          <AdminRoute exact path='/dashboard/pages' component={TopicComponent} />
+          <AdminRoute exact path='/dashboard/files' component={FileComponent} />
+          <Route exact path='/login' component={LoginPage}/>
+          <FrontendRoute exact path='/' component={HomeComponent} />
+          <Route component={PageNotFound}/>
         </Switch>
     )
   }

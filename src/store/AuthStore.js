@@ -1,43 +1,40 @@
-import { observable, action } from "mobx";
-import service from '../service/authService';
-import {clearToken} from '../helper';
+import {User} from './UserStore';
+import { types, flow, getParent } from 'mobx-state-tree';
 
-class AuthStore {
-	@observable isloading = false;
-	@observable errors = undefined;
+export const AuthStore = types.model("AuthStore", {
+	currentUser:  types.optional(User, {
+		id: 0,
+		username: '',
+		password: ''
+	})
+})
+.views(self => ({
+	
+	get store(){
+		return getParent(self)
+	},
+}))
+.actions(self => {
+	const login = flow(function * login(){
+		try {
+		self.isLoading = true;
+		const {token} =  yield self.store.post('/auth/sign_in', self.currentUser);
+		localStorage.setItem('token', token)
+		self.currentUser.password = ''
+		self.store.view.openDashboard();
+		console.log(token);
+		} catch(error){
+			console.log(error);
+		}
+	})
 
-	@action
-	login(user) {
-		this.isloading = true;
-		this.errors = undefined;
-		return service.login(user)
-		.catch(action((error) => {
-				this.errors = error;
-				throw error;
-		}))
-		.finally(action(() => this.isloading = false))
+	function updateUserField(target){
+		const {name, value} = target;
+		self.currentUser[name] = value;
 	}
 
-	@action
-	register(user){
-		this.isloading = true;
-		this.errors = undefined;
-		return service.register(user)
-		.catch(action((error)=> {
-			this.errors = error;
-			throw error;
-		}))
-		.finally(action(()=> this.isloading =false))
+	return {
+		login,
+		updateUserField
 	}
-
-	@action
-	logout(){
-		return new Promise((resolve)=>{
-			clearToken();
-			resolve()
-		})
-	}
-}
-
-const authStore = new AuthStore();
-export default authStore;
+})
